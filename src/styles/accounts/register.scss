@@ -1,0 +1,190 @@
+.page {
+    margin: 0 !important;
+    padding: 0 !important;
+
+    .informative-col,
+    .form-col {
+        height: 100vh;
+    }
+
+    .informative-col {
+        background-color: #423aa9;
+
+        .main {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+            color: white;
+
+            h1,
+            p {
+                margin: 0;
+            }
+
+            img {
+                width: 60%;
+            }
+        }
+        .footer {
+            position: absolute;
+            bottom: 5px;
+            color: white;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+
+    .form-col {
+        background-color: #f9fbfc;
+
+        .main {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: 45%;
+            height: 70%;
+
+            border-radius: 10px;
+            border: 2px solid #f2f2f4;
+            background-color: white;
+
+            .title {
+                position: absolute;
+                top: 10%;
+                left: 10%;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    height: 40px;
+                    margin-right: 10px;
+                }
+
+                h2 {
+                    margin: 0;
+                }
+            }
+
+            .form {
+                position: absolute;
+                top: 53%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                width: 100%;
+                padding: 10%;
+
+                h2,
+                p {
+                    margin: 0;
+                }
+
+                p {
+                    color: #616161;
+                }
+
+                label {
+                    font-weight: bold;
+                    font-size: 14px;
+                    color: #616161;
+                    text-align: left;
+                }
+
+                input {
+                    width: 100%;
+                    border: 1px solid #dedee2;
+                    padding: 10px;
+                    border-radius: 5px;
+
+                    outline: none !important;
+                    transition: all 0.1s ease-in-out;
+
+                    &:active,
+                    &:focus {
+                        border: 1px solid #534ad9;
+                    }
+                }
+
+                // To make space for the switch password button
+                .password-input {
+                    padding: 10px 35px 10px 10px;
+                }
+
+                .password-visibility-button {
+                    position: absolute;
+                    margin-left: -30px;
+                    margin-top: 15px;
+                }
+            }
+
+            .submit-button {
+                position: absolute;
+                bottom: 10%;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80%;
+
+
+                button {
+                    width: 100%;
+                    padding: 10px;
+                    border-radius: 10px;
+
+                    border: none;
+                    outline: none;
+
+                    background-color: #534ad9;
+                    color: white;
+                }
+
+                .error {
+                    color: #ff6363;
+                    margin-bottom: -25px;
+                }
+            }
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            text-align: center;
+        }
+    }
+}
+
+@media only screen and (max-width: 1199px) {
+    .page {
+        .informative-col {
+            display: none;
+        }
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .page {
+        .form-col {
+            .main {
+                width: 95% !important;
+                height: 80%;
+            }
+
+            .footer {
+                text-align: center;
+            }
+        }
+    }
+}
