@@ -30,7 +30,7 @@ const User = new Schema({
 			default: false,
 		},
 		verifiedAt: {
-			type: Date,
+			type: Number,
 			default: null,
 		},
 	},

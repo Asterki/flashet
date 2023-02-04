@@ -40,6 +40,9 @@ The following variables msut be stored in a file named `.env.local`
 |----------------------|---------------------------------------------------------|----------|----------------------|
 | MONGODB_URI          | MongoDB URI String                                      | false    | mongodb://127.0.0.1/ |
 | PORT                 | The port client will listen to in production mode       | false    | 8080                 |
+| SESSION_SECRET       | The secret the sessions will be encrypted with          | true     | No Default           |
+| COOKIE_SECURE        | Wether the cookie is under HTTPS or not                 | false    | false                |
+| COOKIE_MAX_AGE       | How long the sessions will last (in milliseconds)       | false    | 604800000            |
 | SERVER_PORT          | The port the server will listen to on dev and prod mode | false    | 3030                 |
 | REACT_APP_SERVER_URL | The URL of the server, so the client can send requests  | true     | No Default           |
 
