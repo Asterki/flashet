@@ -46,6 +46,38 @@ interface LangPack {
 		};
 		login: {
 			pageTitle: string;
+
+			title: string;
+
+			form: {
+				title: string;
+				subtitle: string;
+
+				emailOrUsernameLabel: string;
+				emailOrUsernamePlaceholder: string;
+
+				passwordLabel: string;
+				passwordPlaceholder: string;
+
+				submitButton: string;
+				noAccount: string;
+			};
+
+			rightPanel: {
+				title: string;
+				subtitle: string;
+			};
+
+			footer: string;
+
+			errors: {
+				"invalid-credentials": string;
+				"disabled": string;
+				"ratelimit": string;
+                "server-error": string;
+                
+				"": "";
+			};
 		};
 	};
 }

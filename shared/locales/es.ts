@@ -46,7 +46,38 @@ const es: LangPack = {
 			},
 		},
 		login: {
-			pageTitle: "Flashet | Ingreso",
+			pageTitle: "",
+
+			title: "",
+			form: {
+				title: "",
+				subtitle: "",
+
+				emailOrUsernameLabel: "",
+				emailOrUsernamePlaceholder: "",
+
+				passwordLabel: "",
+				passwordPlaceholder: "",
+				submitButton: "",
+
+				noAccount: "",
+			},
+
+			rightPanel: {
+				subtitle: "",
+				title: "",
+			},
+
+			footer: "",
+
+			errors: {
+				"invalid-credentials": "",
+				disabled: "",
+				ratelimit: "",
+                "server-error": "",
+
+				"": "",
+			},
 		},
 	},
 };

@@ -49,7 +49,7 @@ const Register = () => {
 				} as AccountsRegisterRequest,
 			});
 
-			if (response.data !== "ok") return setFormError(response.data);
+			if (response.data !== "success") return setFormError(response.data);
 			else navigate("/home");
 		} catch (err: unknown) {
 			setFormError("server-error");

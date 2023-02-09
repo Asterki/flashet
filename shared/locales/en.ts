@@ -5,11 +5,11 @@ const en: LangPack = {
 	main: {},
 	accounts: {
 		register: {
-			pageTitle: "Flashet | Register",
+			pageTitle: "Flashet | Sign Up",
 
 			title: "Flashet",
 			form: {
-				title: "Sign in",
+				title: "Sign Up",
 				subtitle: "Create a Flashet account",
 
 				usernameLabel: "Username",
@@ -19,7 +19,7 @@ const en: LangPack = {
 				emailPlaceholder: "asterki@example.com",
 
 				passwordLabel: "Password",
-				passwordPlaceholder: "········",
+				passwordPlaceholder: "••••••••",
 
 				submitButton: "Sign in",
 				alreadyRegistered: "Already have an account? Sign in",
@@ -46,7 +46,38 @@ const en: LangPack = {
 			},
 		},
 		login: {
-			pageTitle: "Flashet | Login",
+			pageTitle: "Flashet | Sign in",
+
+			title: "Flashet",
+			form: {
+				title: "Sign in",
+				subtitle: "Login to your Flashet account",
+
+				emailOrUsernameLabel: "Your Email Or Username",
+				emailOrUsernamePlaceholder: "asterki or asterki@example.com",
+
+				passwordLabel: "Your Password",
+				passwordPlaceholder: "••••••••",
+				submitButton: "Login",
+
+				noAccount: "Don't have an account? Sign up",
+			},
+
+			rightPanel: {
+				title: "Flashet",
+				subtitle: "Your new and free way of learning",
+			},
+
+			footer: "Flashet © 2023",
+
+			errors: {
+				"invalid-credentials": "Incorrect username/email or password",
+				disabled: "Your account has been disabled for violation of our ToS",
+				ratelimit: "You've tried logging in too many times, please try again later",
+				"server-error": "An unexpected error happened, please try again later",
+
+				"": "",
+			},
 		},
 	},
 };

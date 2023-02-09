@@ -60,7 +60,7 @@ router.post(
 			// Login the user
 			req.logIn(registeredUser, (err: unknown) => {
 				if (err) throw err;
-				return res.send("ok" as AccountsRegisterResponse);
+				return res.send("success" as AccountsRegisterResponse);
 			});
 		} catch (err: unknown) {
 			return res.send("server-error" as AccountsRegisterResponse);
@@ -69,12 +69,12 @@ router.post(
 );
 
 router.post(
-	'/login',
+	"/login",
 	rateLimit({
 		windowMs: 1000 * 60 * 60,
 		max: 10,
 		statusCode: 200,
-		message: 'ratelimit',
+		message: "ratelimit",
 	}),
 	(req: express.Request, res: express.Response, next: express.NextFunction) => {
 		const parsedBody = z
@@ -88,14 +88,14 @@ router.post(
 		if (!parsedBody.success) return res.status(400);
 
 		try {
-			passport.authenticate('local', (err: Error | null, user: UserAccount, result: string) => {
+			passport.authenticate("local", (err: Error | null, user: UserAccount, result: string) => {
 				if (err) throw err;
 				if (!user) return res.status(200).send(result as "invalid-credentials" | "disabled" as AccountsLoginResponse);
 
 				// Login the user
 				req.logIn(user, (err) => {
 					if (err) throw err;
-					return res.status(200).send('success' as AccountsLoginResponse);
+					return res.status(200).send("success" as AccountsLoginResponse);
 				});
 			})(req, res, next);
 		} catch (err: unknown) {

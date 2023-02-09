@@ -11,13 +11,17 @@ interface AccountsRegisterRequest {
 	email: string;
 	password: string;
 }
-type AccountsRegisterResponse = "ratelimit" | "username-email-in-use" | "server-error" | "ok";
+type AccountsRegisterResponse = "ratelimit" | "username-email-in-use" | "server-error" | "success";
 
 interface AccountsLoginRequest {
 	emailOrUsername: string;
 	password: string;
 }
 
-type AccountsLoginResponse = "invalid-credentials" | "disabled" | "server-error" | "success";
+interface AccountsLoginRequest {
+    emailOrUsernameInput: string;
+    password: string;
+}
+type AccountsLoginResponse = "invalid-credentials" | "disabled" | "server-error" | "ratelimit" | "success";
 
 export type { PagesLanguageResponse, AccountsRegisterRequest, AccountsRegisterResponse, AccountsLoginRequest, AccountsLoginResponse };

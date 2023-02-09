@@ -28,11 +28,11 @@ const template: LangPack = {
 			},
 
 			rightPanel: {
-                subtitle: "",
+				subtitle: "",
 				title: "",
 			},
 
-            footer: "",
+			footer: "",
 
 			errors: {
 				"invalid-email": "",
@@ -44,11 +44,42 @@ const template: LangPack = {
 				ratelimit: "",
 				"server-error": "",
 
-                "": ""
+				"": "",
 			},
 		},
 		login: {
 			pageTitle: "",
+
+			title: "",
+			form: {
+				title: "",
+				subtitle: "",
+
+				emailOrUsernameLabel: "",
+				emailOrUsernamePlaceholder: "",
+
+				passwordLabel: "",
+				passwordPlaceholder: "",
+				submitButton: "",
+
+				noAccount: "",
+			},
+
+			rightPanel: {
+				subtitle: "",
+				title: "",
+			},
+
+			footer: "",
+
+			errors: {
+				"invalid-credentials": "",
+				disabled: "",
+				ratelimit: "",
+                "server-error": "",
+
+				"": "",
+			},
 		},
 	},
 };

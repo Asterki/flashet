@@ -5,14 +5,15 @@
     "type": "commonjs",
     "scripts": {
         "preview": "vite preview",
-        "lint": "eslint . --fix",
+        "lint": "eslint --ext .tsx,.ts --fix",
         "test": "echo no tests yet",
         "build": "npm-run-all build:*",
         "build:client": "tsc && vite build",
         "build:server": "tsc -p ./server/tsconfig.json",
+        "build:shared": "tsc -p ./shared/tsconfig.json",
         "dev:client": "vite",
         "dev:server": "cross-env NODE_ENV=development nodemon ./server/index.ts",
-        "production": "cross-env rm -r ./build  && npm run lint && npm run build && npm run start",
+        "production": "cross-env rm -rf ./build  && npm run lint && npm run build && npm run start",
         "start": "cross-env NODE_ENV=production node ./build/server/index.js",
         "prepare": "husky install"
     },

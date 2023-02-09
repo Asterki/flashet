@@ -17,7 +17,7 @@ try {
 	app.use(express());
 	app.use(
 		cors({
-			origin: "*"
+			origin: "*",
 		})
 	);
 
@@ -30,7 +30,7 @@ try {
 		app.use(express.static(path.join(__dirname, "../client")));
 
 		app.get("*", (req, res) => {
-			res.send(path.join(__dirname, "../client/index.html"));
+			res.sendFile(path.join(__dirname, "../client/index.html"));
 		});
 	}
 
