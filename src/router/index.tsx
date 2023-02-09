@@ -2,12 +2,12 @@ import React from 'react'
 import { Routes, Route } from "react-router-dom";
 
 // Main
-import Home from "./views/home"
-import About from "./views/about"
+import Home from "../views/main/home"
+import About from "../views/main/about"
 
 // Accounts
-import AccountsRegister from './views/accounts/register';
-import AccountsLogin from './views/accounts/login';
+import AccountsRegister from '../views/accounts/register';
+import AccountsLogin from '../views/accounts/login';
 
 const Router = () => {
     return (

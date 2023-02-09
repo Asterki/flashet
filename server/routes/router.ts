@@ -6,6 +6,7 @@ import { app } from "../index";
 try {
     // Routes
 	app.use("/api/accounts", require("./api/accounts"));
+	app.use("/api/pages", require("./api/pages"));
 	console.log(`${chalk.cyan("Event")} - The routes were successfully loaded`);
 
     // Middleware

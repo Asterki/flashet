@@ -6,16 +6,19 @@
     "scripts": {
         "preview": "vite preview",
         "lint": "eslint . --fix",
+        "test": "echo no tests yet",
         "build": "npm-run-all build:*",
         "build:client": "tsc && vite build",
         "build:server": "tsc -p ./server/tsconfig.json",
         "dev:client": "vite",
         "dev:server": "cross-env NODE_ENV=development nodemon ./server/index.ts",
         "production": "cross-env rm -r ./build  && npm run lint && npm run build && npm run start",
-        "start": "cross-env NODE_ENV=production node ./build/server/index.js"
+        "start": "cross-env NODE_ENV=production node ./build/server/index.js",
+        "prepare": "husky install"
     },
     "dependencies": {
         "@reduxjs/toolkit": "^1.9.2",
+        "@types/locale": "^0.1.1",
         "axios": "^1.2.3",
         "bcrypt": "^5.1.0",
         "chalk": "^4.0.0",
@@ -57,6 +60,7 @@
         "@typescript-eslint/eslint-plugin": "^5.48.2",
         "@typescript-eslint/parser": "^5.48.2",
         "@vitejs/plugin-react": "^3.0.0",
+        "cypress": "^12.5.1",
         "eslint": "^8.32.0",
         "eslint-config-prettier": "^8.6.0",
         "eslint-plugin-react": "^7.32.1",

@@ -1,25 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../index";
 
+// Types
+import { LangPack } from "../../shared/types/lang";
 interface PageState {
-	value: number;
+	lang: LangPack;
 }
 
+// Language packs
+import langTemplate from "../../shared/locales/template";
+
 const initialState: PageState = {
-	value: 0,
+	lang: langTemplate, // Empty language file
 };
 
+// Create the slice
 export const PageSlice = createSlice({
 	name: "page",
 	initialState,
 	reducers: {
-		setLanguage: (state, action: PayloadAction<number>) => {
-			state.value = action.payload;
+		setLanguage: (state, action: PayloadAction<LangPack>) => {
+			state.lang = action.payload;
 		},
 	},
 });
 
+// Export
 export const { setLanguage } = PageSlice.actions;
-export const selectCount = (state: RootState) => state.page.value;
 export default PageSlice.reducer;

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import pageReducer from "./reducers/page";
+import pageReducer from "./pageSlice";
 
 export const store = configureStore({
 	reducer: {

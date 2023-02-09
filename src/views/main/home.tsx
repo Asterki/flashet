@@ -3,15 +3,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/index";
 
-const Login = () => {
+const Home = () => {
 	const appState = useSelector((state: RootState) => state);
-	const lang = appState.page.lang.accounts.login;
 
-	return (
-		<div>
-			<h1>This will be the sign in page</h1>
-		</div>
-	);
+	return <div>ejqwioejqwoi</div>;
 };
 
-export default Login;
+export default Home;

@@ -17,7 +17,7 @@ try {
 	app.use(express());
 	app.use(
 		cors({
-			origin: process.env.FRONTEND_URL as string,
+			origin: "*"
 		})
 	);
 

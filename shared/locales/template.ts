@@ -1,7 +1,9 @@
+// * This file was created to generate new language files
+// * and to be a "default" language before the actual language loads
 import type { LangPack } from "../types/lang";
 
-const es: LangPack = {
-	isTemplate: false,
+const template: LangPack = {
+	isTemplate: true,
 	main: {},
 	accounts: {
 		register: {
@@ -26,11 +28,11 @@ const es: LangPack = {
 			},
 
 			rightPanel: {
-				subtitle: "",
+                subtitle: "",
 				title: "",
 			},
 
-			footer: "",
+            footer: "",
 
 			errors: {
 				"invalid-email": "",
@@ -42,13 +44,13 @@ const es: LangPack = {
 				ratelimit: "",
 				"server-error": "",
 
-				"": "",
+                "": ""
 			},
 		},
 		login: {
-			pageTitle: "Flashet | Ingreso",
+			pageTitle: "",
 		},
 	},
 };
 
-export default es;
+export default template;

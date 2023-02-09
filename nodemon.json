@@ -1,0 +1,4 @@
+{
+    "ignore": ["src/*", "build/*"],
+    "watch": ["shared/", ".env", "*.ts", ".env.local"]
+}

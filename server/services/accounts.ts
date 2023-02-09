@@ -3,7 +3,7 @@ import passportLocal from "passport-local";
 import expressSession from "express-session";
 import mongoStore from "connect-mongo";
 import express from "express";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
 
 import UserModel from "../models/user";
 import { app } from "../index";
@@ -63,18 +63,13 @@ passport.use(
 );
 
 // Service methods
-const registerUser = async (userData: { username: string; email: string; password: string }) => {
+const registerUser = async (userData: { username: string; email: string; password: string }): Promise<UserAccount | "in-use"> => {
 	// Check if username and email (must be unique values) are not in use
-	const usernameOrEmailInUseResult = await UserModel.findOne({
-		$or: [{ username: userData.username }, { email: userData.email }],
-	});
-
+	const usernameOrEmailInUseResult = await UserModel.findOne({ $or: [{ username: userData.username }, { email: userData.email }] });
 	if (usernameOrEmailInUseResult !== null) return "in-use";
 
-	// Generate a user ID, TODO: Check if the id is in use, which would be pretty imposible, but it could crash the app in given case
+    // Create the user
 	const userID = Math.round(Math.random() * 1000000000000);
-
-	// Create the user with the required values, the rest of values are automatically set by the schema
 	const user = new UserModel({
 		userID: userID,
 		createdAt: Date.now(),
