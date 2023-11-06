@@ -1,26 +1,19 @@
+import { useSession } from "next-auth/react";
+
+import Navbar from "@/components/navbar";
+
 const About = () => {
+    const { data: session } = useSession({
+        required: false,
+    });
+
     return (
         <div className="text-white bg-gradient-to-tr from-blue-950 to-cyan-800">
-            <header className="absolute flex items-center justify-between w-full p-16">
-                <div className="text-[40px]">Flashet</div>
-                <div className="flex items-center">
-                    <a href="/about" className="mx-2">
-                        About
-                    </a>
-                    <a href="ejwq" className="mx-2">
-                        Open Source
-                    </a>
-                    <a href="ejwq" className="mx-2">
-                        Login
-                    </a>
-                </div>
-            </header>
+            <Navbar session={session} />
 
             <main className="min-h-screen flex flex-col justify-center items-center p-24">
                 <div className="lg:w-5/12 w-full text-center">
-                    <p className="text-[50px] font-black mb-12">
-                        Flashet
-                    </p>
+                    <p className="text-[50px] font-black mb-12">Flashet</p>
                     <p className="text-gray-100/90 text-xl">
                         Are you looking to improve your exam performance?
                         Discover the power of using flashcards, a proven study

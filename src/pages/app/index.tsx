@@ -1,11 +1,22 @@
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+
+import Navbar from "@/components/navbar";
 
 const AppMain = () => {
     const router = useRouter();
+    const { data: session, status } = useSession({
+        required: true,
+        onUnauthenticated() {
+            router.push("/auth/signin");
+        },
+    });
 
     return (
         <div className="absolute w-full min-h-screen text-white bg-gradient-to-tr from-blue-950 to-cyan-800">
-            <main className="flex items-center justify-center">
+            <Navbar session={session} />
+
+            <main className="flex items-center justify-center mt-24">
                 <div className="p-4 m-10 rounded-md shadow-md bg-white/10 md:w-7/12 w-full">
                     <p className="text-3xl text-center font-bold">Your Decks</p>
 
@@ -23,7 +34,9 @@ const AppMain = () => {
                                 }}
                                 className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
                             >
-                                <td className="p-2">Legislation II Partial II Semester</td>
+                                <td className="p-2">
+                                    Legislation II Partial II Semester
+                                </td>
                                 <td className="p-2 text-sky-500">4</td>
                                 <td className="p-2 text-teal-500">20</td>
                                 <td className="p-2 text-gray-300">10</td>
@@ -34,7 +47,9 @@ const AppMain = () => {
                                 }}
                                 className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
                             >
-                                <td className="p-2">Legislation II Partial II Semester</td>
+                                <td className="p-2">
+                                    Legislation II Partial II Semester
+                                </td>
                                 <td className="p-2 text-sky-500">4</td>
                                 <td className="p-2 text-teal-500">20</td>
                                 <td className="p-2 text-gray-300">10</td>
@@ -45,7 +60,9 @@ const AppMain = () => {
                                 }}
                                 className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
                             >
-                                <td className="p-2">Legislation II Partial II Semester</td>
+                                <td className="p-2">
+                                    Legislation II Partial II Semester
+                                </td>
                                 <td className="p-2 text-sky-500">4</td>
                                 <td className="p-2 text-teal-500">20</td>
                                 <td className="p-2 text-gray-300">10</td>

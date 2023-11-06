@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import { useSession, signOut } from "next-auth/react";
 
+import Navbar from "@/components/navbar";
+
 const SignOut = () => {
     const router = useRouter();
     const { data: session, status } = useSession({
@@ -12,6 +14,8 @@ const SignOut = () => {
 
     return (
         <div className="text-white bg-gradient-to-tr from-blue-950 to-cyan-800">
+            <Navbar session={session} />
+
             <main className="min-h-screen flex flex-col justify-center items-center p-12">
                 <section className="md:w-4/12 w-full">
                     <div className="my-4 text-gray-100 text-center">
@@ -39,7 +43,9 @@ const SignOut = () => {
                     </button>
                 </section>
 
-                <section className="absolute bottom-2 text-gray-300">Logged in as {session?.user?.email}</section>
+                <section className="absolute bottom-2 text-gray-300">
+                    Logged in as {session?.user?.email}
+                </section>
             </main>
         </div>
     );

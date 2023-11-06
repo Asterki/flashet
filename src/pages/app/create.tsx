@@ -1,13 +1,22 @@
 import * as React from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+
 import { motion } from "framer-motion";
+import Navbar from "@/components/navbar";
 
 import { DeckType } from "@/types/models";
 
 const AppCreate = () => {
     const router = useRouter();
+    const { data: session, status } = useSession({
+        required: true,
+        onUnauthenticated() {
+            router.push("/auth/signin");
+        },
+    });
 
     // Modal States
     const [questionModalOpen, setQuestionModalOpen] = React.useState(false);
@@ -313,7 +322,9 @@ const AppCreate = () => {
                 </div>
             </motion.div>
 
-            <main className="flex flex-col items-center justify-center">
+            <Navbar session={session} />
+
+            <main className="flex flex-col items-center justify-center mt-24">
                 <h1 className="text-center text-3xl font-bold my-6">
                     Create a deck
                 </h1>
@@ -358,7 +369,9 @@ const AppCreate = () => {
                         <input
                             type="checkbox"
                             onChange={(event) =>
-                                setRandomQuestionOrderChecked(event.target.checked)
+                                setRandomQuestionOrderChecked(
+                                    event.target.checked
+                                )
                             }
                             id="random-order"
                         />{" "}

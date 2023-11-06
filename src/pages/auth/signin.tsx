@@ -6,11 +6,15 @@ import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]";
 
+import Navbar from "@/components/navbar";
+
 export default function SignIn({
     providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
         <div className="text-white bg-gradient-to-tr from-blue-950 to-cyan-800">
+            <Navbar session={null} />
+
             <main className="min-h-screen flex flex-col justify-center items-center p-24">
                 <section>
                     <div className="my-4 text-gray-100 text-center">
