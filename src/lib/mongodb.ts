@@ -1,25 +1,19 @@
-import { MongoClient } from "mongodb";
+import { logError, logSuccess } from "@/util/logs";
+import mongoose from "mongoose";
 
-if (!process.env.MONGODB_URI) {
-    throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
-}
+// Connect to mongodb
+mongoose.set("strictQuery", true);
+mongoose.connect(process.env.MONGODB_URI as string);
+const mongooseClient = mongoose.connection;
 
-const uri = process.env.MONGODB_URI;
-const options = {};
+// Events for the mongoose client
+mongooseClient.once("open", () => {
+    logSuccess("MongoDB Successfully Connected");
+});
 
-let client;
-let clientPromise: Promise<MongoClient>;
+mongooseClient.once("error", (error: Error) => {
+    logError("There Was An Error With The Mongoose Client")
+    console.log(error);
+});
 
-if (process.env.NODE_ENV === "development") {
-    if (!(global as any)._mongoClientPromise) {
-        client = new MongoClient(uri, options);
-        (global as any)._mongoClientPromise = client.connect();
-    }
-    clientPromise = (global as any)._mongoClientPromise;
-} else {
-    // In production mode, it's best to not use a (global as any) variable.
-    client = new MongoClient(uri, options);
-    clientPromise = client.connect();
-}
-
-export default clientPromise;
+export { mongooseClient };

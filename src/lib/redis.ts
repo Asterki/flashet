@@ -1,3 +1,4 @@
+import { logError } from "@/util/logs";
 import Redis, { RedisOptions } from "ioredis";
 
 const options: RedisOptions = {
@@ -28,7 +29,8 @@ if (process.env.REDIS_password) {
 const redis = new Redis(options);
 
 redis.on("error", (error: unknown) => {
-    console.warn("⚠ Redis Error connecting", error);
+    logError("Error Trying To Connect To Redis");
+    console.log(error);
 });
 
 export default redis;
