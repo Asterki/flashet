@@ -13,7 +13,7 @@ const AppMain = () => {
     });
 
     return (
-        <div className="absolute w-full min-h-screen text-white bg-gradient-to-tr from-blue-950 to-cyan-800">
+        <div className="absolute w-full min-h-screen text-white bg-dark1">  
             <Navbar session={session} />
 
             <main className="flex items-center justify-center mt-24">
@@ -37,8 +37,8 @@ const AppMain = () => {
                                 <td className="p-2">
                                     Legislation II Partial II Semester
                                 </td>
-                                <td className="p-2 text-sky-500">4</td>
-                                <td className="p-2 text-teal-500">20</td>
+                                <td className="p-2 text-secondary">4</td>
+                                <td className="p-2 text-red1">20</td>
                                 <td className="p-2 text-gray-300">10</td>
                             </tr>
                             <tr
@@ -50,8 +50,8 @@ const AppMain = () => {
                                 <td className="p-2">
                                     Legislation II Partial II Semester
                                 </td>
-                                <td className="p-2 text-sky-500">4</td>
-                                <td className="p-2 text-teal-500">20</td>
+                                <td className="p-2 text-secondary">4</td>
+                                <td className="p-2 text-red1">20</td>
                                 <td className="p-2 text-gray-300">10</td>
                             </tr>
                             <tr
@@ -63,8 +63,8 @@ const AppMain = () => {
                                 <td className="p-2">
                                     Legislation II Partial II Semester
                                 </td>
-                                <td className="p-2 text-sky-500">4</td>
-                                <td className="p-2 text-teal-500">20</td>
+                                <td className="p-2 text-secondary">4</td>
+                                <td className="p-2 text-red1">20</td>
                                 <td className="p-2 text-gray-300">10</td>
                             </tr>
                         </table>
@@ -75,7 +75,7 @@ const AppMain = () => {
                             onClick={() => {
                                 router.push("/app/create");
                             }}
-                            className="p-2 rounded-md bg-sky-500 shadow-md"
+                            className="p-2 rounded-md bg-primary shadow-md"
                         >
                             Create Deck
                         </button>

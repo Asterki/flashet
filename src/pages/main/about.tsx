@@ -8,7 +8,7 @@ const About = () => {
     });
 
     return (
-        <div className="text-white bg-gradient-to-tr from-blue-950 to-cyan-800">
+        <div className="text-white bg-gradient-to-tr from-dark1 to-primary">
             <Navbar session={session} />
 
             <main className="min-h-screen flex flex-col justify-center items-center p-24">

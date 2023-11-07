@@ -71,7 +71,7 @@ const AppCreate = () => {
     }, [currentEditingIndex, deck.questions]);
 
     return (
-        <div className="absolute w-full min-h-screen text-white bg-gradient-to-tr from-blue-950 to-cyan-800">
+        <div className="absolute w-full min-h-screen text-white bg-dark1">  
             {/* Add Questions Modal */}
             <motion.div
                 variants={{
@@ -93,7 +93,7 @@ const AppCreate = () => {
                 animate={questionModalOpen ? "shown" : "hidden"}
                 className="items-center justify-center absolute bg-black/20 w-full min-h-full backdrop-blur-lg"
             >
-                <div className="bg-gray-700 shadow-md p-4 rounded-md lg:w-1/2 w-11/12">
+                <div className="bg-dark1 shadow-md p-4 rounded-md lg:w-1/2 w-11/12">
                     <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center justify-between">
                             <p className="mr-2">
@@ -129,7 +129,7 @@ const AppCreate = () => {
                             </select>
                         </div>
                         <button
-                            className="px-10 bg-sky-500 shadow-md rounded-md p-2 transition-all"
+                            className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
                             onClick={() => {
                                 setQuestionModalOpen(false);
                             }}
@@ -181,7 +181,7 @@ const AppCreate = () => {
                                     setQuestionModalOpen(false);
                                     setCurrentEditingIndex(0);
                                 }}
-                                className="mr-2 px-10 bg-teal-500 shadow-md rounded-md p-2 transition-all"
+                                className="mr-2 px-10 bg-primary shadow-md rounded-md p-2 transition-all"
                             >
                                 Save
                             </button>
@@ -204,7 +204,7 @@ const AppCreate = () => {
                                         setQuestionModalOpen(false);
                                         setCurrentEditingIndex(0);
                                     }}
-                                    className="mr-2 px-10 bg-red-400 shadow-md rounded-md p-2 transition-all"
+                                    className="mr-2 px-10 bg-red1 shadow-md rounded-md p-2 transition-all"
                                 >
                                     Delete
                                 </button>
@@ -264,7 +264,7 @@ const AppCreate = () => {
                                         );
                                     }
                                 }}
-                                className="px-10 bg-sky-500 shadow-md rounded-md p-2 transition-all"
+                                className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
                             >
                                 {currentEditingIndex + 1 > deck.questions.length
                                     ? "Save"
@@ -296,7 +296,7 @@ const AppCreate = () => {
                 animate={discardModalOpen ? "shown" : "hidden"}
                 className="items-center justify-center absolute bg-black/20 w-full min-h-full backdrop-blur-lg"
             >
-                <div className="bg-gray-700 shadow-md p-4 rounded-md w-1/2 text-center">
+                <div className="bg-dark1 shadow-md p-4 rounded-md w-1/2 text-center">
                     <h1 className="text-2xl">
                         Are you sure you want to discard this deck?
                     </h1>
@@ -306,7 +306,7 @@ const AppCreate = () => {
                             onClick={() => {
                                 setDiscardModalOpen(false);
                             }}
-                            className="bg-sky-500 my-2 shadow-md rounded-md p-2 transition-all w-1/2"
+                            className="bg-primary my-2 shadow-md rounded-md p-2 transition-all w-1/2"
                         >
                             Continue Editing
                         </button>
@@ -314,7 +314,7 @@ const AppCreate = () => {
                             onClick={() => {
                                 router.push("/app");
                             }}
-                            className="bg-red-400 my-2 shadow-md rounded-md p-2 transition-all w-1/2"
+                            className="bg-red1 my-2 shadow-md rounded-md p-2 transition-all w-1/2"
                         >
                             Discard
                         </button>
@@ -347,7 +347,7 @@ const AppCreate = () => {
                             onClick={() => {
                                 setQuestionModalOpen(true);
                             }}
-                            className="w-full bg-sky-500 shadow-md rounded-md p-2 transition-all"
+                            className="w-full bg-primary shadow-md rounded-md p-2 transition-all"
                             placeholder="Write Here"
                         >
                             Add Questions
@@ -403,14 +403,14 @@ const AppCreate = () => {
                 </div>
 
                 <div className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12 flex items-center justify-center flex-col">
-                    <button className="bg-sky-500 my-2 shadow-md rounded-md p-2 transition-all w-1/2">
+                    <button className="bg-primary my-2 shadow-md rounded-md p-2 transition-all w-1/2">
                         Save
                     </button>
                     <button
                         onClick={() => {
                             setDiscardModalOpen(true);
                         }}
-                        className="bg-red-400 my-2 shadow-md rounded-md p-2 transition-all w-1/2"
+                        className="bg-red1 my-2 shadow-md rounded-md p-2 transition-all w-1/2"
                     >
                         Discard
                     </button>
