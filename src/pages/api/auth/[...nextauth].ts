@@ -4,6 +4,8 @@ import NextAuth, { AuthOptions } from "next-auth";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { mongooseClient } from "@/lib/mongodb";
 
+import AccountModel from "@/models/accounts";
+
 export const authOptions: AuthOptions = {
     secret: process.env.SESSION_SECRET as string,
     adapter: MongoDBAdapter(
@@ -19,9 +21,24 @@ export const authOptions: AuthOptions = {
             },
         }
     ),
+    callbacks: {
+        session(data) {
+            let newSession = { ...data.session, id: data.user.id };
+            return newSession;
+        },
+    },
     events: {
         // TODO: Save for user statistics and admin panel
-        createUser({ user }) {},
+        createUser({ user }) {
+            // Create a custom user in the database
+            const newUser = new AccountModel({
+                id: user.id,
+                lastLogin: new Date(Date.now()),
+                accountCreated: new Date(Date.now()),
+                emailVerified: false,
+            });
+            newUser.save();
+        },
     },
     providers: [
         GoogleProvider({

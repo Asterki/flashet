@@ -6,16 +6,29 @@
 
 App created to help you study for your exams using the flashcard technique. Made in Next.js and heavily inspired in Anki
 
+## Table of contents
+- [Flashet](#flashet)
+  - [Table of contents](#table-of-contents)
+  - [Current Features](#current-features)
+  - [Planned Features](#planned-features)
+  - [Run Locally](#run-locally)
+  - [Environment Variables](#environment-variables)
+  - [Contributing](#contributing)
+  - [Authors](#authors)
+  - [License](#license)
 
 
-## Current And Planned Features
-
+## Current Features
 - Google Authentication
 - Syncing across devices
+
+
+## Planned Features
 - PWA support
 - Cross platform
 - Statistics and track of study sessions
 - Built-in pomodoro
+- Community hub
 
 
 ## Run Locally

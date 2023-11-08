@@ -2,9 +2,10 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
 import { z } from "zod";
 
-import DeckModel from "@/models/decks";
+import DecksModel from "@/models/decks";
 
 import type { NextApiRequest, NextApiResponse } from "next";
+import { Session } from "next-auth";
 
 type ResponseData = {
     message: string;
@@ -14,10 +15,12 @@ const handler = async (
     req: NextApiRequest,
     res: NextApiResponse<ResponseData>
 ) => {
-    const session = await getServerSession(req, res, authOptions);
+    const session: (Session & { id: string }) | null = await getServerSession(
+        req,
+        res,
+        authOptions
+    );
     if (!session) return res.status(401).json({ message: "not-logged-in" });
-
-    return console.log(Object.keys(req));
 
     if (req.method === "POST") {
         const parsedBody = z
@@ -45,11 +48,11 @@ const handler = async (
 
         const { data: body } = parsedBody;
 
-        const deck = new DeckModel({
+        const deck = new DecksModel({
             id: body.id,
             name: body.name,
             options: body.options,
-            owner: session.user?.name,
+            owner: session.id,
             questions: body.questions,
         });
         await deck.save();
@@ -61,4 +64,4 @@ const handler = async (
 };
 
 export default handler;
-export { ResponseData };
+export type { ResponseData };

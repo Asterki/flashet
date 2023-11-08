@@ -1,4 +1,5 @@
 import * as React from "react";
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 import { useSession } from "next-auth/react";
@@ -23,13 +24,12 @@ const AppCreate = () => {
     const [discardModalOpen, setDiscardModalOpen] = React.useState(false);
 
     const [deck, setDeck] = React.useState<DeckType>({
-        name: "",
-        id: "",
+        name: "Something",
+        id: uuidv4(),
         options: {
             random: true,
             timeLimit: false,
             timeLimitMS: 30 * 1000,
-            typeOfTimer: "question",
         },
         questions: [
             {
@@ -70,8 +70,19 @@ const AppCreate = () => {
         }
     }, [currentEditingIndex, deck.questions]);
 
+    const submitDeck = async () => {
+        const response = await axios({
+            method: "POST",
+            url: "/api/decks/save",
+            data: deck,
+            withCredentials: true,
+        });
+
+        console.log(response);
+    };
+
     return (
-        <div className="absolute w-full min-h-screen text-white bg-dark1">  
+        <div className="absolute w-full min-h-screen text-white bg-dark1">
             {/* Add Questions Modal */}
             <motion.div
                 variants={{
@@ -403,7 +414,12 @@ const AppCreate = () => {
                 </div>
 
                 <div className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12 flex items-center justify-center flex-col">
-                    <button className="bg-primary my-2 shadow-md rounded-md p-2 transition-all w-1/2">
+                    <button
+                        onClick={() => {
+                            submitDeck();
+                        }}
+                        className="bg-primary my-2 shadow-md rounded-md p-2 transition-all w-1/2"
+                    >
                         Save
                     </button>
                     <button
