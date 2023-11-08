@@ -23,6 +23,7 @@ export const authOptions: AuthOptions = {
     ),
     callbacks: {
         session(data) {
+            // Add the user id to session information, which can be used to fetch information about the user in the database
             let newSession = { ...data.session, id: data.user.id };
             return newSession;
         },
@@ -49,9 +50,10 @@ export const authOptions: AuthOptions = {
     pages: {
         signIn: "/auth/signin",
         signOut: "/auth/signout",
+        // TODO: Create these pages
         // error: "/auth/error", // Error code passed in query string as ?error=
         // verifyRequest: "/auth/verify-request", // (used for check email message)
-        // newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
+        newUser: "/main/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
     },
 };
 

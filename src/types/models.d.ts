@@ -14,4 +14,11 @@ interface DeckType {
     }>;
 }
 
-export type { DeckType };
+interface Account {
+    id: string;
+    lastLogin: Date;
+    accountCreated: Date;
+    emailVerified: Boolean;
+}
+
+export type { DeckType, Account };

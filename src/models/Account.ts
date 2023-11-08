@@ -15,10 +15,6 @@ const Accounts = new Schema({
         type: Date,
         required: false,
     },
-    likedAccounts: {
-        type: String,
-        required: false,
-    },
     emailVerified: {
         type: Boolean,
         required: false,
