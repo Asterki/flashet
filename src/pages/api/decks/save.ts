@@ -17,7 +17,7 @@ const handler = async (
     const session = await getServerSession(req, res, authOptions);
     if (!session) return res.status(401).json({ message: "not-logged-in" });
 
-    return console.log(session)
+    return console.log(Object.keys(req));
 
     if (req.method === "POST") {
         const parsedBody = z
@@ -61,3 +61,4 @@ const handler = async (
 };
 
 export default handler;
+export { ResponseData };
