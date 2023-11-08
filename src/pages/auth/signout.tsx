@@ -13,7 +13,7 @@ const SignOut = () => {
     });
 
     return (
-        <div className="text-white bg-gradient-to-tr from-blue-950 to-cyan-800">
+        <div className="text-white bg-dark1">
             <Navbar session={session} />
 
             <main className="min-h-screen flex flex-col justify-center items-center p-12">
@@ -24,7 +24,7 @@ const SignOut = () => {
                     </div>
 
                     <button
-                        className="bg-white/20 hover:bg-red-400 w-full shadow-md rounded-md p-4 transition-all"
+                        className="bg-white/20 hover:bg-red1 w-full shadow-md rounded-md p-4 transition-all"
                         onClick={() =>
                             signOut({ redirect: true, callbackUrl: "/" })
                         }
@@ -36,7 +36,7 @@ const SignOut = () => {
                     <br />
 
                     <button
-                        className="bg-white/20 hover:bg-sky-400 w-full shadow-md rounded-md p-4 transition-all"
+                        className="bg-white/20 hover:bg-primary w-full shadow-md rounded-md p-4 transition-all"
                         onClick={() => router.push("/auth/signin")}
                     >
                         Cancel

@@ -12,7 +12,7 @@ export default function SignIn({
     providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
-        <div className="text-white bg-gradient-to-tr from-blue-950 to-cyan-800">
+        <div className="text-white bg-dark1">
             <Navbar session={null} />
 
             <main className="min-h-screen flex flex-col justify-center items-center p-24">
