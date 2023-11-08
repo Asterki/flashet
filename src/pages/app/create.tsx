@@ -1,5 +1,5 @@
 import * as React from "react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 import { useSession } from "next-auth/react";
@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/navbar";
 
 import { DeckType } from "@/types/models";
+import { DecksSaveResponse, DecksSaveRequestBody } from "@/types/api/decks";
 
 const AppCreate = () => {
     const router = useRouter();
@@ -24,8 +25,9 @@ const AppCreate = () => {
     const [discardModalOpen, setDiscardModalOpen] = React.useState(false);
 
     const [deck, setDeck] = React.useState<DeckType>({
-        name: "Something",
+        name: "Example Name",
         id: uuidv4(),
+        owner: "To Be Replaced",
         options: {
             random: true,
             timeLimit: false,
@@ -34,30 +36,17 @@ const AppCreate = () => {
         questions: [
             {
                 type: "basic",
-                front: "Green stuff in plants",
-                back: "Chorlophile",
-                id: uuidv4(),
-            },
-            {
-                type: "basic",
-                front: "Colour of the sun",
-                back: "White",
+                front: "Example Question",
+                back: "Example Answer",
                 id: uuidv4(),
             },
         ],
     });
+
+    // Question editing modal
     const [currentEditingIndex, setCurrentEditingIndex] = React.useState(0); // Base 0
-
-    // Options States
-    const [randomQuestionOrderChecked, setRandomQuestionOrderChecked] =
-        React.useState(false);
-    const [questionTimerChecked, setQuestionTimerChecked] =
-        React.useState(false);
-
-    // Modal refs
     const frontTextAreaInput = React.useRef<HTMLTextAreaElement>(null);
     const backTextAreaInput = React.useRef<HTMLTextAreaElement>(null);
-
     React.useEffect(() => {
         if (currentEditingIndex < deck.questions.length) {
             frontTextAreaInput.current!.value =
@@ -70,15 +59,16 @@ const AppCreate = () => {
         }
     }, [currentEditingIndex, deck.questions]);
 
+    // Save the deck to the database
     const submitDeck = async () => {
-        const response = await axios({
+        const response: AxiosResponse<DecksSaveResponse> = await axios({
             method: "POST",
             url: "/api/decks/save",
-            data: deck,
+            data: deck as DecksSaveRequestBody,
             withCredentials: true,
         });
 
-        console.log(response);
+        if (response.data.message == "success") router.push("/app");
     };
 
     return (
@@ -135,7 +125,7 @@ const AppCreate = () => {
                                     value=""
                                     className="bg-white/20 bg-blue-300"
                                 >
-                                    jewioq
+                                    Write the missing word
                                 </option>
                             </select>
                         </div>
@@ -172,21 +162,19 @@ const AppCreate = () => {
                         {currentEditingIndex < deck.questions.length && ( // Change to when the card is being edited
                             <button
                                 onClick={() => {
+                                    let newQuestions = deck.questions;
+                                    newQuestions[currentEditingIndex] = {
+                                        type: "basic",
+                                        front: frontTextAreaInput.current!
+                                            .value,
+                                        back: backTextAreaInput.current!.value,
+                                        id: newQuestions[currentEditingIndex]
+                                            .id,
+                                    };
+
                                     setDeck({
                                         ...deck,
-                                        questions: [
-                                            ...deck.questions,
-                                            (deck.questions[
-                                                currentEditingIndex
-                                            ] = {
-                                                type: "basic",
-                                                back: "ejwoqi",
-                                                front: "ejwoqi",
-                                                id: deck.questions[
-                                                    currentEditingIndex
-                                                ].id,
-                                            }),
-                                        ],
+                                        questions: newQuestions,
                                     });
 
                                     setQuestionModalOpen(false);
@@ -194,7 +182,7 @@ const AppCreate = () => {
                                 }}
                                 className="mr-2 px-10 bg-primary shadow-md rounded-md p-2 transition-all"
                             >
-                                Save
+                                Save Changes
                             </button>
                         )}
 
@@ -342,9 +330,25 @@ const AppCreate = () => {
 
                 <div className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12">
                     <h1 className="text-center text-2xl pb-2">
-                        Give it a name
+                        Give it a name (3-30 characters)
                     </h1>
                     <input
+                        defaultValue={deck.name}
+                        onBlur={(event) => {
+                            let val = event.target.value;
+                            if (!val || val.length < 3 || val.length > 30) {
+                                setDeck({
+                                    ...deck,
+                                    name: "Example Name",
+                                });
+                                event.target.value = "Example Name";
+                            } else {
+                                setDeck({
+                                    ...deck,
+                                    name: val,
+                                });
+                            }
+                        }}
                         type="text"
                         className="w-full bg-white/10 rounded-md p-2 outline-none border-2 border-transparent focus:border-cyan-500 transition-all"
                         placeholder="Write Here"
@@ -356,6 +360,7 @@ const AppCreate = () => {
                         <h1 className="text-center text-2xl pb-2">Questions</h1>
                         <button
                             onClick={() => {
+                                setCurrentEditingIndex(0);
                                 setQuestionModalOpen(true);
                             }}
                             className="w-full bg-primary shadow-md rounded-md p-2 transition-all"
@@ -379,10 +384,15 @@ const AppCreate = () => {
                         <h1 className="text-center text-2xl pb-2">Options</h1>
                         <input
                             type="checkbox"
+                            defaultChecked={deck.options.random}
                             onChange={(event) =>
-                                setRandomQuestionOrderChecked(
-                                    event.target.checked
-                                )
+                                setDeck({
+                                    ...deck,
+                                    options: {
+                                        ...deck.options,
+                                        random: event.target.checked,
+                                    },
+                                })
                             }
                             id="random-order"
                         />{" "}
@@ -392,8 +402,15 @@ const AppCreate = () => {
                         <br />
                         <input
                             type="checkbox"
+                            defaultChecked={deck.options.timeLimit}
                             onChange={(event) =>
-                                setQuestionTimerChecked(event.target.checked)
+                                setDeck({
+                                    ...deck,
+                                    options: {
+                                        ...deck.options,
+                                        timeLimit: event.target.checked,
+                                    },
+                                })
                             }
                             id="timer"
                         />{" "}
@@ -401,10 +418,43 @@ const AppCreate = () => {
                             Add Timer
                         </label>
                         <br />
-                        {questionTimerChecked && (
+                        {deck.options.timeLimit && (
                             <div className="mt-2">
                                 <p>Time Per Question (In Seconds)</p>
                                 <input
+                                    defaultValue={
+                                        deck.options.timeLimitMS / 1000
+                                    }
+                                    onBlur={(event) => {
+                                        if (
+                                            Number.isNaN(
+                                                parseInt(event.target.value)
+                                            )
+                                        ) {
+                                            setDeck({
+                                                ...deck,
+                                                options: {
+                                                    ...deck.options,
+                                                    timeLimitMS: 30000,
+                                                },
+                                            });
+                                            alert(
+                                                "Please enter a valid number"
+                                            );
+                                            event.target.value = "30";
+                                        } else {
+                                            setDeck({
+                                                ...deck,
+                                                options: {
+                                                    ...deck.options,
+                                                    timeLimitMS:
+                                                        parseInt(
+                                                            event.target.value
+                                                        ) * 1000,
+                                                },
+                                            });
+                                        }
+                                    }}
                                     type="number"
                                     className="w-full bg-white/10 rounded-md p-[2px] outline-none border-2 border-transparent focus:border-cyan-500 transition-all"
                                 />

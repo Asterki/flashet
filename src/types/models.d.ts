@@ -1,6 +1,7 @@
 interface DeckType {
     name: string;
     id: string;
+    owner: string;
     options: {
         random: boolean;
         timeLimit: boolean;

@@ -27,6 +27,7 @@ const handler = async (
             .object({
                 name: z.string(),
                 id: z.string(),
+                owner: z.string(),
                 options: z.object({
                     random: z.boolean(),
                     timeLimit: z.boolean(),
@@ -57,7 +58,7 @@ const handler = async (
         });
         await deck.save();
 
-        res.status(200).json({ message: "Hello from Next.js!" });
+        res.status(200).json({ message: "success" });
     } else {
         res.status(405).json({ message: "method-not-allowed" });
     }

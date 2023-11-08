@@ -10,7 +10,7 @@ interface ComponentProps {
 const NavbarComponent: NextPage<ComponentProps> = (props) => {
     return (
         <header className="absolute flex items-center justify-between w-full p-4 md:p-8">
-            <Link href="/" className="text-[40px] font-bold hover:text-secondary transition-all">Flashet</Link>
+            <Link href="/" className="text-[40px] font-bold hover:text-primary hover:drop-shadow-[2px_1px_1px_rgba(0,0,0,1)] transition-all">Flashet</Link>
             <div className="flex items-center">
                 <Link href="/about" className="mx-2 transition-all hover:text-red1">
                     About
