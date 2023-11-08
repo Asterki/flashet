@@ -2,7 +2,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
 import { z } from "zod";
 
-import DecksModel from "@/models/decks";
+import DecksModel from "@/models/Deck";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Session } from "next-auth";

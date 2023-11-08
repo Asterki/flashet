@@ -1,12 +1,13 @@
-import type {
-    GetServerSidePropsContext,
-    InferGetServerSidePropsType,
-} from "next";
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]";
 
 import Navbar from "@/components/navbar";
+
+import type {
+    GetServerSidePropsContext,
+    InferGetServerSidePropsType,
+} from "next";
 
 export default function SignIn({
     providers,

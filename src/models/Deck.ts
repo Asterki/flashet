@@ -21,7 +21,7 @@ const questionSchema = new mongoose.Schema({
     },
 });
 
-const DeckSchema = new Schema({
+const Decks = new Schema({
     name: {
         type: String,
         required: true,
@@ -52,8 +52,6 @@ const DeckSchema = new Schema({
     questions: [questionSchema],
 });
 
-export default mongoose.model(
-    "DeckSchema",
-    DeckSchema,
-    "decks"
-);
+// So that models don't get overwritten
+const model = mongoose.models.Decks || mongoose.model("Decks", Decks, "decks");
+export default model;

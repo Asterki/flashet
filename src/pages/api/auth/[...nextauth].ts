@@ -4,7 +4,7 @@ import NextAuth, { AuthOptions } from "next-auth";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { mongooseClient } from "@/lib/mongodb";
 
-import AccountModel from "@/models/accounts";
+import AccountModel from "@/models/Account";
 
 export const authOptions: AuthOptions = {
     secret: process.env.SESSION_SECRET as string,
