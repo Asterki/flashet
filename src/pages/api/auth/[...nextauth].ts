@@ -1,14 +1,23 @@
 import GoogleProvider from "next-auth/providers/google";
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import { mongooseClient } from "../../../lib/mongodb";
+import { authDBClientPromise } from "@/lib/mongodb";
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
     secret: process.env.SESSION_SECRET as string,
-    adapter: MongoDBAdapter((async () => {
-        return await mongooseClient.getClient();
-    })()),
+    adapter: MongoDBAdapter(authDBClientPromise, {
+        collections: {
+            Accounts: "external-accounts",
+            Sessions: "sessions",
+            Users: "users",
+            VerificationTokens: "verification-tokens",
+        },
+    }),
+    events: {
+        // TODO: Save for user statistics and admin panel
+        createUser({ user }) {},
+    },
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string,
