@@ -12,7 +12,7 @@ const About = () => {
             <Navbar session={session} />
 
             <main className="min-h-screen flex flex-col justify-center items-center p-24">
-                <div className="lg:w-5/12 w-full text-center">
+                <section className="lg:w-5/12 w-full text-center">
                     <p className="text-[50px] font-black mb-12">Flashet</p>
                     <p className="text-gray-100/90 text-xl">
                         Are you looking to improve your exam performance?
@@ -27,7 +27,7 @@ const About = () => {
                             Go to your dashboard
                         </button>
                     </div>
-                </div>
+                </section>
             </main>
         </div>
     );

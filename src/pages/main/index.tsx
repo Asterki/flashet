@@ -27,7 +27,7 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
             <Navbar session={session} />
 
             <main className="min-h-screen flex flex-col justify-center items-center p-4 md:p-24">
-                <div className="flex flex-col-reverse lg:flex-row items-center justify-between lg:w-9/12 w-full">
+                <section className="flex flex-col-reverse lg:flex-row items-center justify-between lg:w-9/12 w-full">
                     <div className="lg:w-5/12 w-full text-center lg:text-left">
                         <p className="text-[50px] font-black mb-12">{t("title.title")}</p>
                         <p className="text-gray-100/90 text-xl">{t("title.desc")}</p>
@@ -62,7 +62,7 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             alt="Logo"
                         />
                     </div>
-                </div>
+                </section>
             </main>
         </div>
     );

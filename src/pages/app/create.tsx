@@ -280,7 +280,7 @@ const AppCreate = () => {
             <main className="flex flex-col items-center justify-center mt-24">
                 <h1 className="text-center text-3xl font-bold my-6">Create a deck</h1>
 
-                <div className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12">
+                <section className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12">
                     <h1 className="text-center text-2xl pb-2">Give it a name (3-30 characters)</h1>
                     <input
                         defaultValue={deck.name}
@@ -303,9 +303,9 @@ const AppCreate = () => {
                         className="w-full bg-white/10 rounded-md p-2 outline-none border-2 border-transparent focus:border-cyan-500 transition-all"
                         placeholder="Write Here"
                     />
-                </div>
+                </section>
 
-                <div className="flex items-baseline justify-center md:w-7/12 w-11/12">
+                <section className="flex items-baseline justify-center md:w-7/12 w-11/12">
                     <div className="p-4 mr-2 rounded-md shadow-md bg-white/10 w-1/2">
                         <h1 className="text-center text-2xl pb-2">Questions</h1>
                         <button
@@ -400,9 +400,9 @@ const AppCreate = () => {
                             </div>
                         )}
                     </div>
-                </div>
+                </section>
 
-                <div className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12 flex items-center justify-center flex-col">
+                <section className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12 flex items-center justify-center flex-col">
                     <button
                         onClick={() => {
                             submitDeck();
@@ -419,7 +419,7 @@ const AppCreate = () => {
                     >
                         Discard
                     </button>
-                </div>
+                </section>
             </main>
         </div>
     );

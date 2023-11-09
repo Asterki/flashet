@@ -19,7 +19,7 @@ const AppMain = () => {
             <Navbar session={session} />
 
             <main className="flex items-center justify-center mt-24">
-                <div className="p-4 m-10 rounded-md shadow-md bg-white/10 md:w-7/12 w-full">
+                <section className="p-4 m-10 rounded-md shadow-md bg-white/10 md:w-7/12 w-full">
                     <p className="text-3xl text-center font-bold">Your Decks</p>
 
                     <div className="flex items-center justify-center text-center my-4">
@@ -76,7 +76,7 @@ const AppMain = () => {
                             Create Deck
                         </button>
                     </div>
-                </div>
+                </section>
             </main>
         </div>
     );
