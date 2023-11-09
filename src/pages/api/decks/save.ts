@@ -11,15 +11,8 @@ type ResponseData = {
     message: string;
 };
 
-const handler = async (
-    req: NextApiRequest,
-    res: NextApiResponse<ResponseData>
-) => {
-    const session: (Session & { id: string }) | null = await getServerSession(
-        req,
-        res,
-        authOptions
-    );
+const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) => {
+    const session: (Session & { id: string }) | null = await getServerSession(req, res, authOptions);
     if (!session) return res.status(401).json({ message: "not-logged-in" });
 
     if (req.method === "POST") {

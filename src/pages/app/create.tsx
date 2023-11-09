@@ -49,10 +49,8 @@ const AppCreate = () => {
     const backTextAreaInput = React.useRef<HTMLTextAreaElement>(null);
     React.useEffect(() => {
         if (currentEditingIndex < deck.questions.length) {
-            frontTextAreaInput.current!.value =
-                deck.questions[currentEditingIndex].front;
-            backTextAreaInput.current!.value =
-                deck.questions[currentEditingIndex].back;
+            frontTextAreaInput.current!.value = deck.questions[currentEditingIndex].front;
+            backTextAreaInput.current!.value = deck.questions[currentEditingIndex].back;
         } else {
             frontTextAreaInput.current!.value = "";
             backTextAreaInput.current!.value = "";
@@ -98,33 +96,17 @@ const AppCreate = () => {
                     <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center justify-between">
                             <p className="mr-2">
-                                {currentEditingIndex + 1}-
-                                {deck.questions.length}{" "}
-                                {currentEditingIndex + 1 > deck.questions.length
-                                    ? "(New)"
-                                    : "(Editing)"}
+                                {currentEditingIndex + 1}-{deck.questions.length}{" "}
+                                {currentEditingIndex + 1 > deck.questions.length ? "(New)" : "(Editing)"}
                             </p>
-                            <select
-                                name=""
-                                id=""
-                                className="bg-white/10 p-2 rounded-md"
-                            >
-                                <option
-                                    value=""
-                                    className="bg-white/20 bg-blue-300"
-                                >
+                            <select name="" id="" className="bg-white/10 p-2 rounded-md">
+                                <option value="" className="bg-white/20 bg-blue-300">
                                     Basic (Question-Answer)
                                 </option>
-                                <option
-                                    value=""
-                                    className="bg-white/20 bg-blue-300"
-                                >
+                                <option value="" className="bg-white/20 bg-blue-300">
                                     Multiple Choice (Question-One Answer)
                                 </option>
-                                <option
-                                    value=""
-                                    className="bg-white/20 bg-blue-300"
-                                >
+                                <option value="" className="bg-white/20 bg-blue-300">
                                     Write the missing word
                                 </option>
                             </select>
@@ -165,11 +147,9 @@ const AppCreate = () => {
                                     let newQuestions = deck.questions;
                                     newQuestions[currentEditingIndex] = {
                                         type: "basic",
-                                        front: frontTextAreaInput.current!
-                                            .value,
+                                        front: frontTextAreaInput.current!.value,
                                         back: backTextAreaInput.current!.value,
-                                        id: newQuestions[currentEditingIndex]
-                                            .id,
+                                        id: newQuestions[currentEditingIndex].id,
                                     };
 
                                     setDeck({
@@ -190,11 +170,7 @@ const AppCreate = () => {
                             {currentEditingIndex < deck.questions.length && ( // If the selected item does exist
                                 <button
                                     onClick={() => {
-                                        let newQuestions =
-                                            deck.questions.splice(
-                                                currentEditingIndex - 1,
-                                                1
-                                            );
+                                        let newQuestions = deck.questions.splice(currentEditingIndex - 1, 1);
                                         setDeck({
                                             ...deck,
                                             questions: newQuestions,
@@ -213,14 +189,10 @@ const AppCreate = () => {
                                 <button
                                     onClick={() => {
                                         if (currentEditingIndex - 1 < 0) return;
-                                        setCurrentEditingIndex(
-                                            currentEditingIndex - 1
-                                        );
+                                        setCurrentEditingIndex(currentEditingIndex - 1);
                                     }}
                                     className={`mr-2 px-10 ${
-                                        currentEditingIndex == 0
-                                            ? "brightness-75"
-                                            : "brightness-100"
+                                        currentEditingIndex == 0 ? "brightness-75" : "brightness-100"
                                     } bg-gray-500 shadow-md rounded-md p-2 transition-all`}
                                 >
                                     Previous
@@ -228,15 +200,8 @@ const AppCreate = () => {
                             )}
                             <button
                                 onClick={() => {
-                                    if (
-                                        currentEditingIndex >
-                                        deck.questions.length - 1
-                                    ) {
-                                        if (
-                                            !frontTextAreaInput.current!
-                                                .value ||
-                                            !backTextAreaInput.current!.value
-                                        ) {
+                                    if (currentEditingIndex > deck.questions.length - 1) {
+                                        if (!frontTextAreaInput.current!.value || !backTextAreaInput.current!.value) {
                                             alert("Please fill out all fields");
                                         } else {
                                             setDeck({
@@ -244,30 +209,21 @@ const AppCreate = () => {
                                                 questions: [
                                                     ...deck.questions,
                                                     {
-                                                        id: (
-                                                            deck.questions
-                                                                .length + 1
-                                                        ).toString(),
+                                                        id: (deck.questions.length + 1).toString(),
                                                         type: "basic",
-                                                        front: frontTextAreaInput.current!
-                                                            .value,
-                                                        back: backTextAreaInput.current!
-                                                            .value,
+                                                        front: frontTextAreaInput.current!.value,
+                                                        back: backTextAreaInput.current!.value,
                                                     },
                                                 ],
                                             });
                                         }
                                     } else {
-                                        setCurrentEditingIndex(
-                                            currentEditingIndex + 1
-                                        );
+                                        setCurrentEditingIndex(currentEditingIndex + 1);
                                     }
                                 }}
                                 className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
                             >
-                                {currentEditingIndex + 1 > deck.questions.length
-                                    ? "Save"
-                                    : "Next"}
+                                {currentEditingIndex + 1 > deck.questions.length ? "Save" : "Next"}
                             </button>
                         </div>
                     </div>
@@ -296,9 +252,7 @@ const AppCreate = () => {
                 className="items-center justify-center absolute bg-black/20 w-full min-h-full backdrop-blur-lg"
             >
                 <div className="bg-dark1 shadow-md p-4 rounded-md w-1/2 text-center">
-                    <h1 className="text-2xl">
-                        Are you sure you want to discard this deck?
-                    </h1>
+                    <h1 className="text-2xl">Are you sure you want to discard this deck?</h1>
 
                     <div className="flex flex-col items-center">
                         <button
@@ -324,14 +278,10 @@ const AppCreate = () => {
             <Navbar session={session} />
 
             <main className="flex flex-col items-center justify-center mt-24">
-                <h1 className="text-center text-3xl font-bold my-6">
-                    Create a deck
-                </h1>
+                <h1 className="text-center text-3xl font-bold my-6">Create a deck</h1>
 
                 <div className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12">
-                    <h1 className="text-center text-2xl pb-2">
-                        Give it a name (3-30 characters)
-                    </h1>
+                    <h1 className="text-center text-2xl pb-2">Give it a name (3-30 characters)</h1>
                     <input
                         defaultValue={deck.name}
                         onBlur={(event) => {
@@ -422,15 +372,9 @@ const AppCreate = () => {
                             <div className="mt-2">
                                 <p>Time Per Question (In Seconds)</p>
                                 <input
-                                    defaultValue={
-                                        deck.options.timeLimitMS / 1000
-                                    }
+                                    defaultValue={deck.options.timeLimitMS / 1000}
                                     onBlur={(event) => {
-                                        if (
-                                            Number.isNaN(
-                                                parseInt(event.target.value)
-                                            )
-                                        ) {
+                                        if (Number.isNaN(parseInt(event.target.value))) {
                                             setDeck({
                                                 ...deck,
                                                 options: {
@@ -438,19 +382,14 @@ const AppCreate = () => {
                                                     timeLimitMS: 30000,
                                                 },
                                             });
-                                            alert(
-                                                "Please enter a valid number"
-                                            );
+                                            alert("Please enter a valid number");
                                             event.target.value = "30";
                                         } else {
                                             setDeck({
                                                 ...deck,
                                                 options: {
                                                     ...deck.options,
-                                                    timeLimitMS:
-                                                        parseInt(
-                                                            event.target.value
-                                                        ) * 1000,
+                                                    timeLimitMS: parseInt(event.target.value) * 1000,
                                                 },
                                             });
                                         }

@@ -1,10 +1,12 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 import Navbar from "@/components/navbar";
 
 const AppMain = () => {
     const router = useRouter();
+    const { t } = useTranslation("footer");
     const { data: session, status } = useSession({
         required: true,
         onUnauthenticated() {
@@ -13,7 +15,7 @@ const AppMain = () => {
     });
 
     return (
-        <div className="absolute w-full min-h-screen text-white bg-dark1">  
+        <div className="absolute w-full min-h-screen text-white bg-dark1">
             <Navbar session={session} />
 
             <main className="flex items-center justify-center mt-24">
@@ -34,9 +36,7 @@ const AppMain = () => {
                                 }}
                                 className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
                             >
-                                <td className="p-2">
-                                    Legislation II Partial II Semester
-                                </td>
+                                <td className="p-2">Legislation II Partial II Semester</td>
                                 <td className="p-2 text-secondary">4</td>
                                 <td className="p-2 text-red1">20</td>
                                 <td className="p-2 text-gray-300">10</td>
@@ -47,9 +47,7 @@ const AppMain = () => {
                                 }}
                                 className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
                             >
-                                <td className="p-2">
-                                    Legislation II Partial II Semester
-                                </td>
+                                <td className="p-2">Legislation II Partial II Semester</td>
                                 <td className="p-2 text-secondary">4</td>
                                 <td className="p-2 text-red1">20</td>
                                 <td className="p-2 text-gray-300">10</td>
@@ -60,9 +58,7 @@ const AppMain = () => {
                                 }}
                                 className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
                             >
-                                <td className="p-2">
-                                    Legislation II Partial II Semester
-                                </td>
+                                <td className="p-2">Legislation II Partial II Semester</td>
                                 <td className="p-2 text-secondary">4</td>
                                 <td className="p-2 text-red1">20</td>
                                 <td className="p-2 text-gray-300">10</td>

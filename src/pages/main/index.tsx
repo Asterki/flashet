@@ -2,11 +2,21 @@ import * as React from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
+import { useTranslation, Trans } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 import Navbar from "@/components/navbar";
 import { motion } from "framer-motion";
 
-const Home = () => {
+import type { GetStaticProps, InferGetStaticPropsType } from "next";
+
+type Props = {
+    // Add custom props here
+};
+
+const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const router = useRouter();
+    const { t } = useTranslation("main_index");
 
     const { data: session } = useSession({
         required: false,
@@ -19,16 +29,8 @@ const Home = () => {
             <main className="min-h-screen flex flex-col justify-center items-center p-4 md:p-24">
                 <div className="flex flex-col-reverse lg:flex-row items-center justify-between lg:w-9/12 w-full">
                     <div className="lg:w-5/12 w-full text-center lg:text-left">
-                        <p className="text-[50px] font-black mb-12">
-                            Make your weaks your strongs
-                        </p>
-                        <p className="text-gray-100/90 text-xl">
-                            Are you looking to improve your exam performance?
-                            Discover the power of using flashcards, a proven
-                            study technique, to master theoretical exams. This
-                            tool, created by a student like you, is designed
-                            with your success in mind.
-                        </p>
+                        <p className="text-[50px] font-black mb-12">{t("title.title")}</p>
+                        <p className="text-gray-100/90 text-xl">{t("title.desc")}</p>
 
                         <div className="mt-10">
                             {session && (
@@ -65,5 +67,12 @@ const Home = () => {
         </div>
     );
 };
+
+// or getServerSideProps: GetServerSideProps<Props> = async ({ locale })
+export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
+    props: {
+        ...(await serverSideTranslations(locale ?? "en", ["main_index"])),
+    },
+});
 
 export default Home;
