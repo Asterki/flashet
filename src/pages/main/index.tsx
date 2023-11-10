@@ -2,7 +2,7 @@ import * as React from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-import { useTranslation, Trans } from "next-i18next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import Navbar from "@/components/navbar";
@@ -16,7 +16,7 @@ type Props = {
 
 const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const router = useRouter();
-    const { t } = useTranslation("main_index");
+    const { t } = useTranslation(["main/index", "components/navbar"]);
 
     const { data: session } = useSession({
         required: false,
@@ -24,7 +24,7 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     return (
         <div className="text-white bg-gradient-to-tr from-dark1 to-primary">
-            <Navbar session={session} />
+            <Navbar t={t} session={session} />
 
             <main className="min-h-screen flex flex-col justify-center items-center p-4 md:p-24">
                 <section className="flex flex-col-reverse lg:flex-row items-center justify-between lg:w-9/12 w-full">
@@ -35,10 +35,10 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                         <div className="mt-10">
                             {session && (
                                 <button
-                                    onClick={() => router.push("/app")}
+                                    onClick={() => router.push("/auth/login")}
                                     className="bg-white/10 hover:bg-white/20 transition-all w-full md:w-5/12 p-4 rounded-lg shadow-md"
                                 >
-                                    Go to your dashboard
+                                    {t("title.buttons.login")}
                                 </button>
                             )}
                             {!session && (
@@ -46,7 +46,7 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                     onClick={() => router.push("/app")}
                                     className="bg-white/10 hover:bg-white/20 transition-all w-5/12 p-4 rounded-lg shadow-md"
                                 >
-                                    Login
+                                    {t("title.buttons.dashboard")}
                                 </button>
                             )}
                         </div>
@@ -71,7 +71,7 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 // or getServerSideProps: GetServerSideProps<Props> = async ({ locale })
 export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
     props: {
-        ...(await serverSideTranslations(locale ?? "en", ["main_index"])),
+        ...(await serverSideTranslations(locale ?? "en", ["main/index", "components/navbar"])),
     },
 });
 
