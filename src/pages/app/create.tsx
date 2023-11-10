@@ -103,17 +103,19 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                         <div className="flex items-center justify-between">
                             <p className="mr-2">
                                 {currentEditingIndex + 1}-{deck.questions.length}{" "}
-                                {currentEditingIndex + 1 > deck.questions.length ? "(New)" : "(Editing)"}
+                                {currentEditingIndex + 1 > deck.questions.length
+                                    ? t("modals.questionBrowser.new")
+                                    : t("modals.questionBrowser.editing")}
                             </p>
                             <select name="" id="" className="bg-white/10 p-2 rounded-md">
                                 <option value="" className="bg-white/20 bg-blue-300">
-                                    Basic (Question-Answer)
+                                    {t("modals.questionBrowser.questionTypes.basic")}
                                 </option>
                                 <option value="" className="bg-white/20 bg-blue-300">
-                                    Multiple Choice (Question-One Answer)
+                                    {t("modals.questionBrowser.questionTypes.multiple")}
                                 </option>
                                 <option value="" className="bg-white/20 bg-blue-300">
-                                    Write the missing word
+                                    {t("modals.questionBrowser.questionTypes.missing")}
                                 </option>
                             </select>
                         </div>
@@ -123,11 +125,11 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 setQuestionModalOpen(false);
                             }}
                         >
-                            Close
+                            {t("modals.questionBrowser.buttons.close")}
                         </button>
                     </div>
 
-                    <h1 className="text-xl">Front (Question)</h1>
+                    <h1 className="text-xl">{t("modals.questionBrowser.front")}</h1>
                     <textarea
                         ref={frontTextAreaInput}
                         className="w-full bg-white/10 rounded-md p-2 outline-none border-2 border-transparent focus:border-cyan-500 transition-all"
@@ -138,7 +140,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                     <br />
                     <br />
 
-                    <h1 className="text-2xl">Back (Answer)</h1>
+                    <h1 className="text-2xl">{t("modals.questionBrowser.back")}</h1>
                     <textarea
                         ref={backTextAreaInput}
                         className="w-full bg-white/10 rounded-md p-2 outline-none border-2 border-transparent focus:border-cyan-500 transition-all"
@@ -168,7 +170,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 }}
                                 className="mr-2 px-10 bg-primary shadow-md rounded-md p-2 transition-all"
                             >
-                                Save Changes
+                                {t("modals.questionBrowser.buttons.saveChanges")}
                             </button>
                         )}
 
@@ -187,7 +189,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                     }}
                                     className="mr-2 px-10 bg-red1 shadow-md rounded-md p-2 transition-all"
                                 >
-                                    Delete
+                                    {t("modals.questionBrowser.buttons.delete")}
                                 </button>
                             )}
                             {/* Only show when there are questions to check */}
@@ -201,7 +203,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                         currentEditingIndex == 0 ? "brightness-75" : "brightness-100"
                                     } bg-gray-500 shadow-md rounded-md p-2 transition-all`}
                                 >
-                                    Previous
+                                    {t("modals.questionBrowser.buttons.previous")}
                                 </button>
                             )}
                             <button
@@ -229,7 +231,9 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 }}
                                 className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
                             >
-                                {currentEditingIndex + 1 > deck.questions.length ? "Save" : "Next"}
+                                {currentEditingIndex + 1 > deck.questions.length
+                                    ? t("modals.questionBrowser.buttons.save")
+                                    : t("modals.questionBrowser.buttons.next")}
                             </button>
                         </div>
                     </div>
@@ -258,7 +262,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                 className="items-center justify-center absolute bg-black/20 w-full min-h-full backdrop-blur-lg"
             >
                 <div className="bg-dark1 shadow-md p-4 rounded-md w-1/2 text-center">
-                    <h1 className="text-2xl">Are you sure you want to discard this deck?</h1>
+                    <h1 className="text-2xl">{t("modals.discard.title")}</h1>
 
                     <div className="flex flex-col items-center">
                         <button
@@ -267,7 +271,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             }}
                             className="bg-primary my-2 shadow-md rounded-md p-2 transition-all w-1/2"
                         >
-                            Continue Editing
+                            {t("modals.discard.continue")}
                         </button>
                         <button
                             onClick={() => {
@@ -275,7 +279,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             }}
                             className="bg-red1 my-2 shadow-md rounded-md p-2 transition-all w-1/2"
                         >
-                            Discard
+                            {t("modals.discard.discard")}
                         </button>
                     </div>
                 </div>
