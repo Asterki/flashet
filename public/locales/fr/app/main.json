@@ -1,0 +1,12 @@
+{
+    "title": "Vos Paquets",
+    "headers": {
+        "deck": "Paquet",
+        "new": "Nouveau",
+        "studying": "En cours d'étude",
+        "done": "Terminé"
+    },
+    "buttons": {
+        "createDeck": "Créer un paquet"
+    }
+}

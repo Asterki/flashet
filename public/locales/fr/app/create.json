@@ -1,0 +1,63 @@
+{
+    "pageTitle": "Flashet | Créer",
+    "title": "Créer un paquet",
+    "sections": {
+        "name": {
+            "header": "Donnez-lui un nom (3-30 caractères)",
+            "defaultName": "Nom d'exemple",
+            "placeholder": "Écrire ici"
+        },
+        "questions": {
+            "header": "Questions",
+            "button": "Ajouter des questions",
+            "questionTypes": {
+                "basic": "Basique",
+                "multiple": "Multiple",
+                "fillIn": "Compléter"
+            },
+            "question": {
+                "exampleQuestion": "Question d'exemple",
+                "exampleAnswer": "Réponse d'exemple"
+            }
+        },
+        "options": {
+            "header": "Options",
+            "random": "Afficher les questions dans un ordre aléatoire",
+            "timer": "Ajouter un minuteur",
+            "timePer": "Temps par question (en secondes)"
+        }
+    },
+    "modals": {
+        "questionBrowser": {
+            "new": "Nouveau",
+            "editing": "Édition",
+
+            "questionTypes": {
+                "basic": "Basique (Question-Réponse)",
+                "multiple": "Choix multiple (Question-Une réponse)",
+                "missing": "Écrire le mot manquant"
+            },
+
+            "front": "Devant (Question)",
+            "back": "Arrière (Réponse)",
+
+            "buttons": {
+                "close": "Fermer",
+                "saveChanges": "Enregistrer les modifications",
+                "delete": "Supprimer",
+                "previous": "Précédent",
+                "save": "Enregistrer",
+                "next": "Suivant"
+            }
+        },
+        "discard": {
+            "title": "Êtes-vous sûr de vouloir abandonner ce paquet?",
+            "continue": "Continuer l'édition",
+            "discard": "Abandonner"
+        }
+    },
+    "buttons": {
+        "save": "Enregistrer",
+        "discard": "Abandonner"
+    }
+}
