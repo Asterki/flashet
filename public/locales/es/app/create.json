@@ -1,0 +1,63 @@
+{
+    "pageTitle": "Flashet | Crear",
+    "title": "Crear un mazo",
+    "sections": {
+        "name": {
+            "header": "Dale un nombre (3-30 caracteres)",
+            "defaultName": "Nombre de ejemplo",
+            "placeholder": "Escribir aquí"
+        },
+        "questions": {
+            "header": "Preguntas",
+            "button": "Agregar preguntas",
+            "questionTypes": {
+                "basic": "Básica",
+                "multiple": "Múltiple",
+                "fillIn": "Completar"
+            },
+            "question": {
+                "exampleQuestion": "Pregunta de ejemplo",
+                "exampleAnswer": "Respuesta de ejemplo"
+            }
+        },
+        "options": {
+            "header": "Opciones",
+            "random": "Mostrar preguntas en orden aleatorio",
+            "timer": "Agregar temporizador",
+            "timePer": "Tiempo por pregunta (en segundos)"
+        }
+    },
+    "modals": {
+        "questionBrowser": {
+            "new": "Nuevo",
+            "editing": "Editando",
+
+            "questionTypes": {
+                "basic": "Básica (Pregunta-Respuesta)",
+                "multiple": "Elección múltiple (Pregunta-Una respuesta)",
+                "missing": "Escribe la palabra que falta"
+            },
+
+            "front": "Frontal (Pregunta)",
+            "back": "Trasera (Respuesta)",
+
+            "buttons": {
+                "close": "Cerrar",
+                "saveChanges": "Guardar cambios",
+                "delete": "Eliminar",
+                "previous": "Anterior",
+                "save": "Guardar",
+                "next": "Siguiente"
+            }
+        },
+        "discard": {
+            "title": "¿Estás seguro de que quieres descartar este mazo?",
+            "continue": "Continuar editando",
+            "discard": "Descartar"
+        }
+    },
+    "buttons": {
+        "save": "Guardar",
+        "discard": "Descartar"
+    }
+}

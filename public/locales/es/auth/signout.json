@@ -1,0 +1,9 @@
+{
+    "pageTitle": "Flashet | Cerrar sesión",
+    "title": "Cerrar sesión",
+    "desc": "¿Estás seguro de que deseas cerrar sesión?",
+    "buttons": {
+        "signout": "Cerrar sesión",
+        "cancel": "Cancelar"
+    }
+}

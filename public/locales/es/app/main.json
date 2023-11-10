@@ -1,0 +1,12 @@
+{
+    "title": "Tus Mazos",
+    "headers": {
+        "deck": "Mazo",
+        "new": "Nuevo",
+        "studying": "Estudiando",
+        "done": "Completado"
+    },
+    "buttons": {
+        "createDeck": "Crear Mazo"
+    }
+}
