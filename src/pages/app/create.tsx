@@ -31,7 +31,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const [discardModalOpen, setDiscardModalOpen] = React.useState(false);
 
     const [deck, setDeck] = React.useState<DeckType>({
-        name: "Example Name",
+        name: t("sections.name.defaultName"),
         id: uuidv4(),
         owner: "To Be Replaced",
         options: {
@@ -42,8 +42,8 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
         questions: [
             {
                 type: "basic",
-                front: "Example Question",
-                back: "Example Answer",
+                front: t("sections.questions.question.exampleQuestion"),
+                back: t("sections.questions.question.exampleAnswer"),
                 id: uuidv4(),
             },
         ],

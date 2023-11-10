@@ -1,0 +1,63 @@
+{
+    "pageTitle": "Flashet | Erstellen",
+    "title": "Ein Deck erstellen",
+    "sections": {
+        "name": {
+            "header": "Gib ihm einen Namen (3-30 Zeichen)",
+            "defaultName": "Beispielname",
+            "placeholder": "Hier schreiben"
+        },
+        "questions": {
+            "header": "Fragen",
+            "button": "Fragen hinzufügen",
+            "questionTypes": {
+                "basic": "Grundlegend",
+                "multiple": "Mehrere Antworten",
+                "fillIn": "Lückentext"
+            },
+            "question": {
+                "exampleQuestion": "Beispiel Frage",
+                "exampleAnswer": "Beispiel Antwort"
+            }
+        },
+        "options": {
+            "header": "Optionen",
+            "random": "Fragen in zufälliger Reihenfolge anzeigen",
+            "timer": "Timer hinzufügen",
+            "timePer": "Zeit pro Frage (in Sekunden)"
+        }
+    },
+    "modals": {
+        "questionBrowser": {
+            "new": "Neu",
+            "editing": "Bearbeitung",
+
+            "questionTypes": {
+                "basic": "Grundlegend (Frage-Antwort)",
+                "multiple": "Mehrfachauswahl (Frage-Eine Antwort)",
+                "missing": "Schreibe das fehlende Wort"
+            },
+
+            "front": "Vorderseite (Frage)",
+            "back": "Rückseite (Antwort)",
+
+            "buttons": {
+                "close": "Schließen",
+                "saveChanges": "Änderungen speichern",
+                "delete": "Löschen",
+                "previous": "Vorherige",
+                "save": "Speichern",
+                "next": "Nächste"
+            }
+        },
+        "discard": {
+            "title": "Bist du sicher, dass du dieses Deck verwerfen möchtest?",
+            "continue": "Bearbeitung fortsetzen",
+            "discard": "Verwerfen"
+        }
+    },
+    "buttons": {
+        "save": "Speichern",
+        "discard": "Verwerfen"
+    }
+}

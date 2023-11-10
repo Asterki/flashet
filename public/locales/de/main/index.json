@@ -1,0 +1,10 @@
+{
+    "title": {
+        "title": "Mach aus deinen Schwächen deine Stärken",
+        "desc": "Möchtest du deine Prüfungsleistung verbessern? Entdecke die Kraft des Einsatzes von Lernkarten, einer bewährten Lernmethode, um theoretische Prüfungen zu meistern. Dieses Tool, das von einem Studenten wie dir erstellt wurde, ist auf deinen Erfolg ausgerichtet.",
+        "buttons": {
+            "dashboard": "Zum Dashboard gehen",
+            "login": "Anmelden"
+        }
+    }
+}

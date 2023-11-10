@@ -1,0 +1,12 @@
+{
+    "title": "Deine Decks",
+    "headers": {
+        "deck": "Deck",
+        "new": "Neu",
+        "studying": "Am Lernen",
+        "done": "Fertig"
+    },
+    "buttons": {
+        "createDeck": "Deck erstellen"
+    }
+}
