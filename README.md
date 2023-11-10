@@ -21,6 +21,7 @@ App created to help you study for your exams using the flashcard technique. Made
 ## Current Features
 - Google Authentication
 - Syncing across devices
+- Multiligual support
 
 
 ## Planned Features

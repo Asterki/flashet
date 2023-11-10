@@ -4,15 +4,21 @@ import { v4 as uuidv4 } from "uuid";
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { motion } from "framer-motion";
 import Navbar from "@/components/navbar";
 
 import { DeckType } from "@/types/models";
 import { DecksSaveResponse, DecksSaveRequestBody } from "@/types/api/decks";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
 
-const AppCreate = () => {
+interface Props {}
+
+const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const router = useRouter();
+    const { t } = useTranslation(["app/create", "components/navbar"]);
     const { data: session, status } = useSession({
         required: true,
         onUnauthenticated() {
@@ -71,7 +77,7 @@ const AppCreate = () => {
 
     return (
         <div className="absolute w-full min-h-screen text-white bg-dark1">
-            {/* Add Questions Modal */}
+            {/* Questions Browser Modal */}
             <motion.div
                 variants={{
                     hidden: {
@@ -275,13 +281,13 @@ const AppCreate = () => {
                 </div>
             </motion.div>
 
-            <Navbar session={session} />
+            <Navbar t={t} session={session} />
 
             <main className="flex flex-col items-center justify-center mt-24">
-                <h1 className="text-center text-3xl font-bold my-6">Create a deck</h1>
+                <h1 className="text-center text-3xl font-bold my-6">{t("title")}</h1>
 
                 <section className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12">
-                    <h1 className="text-center text-2xl pb-2">Give it a name (3-30 characters)</h1>
+                    <h1 className="text-center text-2xl pb-2">{t("sections.name.header")}</h1>
                     <input
                         defaultValue={deck.name}
                         onBlur={(event) => {
@@ -289,9 +295,9 @@ const AppCreate = () => {
                             if (!val || val.length < 3 || val.length > 30) {
                                 setDeck({
                                     ...deck,
-                                    name: "Example Name",
+                                    name: t("sections.name.defaultName"),
                                 });
-                                event.target.value = "Example Name";
+                                event.target.value = t("sections.name.defaultName");
                             } else {
                                 setDeck({
                                     ...deck,
@@ -301,13 +307,13 @@ const AppCreate = () => {
                         }}
                         type="text"
                         className="w-full bg-white/10 rounded-md p-2 outline-none border-2 border-transparent focus:border-cyan-500 transition-all"
-                        placeholder="Write Here"
+                        placeholder={t("sections.name.placeholder")}
                     />
                 </section>
 
                 <section className="flex items-baseline justify-center md:w-7/12 w-11/12">
                     <div className="p-4 mr-2 rounded-md shadow-md bg-white/10 w-1/2">
-                        <h1 className="text-center text-2xl pb-2">Questions</h1>
+                        <h1 className="text-center text-2xl pb-2">{t("sections.questions.header")}</h1>
                         <button
                             onClick={() => {
                                 setCurrentEditingIndex(0);
@@ -316,14 +322,14 @@ const AppCreate = () => {
                             className="w-full bg-primary shadow-md rounded-md p-2 transition-all"
                             placeholder="Write Here"
                         >
-                            Add Questions
+                            {t("sections.questions.button")}
                         </button>
 
                         <ul className="list-decimal my-2 list-inside">
                             {deck.questions.map((question) => {
                                 return (
                                     <li key={question.id}>
-                                        {question.type} - {question.front}
+                                        {t(`sections.questions.questionTypes.${question.type}`)} - {question.front}
                                     </li>
                                 );
                             })}
@@ -331,7 +337,7 @@ const AppCreate = () => {
                     </div>
 
                     <div className="p-4 ml-2 rounded-md shadow-md bg-white/10 w-1/2">
-                        <h1 className="text-center text-2xl pb-2">Options</h1>
+                        <h1 className="text-center text-2xl pb-2">{t("sections.options.header")}</h1>
                         <input
                             type="checkbox"
                             defaultChecked={deck.options.random}
@@ -347,7 +353,7 @@ const AppCreate = () => {
                             id="random-order"
                         />{" "}
                         <label htmlFor="random-order" className="select-none">
-                            Show Questions In Random Order
+                            {t("sections.options.random")}
                         </label>{" "}
                         <br />
                         <input
@@ -365,12 +371,12 @@ const AppCreate = () => {
                             id="timer"
                         />{" "}
                         <label htmlFor="timer" className="select-none">
-                            Add Timer
+                            {t("sections.options.timer")}
                         </label>
                         <br />
                         {deck.options.timeLimit && (
                             <div className="mt-2">
-                                <p>Time Per Question (In Seconds)</p>
+                                <p>{t("sections.options.timePer")}</p>
                                 <input
                                     defaultValue={deck.options.timeLimitMS / 1000}
                                     onBlur={(event) => {
@@ -409,7 +415,7 @@ const AppCreate = () => {
                         }}
                         className="bg-primary my-2 shadow-md rounded-md p-2 transition-all w-1/2"
                     >
-                        Save
+                        {t("buttons.save")}
                     </button>
                     <button
                         onClick={() => {
@@ -417,12 +423,18 @@ const AppCreate = () => {
                         }}
                         className="bg-red1 my-2 shadow-md rounded-md p-2 transition-all w-1/2"
                     >
-                        Discard
+                        {t("buttons.discard")}
                     </button>
                 </section>
             </main>
         </div>
     );
 };
+
+export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
+    props: {
+        ...(await serverSideTranslations(locale ?? "en", ["app/create", "components/navbar"])),
+    },
+});
 
 export default AppCreate;

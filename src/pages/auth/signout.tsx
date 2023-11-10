@@ -1,10 +1,17 @@
 import { useRouter } from "next/router";
 import { useSession, signOut } from "next-auth/react";
+import { useTranslation } from "react-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import Navbar from "@/components/navbar";
 
-const SignOut = () => {
+import { GetStaticProps, InferGetStaticPropsType } from "next";
+
+interface Props {}
+
+const SignOut = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const router = useRouter();
+    const { t } = useTranslation(["auth/signout", "components/navbar"]);
     const { data: session, status } = useSession({
         required: true,
         onUnauthenticated() {
@@ -14,22 +21,20 @@ const SignOut = () => {
 
     return (
         <div className="text-white bg-dark1">
-            <Navbar session={session} />
+            <Navbar t={t} session={session} />
 
             <main className="min-h-screen flex flex-col justify-center items-center p-12">
                 <section className="md:w-4/12 w-full">
                     <div className="my-4 text-gray-100 text-center">
-                        <h1 className="text-3xl">Sign Out</h1>
-                        <p>Are you sure you want to sign out?</p>
+                        <h1 className="text-3xl">{t("title")}</h1>
+                        <p>{t("desc")}</p>
                     </div>
 
                     <button
                         className="bg-white/20 hover:bg-red1 w-full shadow-md rounded-md p-4 transition-all"
-                        onClick={() =>
-                            signOut({ redirect: true, callbackUrl: "/" })
-                        }
+                        onClick={() => signOut({ redirect: true, callbackUrl: "/" })}
                     >
-                        Sign Out
+                        {t("buttons.signout")}
                     </button>
 
                     <br />
@@ -37,18 +42,20 @@ const SignOut = () => {
 
                     <button
                         className="bg-white/20 hover:bg-primary w-full shadow-md rounded-md p-4 transition-all"
-                        onClick={() => router.push("/auth/signin")}
+                        onClick={() => router.push("/app")}
                     >
-                        Cancel
+                        {t("buttons.cancel")}
                     </button>
-                </section>
-
-                <section className="absolute bottom-2 text-gray-300">
-                    Logged in as {session?.user?.email}
                 </section>
             </main>
         </div>
     );
 };
+
+export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
+    props: {
+        ...(await serverSideTranslations(locale ?? "en", ["auth/signout", "components/navbar"])),
+    },
+});
 
 export default SignOut;

@@ -1,0 +1,31 @@
+{
+    "pageTitle": "Flashet | Create",
+    "title": "Create A Deck",
+    "sections": {
+        "name": {
+            "header": "Give It A Name (3-30 characters)",
+            "defaultName": "Example Name",
+            "placeholder": "Write Here"
+        },
+        "questions": {
+            "header": "Questions",
+            "button": "Add Questions",
+            "questionTypes": {
+                "basic": "Basic",
+                "multiple": "Multiple",
+                "fillIn": "Fill In"
+            }
+        },
+        "options": {
+            "header": "Options",
+            "random": "Show Questions In Random Order",
+            "timer": "Add Timer",
+            "timePer": "Time Per Question (In Seconds)"
+        }
+    },
+    "modals": {},
+    "buttons": {
+        "save": "Save",
+        "discard": "Discard"
+    }
+}

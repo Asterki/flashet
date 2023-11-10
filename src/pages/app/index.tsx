@@ -1,12 +1,18 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+
 import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import Navbar from "@/components/navbar";
 
-const AppMain = () => {
+import { GetStaticProps, InferGetStaticPropsType } from "next";
+
+interface Props {}
+
+const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const router = useRouter();
-    const { t } = useTranslation("footer");
+    const { t } = useTranslation(["app/main", "components/navbar"]);
     const { data: session, status } = useSession({
         required: true,
         onUnauthenticated() {
@@ -16,20 +22,22 @@ const AppMain = () => {
 
     return (
         <div className="absolute w-full min-h-screen text-white bg-dark1">
-            <Navbar session={session} />
+            <Navbar t={t} session={session} />
 
             <main className="flex items-center justify-center mt-24">
                 <section className="p-4 m-10 rounded-md shadow-md bg-white/10 md:w-7/12 w-full">
-                    <p className="text-3xl text-center font-bold">Your Decks</p>
+                    <p className="text-3xl text-center font-bold">{t("title")}</p>
 
                     <div className="flex items-center justify-center text-center my-4">
                         <table>
                             <tr>
-                                <th className="md:px-10 px-4">Deck</th>
-                                <th className="md:px-10 px-4">New</th>
-                                <th className="md:px-10 px-4">Studying</th>
-                                <th className="md:px-10 px-4">Done</th>
+                                <th className="md:px-10 px-4">{t("headers.deck")}</th>
+                                <th className="md:px-10 px-4">{t("headers.new")}</th>
+                                <th className="md:px-10 px-4">{t("headers.studying")}</th>
+                                <th className="md:px-10 px-4">{t("headers.done")}</th>
                             </tr>
+
+                            {/* // TODO: LATER TO BE MAPPED FROM A DATABASE */}
                             <tr
                                 onClick={() => {
                                     router.push("/study/ID HERE");
@@ -73,7 +81,7 @@ const AppMain = () => {
                             }}
                             className="p-2 rounded-md bg-primary shadow-md"
                         >
-                            Create Deck
+                            {t("buttons.createDeck")}
                         </button>
                     </div>
                 </section>
@@ -81,5 +89,11 @@ const AppMain = () => {
         </div>
     );
 };
+
+export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
+    props: {
+        ...(await serverSideTranslations(locale ?? "en", ["app/main", "components/navbar"])),
+    },
+});
 
 export default AppMain;
