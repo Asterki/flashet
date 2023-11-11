@@ -9,7 +9,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Navbar from "@/components/navbar";
 
 import { GetStaticProps, InferGetStaticPropsType } from "next";
-import { ResponseData } from "../api/decks/fetch-decks";
+import { ResponseData } from "../api/decks/fetch";
 import { DeckType } from "@/types/models";
 
 interface Props {}
@@ -66,9 +66,9 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                         className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
                                     >
                                         <td className="p-2">{deck.name}</td>
-                                        <td className="p-2 text-secondary">4</td>
-                                        <td className="p-2 text-red1">20</td>
-                                        <td className="p-2 text-gray-300">10</td>
+                                        <td className="p-2 text-secondary">{deck.questionStatus.new}</td>
+                                        <td className="p-2 text-red1">{deck.questionStatus.studying}</td>
+                                        <td className="p-2 text-gray-300">{deck.questionStatus.done}</td>
                                     </tr>
                                 );
                             })}

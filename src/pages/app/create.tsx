@@ -39,6 +39,11 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
             timeLimit: false,
             timeLimitMS: 30 * 1000,
         },
+        questionStatus: {
+            new: 0,
+            studying: 0,
+            done: 0, 
+        },
         questions: [
             {
                 type: "basic",

@@ -6,6 +6,7 @@ import DecksModel from "@/models/Deck";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Session } from "next-auth";
+import { DeckType } from "@/types/models";
 
 type ResponseData = {
     message: string;
@@ -48,7 +49,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
             options: body.options,
             owner: session.id,
             questions: body.questions,
-        });
+            questionStatus: {
+                new: body.questions.length,
+                studying: 0,
+                done: 0,
+            }
+        } as DeckType);
         await deck.save();
 
         res.status(200).json({ message: "success" });

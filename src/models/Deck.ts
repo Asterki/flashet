@@ -34,6 +34,20 @@ const Decks = new Schema({
         type: String,
         required: true,
     },
+    questionStatus: {
+        new: {
+            type: Number,
+            required: true,
+        },
+        studying: {
+            type: Number,
+            required: true,
+        },
+        done: {
+            type: Number,
+            required: true,
+        },
+    },
     options: {
         random: {
             type: Boolean,

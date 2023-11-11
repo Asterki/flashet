@@ -7,6 +7,11 @@ interface DeckType {
         timeLimit: boolean;
         timeLimitMS: number;
     };
+    questionStatus: {
+        new: number;
+        studying: number;
+        done: number;
+    };
     questions: Array<{
         type: "basic" | "choice" | "fill";
         front: string;
