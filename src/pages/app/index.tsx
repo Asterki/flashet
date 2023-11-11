@@ -29,7 +29,7 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     React.useEffect(() => {
         (async () => {
             const deckResponse: AxiosResponse<ResponseData> = await axios({
-                url: "/api/decks/fetch-decks",
+                url: "/api/decks/fetch",
                 withCredentials: true,
             });
 
@@ -47,32 +47,36 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                     <p className="text-3xl text-center font-bold">{t("title")}</p>
 
                     <div className="flex items-center justify-center text-center my-4">
-                        <table>
-                            <tr>
-                                <th className="md:px-10 px-4">{t("headers.deck")}</th>
-                                <th className="md:px-10 px-4">{t("headers.new")}</th>
-                                <th className="md:px-10 px-4">{t("headers.studying")}</th>
-                                <th className="md:px-10 px-4">{t("headers.done")}</th>
-                            </tr>
+                        {decks.length !== 0 && (
+                            <table>
+                                <tr>
+                                    <th className="md:px-10 px-4">{t("headers.deck")}</th>
+                                    <th className="md:px-10 px-4">{t("headers.new")}</th>
+                                    <th className="md:px-10 px-4">{t("headers.studying")}</th>
+                                    <th className="md:px-10 px-4">{t("headers.done")}</th>
+                                </tr>
 
-                            {/* // TODO: LATER TO BE MAPPED FROM A DATABASE */}
-                            {decks.map((deck) => {
-                                return (
-                                    <tr
-                                        key={deck.id}
-                                        onClick={() => {
-                                            router.push(`/study/${deck.id}`);
-                                        }}
-                                        className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
-                                    >
-                                        <td className="p-2">{deck.name}</td>
-                                        <td className="p-2 text-secondary">{deck.questionStatus.new}</td>
-                                        <td className="p-2 text-red1">{deck.questionStatus.studying}</td>
-                                        <td className="p-2 text-gray-300">{deck.questionStatus.done}</td>
-                                    </tr>
-                                );
-                            })}
-                        </table>
+                                {decks.map((deck) => {
+                                    return (
+                                        <tr
+                                            key={deck.id}
+                                            onClick={() => {
+                                                router.push(`/study/${deck.id}`);
+                                            }}
+                                            className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
+                                        >
+                                            <td className="p-2">{deck.name}</td>
+                                            <td className="p-2 text-secondary">{deck.questionStatus.new}</td>
+                                            <td className="p-2 text-red1">{deck.questionStatus.studying}</td>
+                                            <td className="p-2 text-gray-300">{deck.questionStatus.done}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </table>
+                        )}
+                        {decks.length == 0 && (
+                            <p>{t("noDecks")}</p>
+                        )}
                     </div>
 
                     <div className="text-center mt-4">
