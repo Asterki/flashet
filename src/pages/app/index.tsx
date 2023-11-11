@@ -1,12 +1,16 @@
+import * as React from "react";
+import axios, { AxiosResponse } from "axios";
+
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import Navbar from "@/components/navbar";
 
 import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { ResponseData } from "../api/decks/fetch-decks";
+import { DeckType } from "@/types/models";
 
 interface Props {}
 
@@ -19,6 +23,20 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
             router.push("/auth/signin");
         },
     });
+
+    const [decks, setDecks] = React.useState<DeckType[]>([]);
+
+    React.useEffect(() => {
+        (async () => {
+            const deckResponse: AxiosResponse<ResponseData> = await axios({
+                url: "/api/decks/fetch-decks",
+                withCredentials: true,
+            });
+
+            if (!deckResponse.data.decks) return;
+            setDecks(deckResponse.data.decks);
+        })();
+    }, []);
 
     return (
         <div className="absolute w-full min-h-screen text-white bg-dark1">
@@ -38,39 +56,22 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             </tr>
 
                             {/* // TODO: LATER TO BE MAPPED FROM A DATABASE */}
-                            <tr
-                                onClick={() => {
-                                    router.push("/study/ID HERE");
-                                }}
-                                className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
-                            >
-                                <td className="p-2">Legislation II Partial II Semester</td>
-                                <td className="p-2 text-secondary">4</td>
-                                <td className="p-2 text-red1">20</td>
-                                <td className="p-2 text-gray-300">10</td>
-                            </tr>
-                            <tr
-                                onClick={() => {
-                                    router.push("/study/ID HERE");
-                                }}
-                                className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
-                            >
-                                <td className="p-2">Legislation II Partial II Semester</td>
-                                <td className="p-2 text-secondary">4</td>
-                                <td className="p-2 text-red1">20</td>
-                                <td className="p-2 text-gray-300">10</td>
-                            </tr>
-                            <tr
-                                onClick={() => {
-                                    router.push("/study/ID HERE");
-                                }}
-                                className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
-                            >
-                                <td className="p-2">Legislation II Partial II Semester</td>
-                                <td className="p-2 text-secondary">4</td>
-                                <td className="p-2 text-red1">20</td>
-                                <td className="p-2 text-gray-300">10</td>
-                            </tr>
+                            {decks.map((deck) => {
+                                return (
+                                    <tr
+                                        key={deck.id}
+                                        onClick={() => {
+                                            router.push(`/study/${deck.id}`);
+                                        }}
+                                        className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
+                                    >
+                                        <td className="p-2">{deck.name}</td>
+                                        <td className="p-2 text-secondary">4</td>
+                                        <td className="p-2 text-red1">20</td>
+                                        <td className="p-2 text-gray-300">10</td>
+                                    </tr>
+                                );
+                            })}
                         </table>
                     </div>
 
@@ -90,10 +91,12 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     );
 };
 
-export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
-    props: {
-        ...(await serverSideTranslations(locale ?? "en", ["app/main", "components/navbar"])),
-    },
-});
+export const getStaticProps: GetStaticProps<Props> = async (context) => {
+    return {
+        props: {
+            ...(await serverSideTranslations(context.locale ?? "en", ["app/main", "components/navbar"])),
+        },
+    };
+};
 
 export default AppMain;
