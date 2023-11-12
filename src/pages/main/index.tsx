@@ -59,7 +59,7 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             transition={{ type: "spring", duration: 0.5 }}
                             width={400}
                             height={400}
-                            src="/logo-white.svg"
+                            src="/icons/logo-white.svg"
                             alt="Logo"
                         />
                     </div>
