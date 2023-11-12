@@ -6,6 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import Navbar from "@/components/navbar";
 import { motion } from "framer-motion";
+import Head from "next/head";
 
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
 
@@ -21,6 +22,10 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     return (
         <div className="text-white bg-dark1">
             <Navbar t={t} session={session} />
+
+            <Head>
+                <title>{t("pageTitle")}</title>
+            </Head>
 
             <main className="min-h-screen flex flex-col justify-center items-center p-4 md:p-24">
                 <section className="flex flex-col-reverse lg:flex-row items-center justify-between lg:w-9/12 w-full">

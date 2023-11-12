@@ -7,6 +7,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import Navbar from "@/components/navbar";
+import Head from "next/head";
 
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { ResponseData } from "../api/decks/fetch";
@@ -41,6 +42,10 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     return (
         <div className="absolute w-full min-h-screen text-white bg-dark1">
             <Navbar t={t} session={session} />
+
+            <Head>
+                <title>{t("pageTitle")}</title>
+            </Head>
 
             <main className="flex items-center justify-center mt-24">
                 <section className="p-4 m-10 rounded-md shadow-md bg-white/10 md:w-7/12 w-full">

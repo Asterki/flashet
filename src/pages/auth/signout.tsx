@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import Navbar from "@/components/navbar";
+import Head from "next/head";
 
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 
@@ -22,6 +23,10 @@ const SignOut = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     return (
         <div className="text-white bg-dark1">
             <Navbar t={t} session={session} />
+
+            <Head>
+                <title>{t("pageTitle")}</title>
+            </Head>
 
             <main className="min-h-screen flex flex-col justify-center items-center p-12">
                 <section className="md:w-4/12 w-full">

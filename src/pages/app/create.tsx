@@ -9,6 +9,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { motion } from "framer-motion";
 import Navbar from "@/components/navbar";
+import Head from "next/head";
 
 import { DeckType } from "@/types/models";
 import { DecksSaveResponse, DecksSaveRequestBody } from "@/types/api/decks";
@@ -291,6 +292,10 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
             </motion.div>
 
             <Navbar t={t} session={session} />
+            
+            <Head>
+                <title>{t("pageTitle")}</title>
+            </Head>
 
             <main className="flex flex-col items-center justify-center mt-24">
                 <h1 className="text-center text-3xl font-bold my-6">{t("title")}</h1>

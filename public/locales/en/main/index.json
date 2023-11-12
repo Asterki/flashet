@@ -1,9 +1,10 @@
 {
+    "pageTitle": "Flashet",
     "title": {
         "title": "Make your weaks your strongs",
         "desc": "Are you looking to improve your exam performance? Discover the power of using flashcards, a proven study technique, to master theoretical exams. This tool, created by a student like you, is designed with your success in mind.",
         "buttons": {
-            "dashboard": "Go to dashboard",
+            "dashboard": "Go to the dashboard",
             "login": "Login"
         }
     }

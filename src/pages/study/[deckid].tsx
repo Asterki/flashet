@@ -7,17 +7,12 @@ import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import Navbar from "@/components/navbar";
+import Head from "next/head";
 
 import { DeckType } from "@/types/models";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 
 interface Props {}
-
-const fetchQuestions = (deckID: string) => {
-    const response: AxiosResponse<DeckType> = axios({
-        
-    }) 
-}
 
 const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const router = useRouter();
@@ -33,6 +28,10 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     return (
         <div className="absolute w-full min-h-screen text-white bg-dark1">
             <Navbar t={t} session={session} />
+
+            <Head>
+                <title>{t("pageTitle")}</title>
+            </Head>
 
             <main>
                 <p>{router.query.deckid}</p>
