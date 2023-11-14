@@ -20,7 +20,7 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const { data: session, status } = useSession({
         required: true,
         onUnauthenticated() {
-            router.push(`${router.locale}/auth/signin`);
+            router.push(`/${router.locale}/auth/signin`);
         },
     });
     

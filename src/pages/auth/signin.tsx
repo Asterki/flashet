@@ -30,9 +30,9 @@ export default function SignIn({ providers }: InferGetServerSidePropsType<typeof
 
                     <div className="text-center">
                         {Object.values(providers).map((provider) => (
-                            <div key={provider.name}>
+                            <div key={provider.name} className="">
                                 <button
-                                    className="bg-white/10 hover:bg-white/20 transition-all w-5/12 p-4 rounded-lg shadow-md"
+                                    className="bg-white/10 hover:bg-white/20 transition-all w-5/12 my-4 p-4 rounded-lg shadow-md"
                                     onClick={() => signIn(provider.id)}
                                 >
                                     {t("signInWith")} {provider.name}

@@ -16,7 +16,7 @@ const SignOut = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const { data: session, status } = useSession({
         required: true,
         onUnauthenticated() {
-            router.push(`${router.locale}/auth/signin`);
+            router.push(`/${router.locale}/auth/signin`);
         },
     });
 
@@ -47,7 +47,7 @@ const SignOut = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
                     <button
                         className="bg-white/20 hover:bg-primary w-full shadow-md rounded-md p-4 transition-all"
-                        onClick={() => router.push(`${router.locale}/app`)}
+                        onClick={() => router.push(`/${router.locale}/app`)}
                     >
                         {t("buttons.cancel")}
                     </button>

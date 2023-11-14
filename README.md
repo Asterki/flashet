@@ -70,13 +70,23 @@ Start the server
 
 To run this project, you will need to add the following environment variables to your .env.local file
 
-`SESSION_SECRET`
+```.env
+SESSION_SECRET=""
+NEXTAUTH_URL=""
 
-`GOOGLE_CLIENT_ID`
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
 
-`GOOGLE_CLIENT_SECRET`
+GITHUB_CLIENT_ID=""
+GITHUB_CLIENT_SECRET=""
 
-`MONGODB_URI`
+MONGODB_URI=""
+
+REDIS_HOST=""
+REDIS_PASSWORD=""
+REDIS_PORT=""
+``` 
+
 
 There is also an .env.example file that you can base yourself off
 ## Contributing

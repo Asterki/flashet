@@ -1,4 +1,6 @@
 import GoogleProvider from "next-auth/providers/google";
+import GitHubProvider from "next-auth/providers/github";
+
 import NextAuth, { AuthOptions } from "next-auth";
 
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
@@ -46,6 +48,10 @@ export const authOptions: AuthOptions = {
             clientId: process.env.GOOGLE_CLIENT_ID as string,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         }),
+        GitHubProvider({
+            clientId: process.env.GITHUB_CLIENT_ID as string,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+        }),
     ],
     pages: {
         signIn: "/auth/signin",
@@ -53,7 +59,6 @@ export const authOptions: AuthOptions = {
         // TODO: Create these pages
         // error: "/auth/error", // Error code passed in query string as ?error=
         // verifyRequest: "/auth/verify-request", // (used for check email message)
-        newUser: "/main/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
     },
 };
 
