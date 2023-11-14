@@ -1,6 +1,9 @@
 const { i18n } = require("./next-i18next.config");
 const withPWA = require("next-pwa")({
     dest: "public",
+    cacheOnFrontEndNav: true,
+    reloadOnOnline: true,
+    disable: process.env.NODE_ENV !== 'production'
 });
 
 /** @type {import('next').NextConfig} */

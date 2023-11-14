@@ -36,7 +36,7 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                         <div className="mt-10">
                             {session && (
                                 <button
-                                    onClick={() => router.push("/app")}
+                                    onClick={() => router.push(`${router.locale}/app`)}
                                     className="bg-white/10 hover:bg-white/20 transition-all w-full md:w-5/12 p-4 rounded-lg shadow-md"
                                 >
                                     {t("title.buttons.dashboard")}
@@ -44,7 +44,7 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             )}
                             {!session && (
                                 <button
-                                    onClick={() => router.push("/auth/signin")}
+                                    onClick={() => router.push(`${router.locale}/auth/signin`)}
                                     className="bg-white/10 hover:bg-white/20 transition-all w-5/12 p-4 rounded-lg shadow-md"
                                 >
                                     {t("title.buttons.login")}
@@ -59,7 +59,7 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             transition={{ type: "spring", duration: 0.5 }}
                             width={400}
                             height={400}
-                            src="/icons/logo-white.svg"
+                            src="/svg/logo-white.svg"
                             alt="Logo"
                         />
                     </div>

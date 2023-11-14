@@ -18,7 +18,7 @@ const MainNewUser = (_props: InferGetStaticPropsType<typeof getStaticProps>) => 
     const { data: session, status } = useSession({
         required: true,
         onUnauthenticated() {
-            router.push("/auth/signin");
+            router.push(`${router.locale}/auth/signin`);
         },
     });
 
@@ -47,7 +47,7 @@ const MainNewUser = (_props: InferGetStaticPropsType<typeof getStaticProps>) => 
                     <div className="mt-10">
                         <button
                             onClick={() => {
-                                router.push("/app");
+                                router.push(`${router.locale}/app`);
                             }}
                             className="bg-white/10 hover:bg-white/20 transition-all p-4 rounded-lg shadow-md"
                         >

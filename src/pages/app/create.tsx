@@ -23,7 +23,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const { data: session, status } = useSession({
         required: true,
         onUnauthenticated() {
-            router.push("/auth/signin");
+            router.push(`${router.locale}/auth/signin`);
         },
     });
 
@@ -78,7 +78,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
             withCredentials: true,
         });
 
-        if (response.data.message == "success") router.push("/app");
+        if (response.data.message == "success") router.push(`${router.locale}/app`);
     };
 
     return (
@@ -281,7 +281,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                         </button>
                         <button
                             onClick={() => {
-                                router.push("/app");
+                                router.push(`${router.locale}/app`);
                             }}
                             className="bg-red1 my-2 shadow-md rounded-md p-2 transition-all w-1/2"
                         >
