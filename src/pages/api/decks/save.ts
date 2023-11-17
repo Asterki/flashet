@@ -9,7 +9,7 @@ import { Session } from "next-auth";
 import { DeckType } from "@/types/models";
 
 type ResponseData = {
-    message: string;
+    message: "not-logged-in" | "invalid-parameters" | "success" | "method-not-allowed";
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) => {

@@ -10,7 +10,7 @@ import Navbar from "@/components/navbar";
 import Head from "next/head";
 
 import { GetStaticProps, InferGetStaticPropsType } from "next";
-import { ResponseData } from "../api/decks/fetch";
+import { ResponseData } from "../api/decks/fetch-all";
 import { DeckType } from "@/types/models";
 
 interface Props {}
@@ -30,7 +30,7 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     React.useEffect(() => {
         (async () => {
             const deckResponse: AxiosResponse<ResponseData> = await axios({
-                url: "/api/decks/fetch",
+                url: "/api/decks/fetch-all",
                 withCredentials: true,
             });
 
@@ -79,9 +79,7 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 })}
                             </table>
                         )}
-                        {decks.length == 0 && (
-                            <p>{t("noDecks")}</p>
-                        )}
+                        {decks.length == 0 && <p>{t("noDecks")}</p>}
                     </div>
 
                     <div className="text-center mt-4">

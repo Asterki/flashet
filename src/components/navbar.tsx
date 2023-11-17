@@ -32,7 +32,7 @@ const NavbarComponent: NextPage<ComponentProps> = ({ session, t }) => {
                     </Link>
                 )}
                 {!session && (
-                    <Link href="/auth/sigin" className="mx-2 transition-all hover:text-red1">
+                    <Link href="/auth/signin" className="mx-2 transition-all hover:text-red1">
                         {t("components/navbar:login")}
                     </Link>
                 )}
