@@ -22,7 +22,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
             .object({
                 name: z.string(),
                 id: z.string(),
-                owner: z.string(),
                 options: z.object({
                     random: z.boolean(),
                     timeLimit: z.boolean(),
@@ -36,6 +35,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
                         id: z.string(),
                     })
                 ),
+                questionStatus: z.object({
+                    new: z.number().optional().default(req.body.questions.length),
+                    studying: z.number().optional().default(0),
+                    done: z.number().optional().default(0),
+                }),
             })
             .required()
             .safeParse(req.body);
