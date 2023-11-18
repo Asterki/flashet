@@ -35,6 +35,8 @@ model deck_question {
   front String
   back  String
 
+  studied Boolean @default(false)
+
   deck deck @relation(fields: [deck_id], references: [id], onDelete: Cascade)
 
   @@unique([id])
