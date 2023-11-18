@@ -11,7 +11,7 @@ import Head from "next/head";
 
 import { DeckType, DeckWithQuestions } from "@/types/models";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
-import { ResponseData } from "../api/decks/fetch";
+import { ResponseData } from "@/pages/api/decks/fetch";
 
 interface Props {}
 
@@ -56,39 +56,7 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
             </Head>
 
             <main className="flex flex-col items-center justify-center mt-24">
-                {deck && (
-                    <div>
-                        <p>deck.id: {deck.id}</p>
-                        <p>deck.name: {deck.name}</p>
-                        <p>deck.options.random: {deck.options_random ? "true" : "false"}</p>
-                        <p>deck.options.timeLimit: {deck.options_time_limit ? "true" : "false"}</p>
-                        <p>deck.options.timeLimitMS: {deck.options_time_limit_MS}</p>
-                        <p>deck.owner: {deck.owner_id}</p>
-                        <p>deck.questionStatus.new: {deck.questions_new}</p>
-                        <p>deck.questionStatus.studying: {deck.questions_studying}</p>
-                        <p>deck.questionStatus.done: {deck.questions_done}</p>
-
-                        <br />
-                        <br />
-
-                        <h1 className="text-2xl">Frages</h1>
-                        {deck.questions.map((question) => {
-                            return (
-                                <p key={question.id}>
-                                    {question.id} - {question.type}: {question.front} / {question.back}
-                                </p>
-                            );
-                        })}
-                    </div>
-                )}
-                <button
-                    onClick={() => {
-                        router.push(`/${router.locale}/app/edit/${router.query.deckID}`);
-                    }}
-                    className="fixed bottom-4 left-4 p-4 bg-primary rounded-full shadow-xl text-white transition-all hover:scale-105"
-                >
-                    Edit Deck
-                </button>
+                
             </main>
         </div>
     );
