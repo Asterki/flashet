@@ -1,18 +1,16 @@
-
-
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
 import { z } from "zod";
 
-import DecksModel from "@/models/Deck";
+import { prismaClient } from "@/lib/prisma";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Session } from "next-auth";
-import { DeckType } from "@/types/models";
+import { DeckWithQuestions } from "@/types/models";
 
 type ResponseData = {
     message: "not-logged-in" | "invalid-parameters" | "success" | "no-deck" | "method-not-allowed";
-    deck: DeckType | null;
+    deck: DeckWithQuestions | null;
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) => {
@@ -29,7 +27,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
         if (!parsedBody.success && "error" in parsedBody)
             return res.status(400).send({ message: "invalid-parameters", deck: null });
 
-        const userDeck: DeckType | null = await DecksModel.findOne({ owner: session.id, id: parsedBody.data.deckID });
+        const userDeck = (await prismaClient.deck.findFirst({
+            where: {
+                owner_id: session.id,
+                id: parsedBody.data.deckID,
+            },
+            include: {
+                questions: true,
+            },
+        })) as DeckWithQuestions | null;
 
         if (!userDeck) return res.status(200).json({ message: "no-deck", deck: null });
         return res.status(200).json({ message: "success", deck: userDeck });

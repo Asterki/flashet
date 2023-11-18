@@ -1,8 +1,9 @@
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
 import { z } from "zod";
+import { v4 as uuidv4 } from "uuid";
 
-import DecksModel from "@/models/Deck";
+import { prismaClient } from "@/lib/prisma";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Session } from "next-auth";
@@ -43,19 +44,39 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
 
         const { data: body } = parsedBody;
 
-        const deck = new DecksModel({
-            id: body.id,
-            name: body.name,
-            options: body.options,
-            owner: session.id,
-            questions: body.questions,
-            questionStatus: {
-                new: body.questions.length,
-                studying: 0,
-                done: 0,
-            }
-        } as DeckType);
-        await deck.save();
+        const deckID = uuidv4();
+        await prismaClient.deck.create({
+            data: {
+                id: deckID,
+                name: body.name,
+                owner_id: session.id,
+
+                questions_new: body.questions.length,
+                questions_done: 0,
+                questions_studying: 0,
+
+                // Options
+                options_random: body.options.random,
+                options_time_limit: body.options.timeLimit,
+                options_time_limit_MS: body.options.timeLimitMS,
+
+                // Questions
+                questions: {
+                    createMany: {
+                        data: body.questions.map((question) => ({
+                            id: uuidv4(),
+                            type: question.type,
+                            front: question.front,
+                            back: question.back,
+                        })),
+                        skipDuplicates: true,
+                    },
+                },
+            },
+            include: {
+                owner: false,
+            },
+        });
 
         res.status(200).json({ message: "success" });
     } else {

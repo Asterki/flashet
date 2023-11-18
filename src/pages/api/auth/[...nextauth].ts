@@ -3,26 +3,14 @@ import GitHubProvider from "next-auth/providers/github";
 
 import NextAuth, { AuthOptions } from "next-auth";
 
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import { mongooseClient } from "@/lib/mongodb";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { prismaClient } from "@/lib/prisma";
 
-import AccountModel from "@/models/Account";
+// import AccountModel from "@/models/Account";
 
 export const authOptions: AuthOptions = {
     secret: process.env.SESSION_SECRET as string,
-    adapter: MongoDBAdapter(
-        (async () => {
-            return await mongooseClient.getClient();
-        })(),
-        {
-            collections: {
-                Accounts: "external-accounts",
-                Sessions: "sessions",
-                Users: "users",
-                VerificationTokens: "verification-tokens",
-            },
-        }
-    ),
+    adapter: PrismaAdapter(prismaClient),
     callbacks: {
         session(data) {
             // Add the user id to session information, which can be used to fetch information about the user in the database
@@ -32,15 +20,15 @@ export const authOptions: AuthOptions = {
     },
     events: {
         // TODO: Save for user statistics and admin panel
-        createUser({ user }) {
+        async createUser({ user }) {
             // Create a custom user in the database
-            const newUser = new AccountModel({
-                id: user.id,
-                lastLogin: new Date(Date.now()),
-                accountCreated: new Date(Date.now()),
-                emailVerified: false,
+            await prismaClient.preferences.create({
+                data: {
+                    user_id: user.id,
+                    account_created: new Date(Date.now()),
+                    last_login: new Date(Date.now()),
+                },
             });
-            newUser.save();
         },
     },
     providers: [

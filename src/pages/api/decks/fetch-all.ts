@@ -1,7 +1,7 @@
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
 
-import DecksModel from "@/models/Deck";
+import { prismaClient } from "@/lib/prisma";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Session } from "next-auth";
@@ -17,7 +17,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
     if (!session) return res.status(401).json({ message: "not-logged-in", decks: null });
 
     if (req.method === "GET") {
-        const userDecks: Array<DeckType> = await DecksModel.find({ owner: session.id });
+        const userDecks = (await prismaClient.deck.findMany({
+            where: {
+                owner_id: session.id,
+            },
+            include: {
+                questions: false,
+                owner: false,
+            },
+        }));
+        
         res.status(200).json({ message: "success", decks: userDecks });
     } else {
         res.status(405).json({ message: "method-not-allowed", decks: null });

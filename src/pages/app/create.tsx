@@ -31,10 +31,9 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const [questionModalOpen, setQuestionModalOpen] = React.useState(false);
     const [discardModalOpen, setDiscardModalOpen] = React.useState(false);
 
-    const [deck, setDeck] = React.useState<DeckType>({
+    const [deck, setDeck] = React.useState({
         name: t("sections.name.defaultName"),
         id: uuidv4(),
-        owner: "To Be Replaced",
         options: {
             random: true,
             timeLimit: false,
@@ -74,7 +73,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
         const response: AxiosResponse<DecksSaveResponse> = await axios({
             method: "POST",
             url: "/api/decks/save",
-            data: deck as DecksSaveRequestBody,
+            data: deck as unknown as DecksSaveRequestBody,
             withCredentials: true,
         });
 

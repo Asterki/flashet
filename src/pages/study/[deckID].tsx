@@ -9,7 +9,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Navbar from "@/components/navbar";
 import Head from "next/head";
 
-import { DeckType } from "@/types/models";
+import { DeckType, DeckWithQuestions } from "@/types/models";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { ResponseData } from "../api/decks/fetch";
 
@@ -25,7 +25,7 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
         },
     });
 
-    const [deck, setDeck] = React.useState<DeckType>();
+    const [deck, setDeck] = React.useState<DeckWithQuestions>();
 
     React.useEffect(() => {
         (async () => {
@@ -60,13 +60,13 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                     <div>
                         <p>deck.id: {deck.id}</p>
                         <p>deck.name: {deck.name}</p>
-                        <p>deck.options.random: {deck.options.random ? "true" : "false"}</p>
-                        <p>deck.options.timeLimit: {deck.options.timeLimit ? "true" : "false"}</p>
-                        <p>deck.options.timeLimitMS: {deck.options.timeLimitMS}</p>
-                        <p>deck.owner: {deck.owner}</p>
-                        <p>deck.questionStatus.new: {deck.questionStatus.new}</p>
-                        <p>deck.questionStatus.studying: {deck.questionStatus.studying}</p>
-                        <p>deck.questionStatus.done: {deck.questionStatus.done}</p>
+                        <p>deck.options.random: {deck.options_random ? "true" : "false"}</p>
+                        <p>deck.options.timeLimit: {deck.options_time_limit ? "true" : "false"}</p>
+                        <p>deck.options.timeLimitMS: {deck.options_time_limit_MS}</p>
+                        <p>deck.owner: {deck.owner_id}</p>
+                        <p>deck.questionStatus.new: {deck.questions_new}</p>
+                        <p>deck.questionStatus.studying: {deck.questions_studying}</p>
+                        <p>deck.questionStatus.done: {deck.questions_done}</p>
 
                         <br />
                         <br />

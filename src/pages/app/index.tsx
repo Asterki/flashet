@@ -71,9 +71,9 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                             className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
                                         >
                                             <td className="p-2">{deck.name}</td>
-                                            <td className="p-2 text-secondary">{deck.questionStatus.new}</td>
-                                            <td className="p-2 text-red1">{deck.questionStatus.studying}</td>
-                                            <td className="p-2 text-gray-300">{deck.questionStatus.done}</td>
+                                            <td className="p-2 text-secondary">{deck.questions_new}</td>
+                                            <td className="p-2 text-red1">{deck.questions_studying}</td>
+                                            <td className="p-2 text-gray-300">{deck.questions_done}</td>
                                         </tr>
                                     );
                                 })}
