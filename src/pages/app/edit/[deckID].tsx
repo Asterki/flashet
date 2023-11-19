@@ -76,7 +76,7 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             setQuestionModalOpen(true);
                         }}
                     >
-                        {t("modals.questionBrowser.buttons.close")}
+                        Open Question Modal
                     </button>
                 </div>
             </main>
