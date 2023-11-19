@@ -28,28 +28,6 @@
         }
     },
     "modals": {
-        "questionBrowser": {
-            "new": "Nuevo",
-            "editing": "Editando",
-
-            "questionTypes": {
-                "basic": "Básica (Pregunta-Respuesta)",
-                "multiple": "Elección múltiple (Pregunta-Una respuesta)",
-                "missing": "Escribe la palabra que falta"
-            },
-
-            "front": "Frontal (Pregunta)",
-            "back": "Trasera (Respuesta)",
-
-            "buttons": {
-                "close": "Cerrar",
-                "saveChanges": "Guardar cambios",
-                "delete": "Eliminar",
-                "previous": "Anterior",
-                "save": "Guardar",
-                "next": "Siguiente"
-            }
-        },
         "discard": {
             "title": "¿Estás seguro de que quieres descartar este mazo?",
             "continue": "Continuar editando",

@@ -1,0 +1,22 @@
+{
+    "new": "Neu",
+    "editing": "Bearbeitung",
+
+    "questionTypes": {
+        "basic": "Grundlegend (Frage-Antwort)",
+        "multiple": "Mehrfachauswahl (Frage-Eine Antwort)",
+        "missing": "Schreibe das fehlende Wort"
+    },
+
+    "front": "Vorderseite (Frage)",
+    "back": "Rückseite (Antwort)",
+
+    "buttons": {
+        "close": "Schließen",
+        "saveChanges": "Änderungen speichern",
+        "delete": "Löschen",
+        "previous": "Vorherige",
+        "save": "Speichern",
+        "next": "Nächste"
+    }
+}

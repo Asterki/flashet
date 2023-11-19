@@ -28,28 +28,6 @@
         }
     },
     "modals": {
-        "questionBrowser": {
-            "new": "New",
-            "editing": "Editing",
-
-            "questionTypes": {
-                "basic": "Basic (Question-Answer)",
-                "multiple": "Multiple Choice (Question-One Answer)",
-                "missing": "Write the missing word"
-            },
-
-            "front": "Front (Question)",
-            "back": "Back (Answer)",
-
-            "buttons": {
-                "close": "Close",
-                "saveChanges": "Save Changes",
-                "delete": "Delete",
-                "previous": "Previous",
-                "save": "Save",
-                "next": "Next"
-            }
-        },
         "discard": {
             "title": "Are you sure you want to discard this deck?",
             "continue": "Continue Editing",

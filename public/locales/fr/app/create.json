@@ -28,28 +28,6 @@
         }
     },
     "modals": {
-        "questionBrowser": {
-            "new": "Nouveau",
-            "editing": "Édition",
-
-            "questionTypes": {
-                "basic": "Basique (Question-Réponse)",
-                "multiple": "Choix multiple (Question-Une réponse)",
-                "missing": "Écrire le mot manquant"
-            },
-
-            "front": "Devant (Question)",
-            "back": "Arrière (Réponse)",
-
-            "buttons": {
-                "close": "Fermer",
-                "saveChanges": "Enregistrer les modifications",
-                "delete": "Supprimer",
-                "previous": "Précédent",
-                "save": "Enregistrer",
-                "next": "Suivant"
-            }
-        },
         "discard": {
             "title": "Êtes-vous sûr de vouloir abandonner ce paquet?",
             "continue": "Continuer l'édition",

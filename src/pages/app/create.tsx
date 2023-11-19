@@ -9,17 +9,18 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { motion } from "framer-motion";
 import Navbar from "@/components/navbar";
+import QuestionBrowser from "@/components/questionBrowser";
 import Head from "next/head";
 
-import { DeckType } from "@/types/models";
 import { DecksSaveResponse, DecksSaveRequestBody } from "@/types/api/decks";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { DeckWithQuestions } from "@/types/models";
 
 interface Props {}
 
 const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const router = useRouter();
-    const { t } = useTranslation(["app/create", "components/navbar"]);
+    const { t } = useTranslation(["app/create", "components/navbar", "components/questionBrowser"]);
     const { data: session, status } = useSession({
         required: true,
         onUnauthenticated() {
@@ -31,21 +32,25 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const [questionModalOpen, setQuestionModalOpen] = React.useState(false);
     const [discardModalOpen, setDiscardModalOpen] = React.useState(false);
 
-    const [deck, setDeck] = React.useState({
+    const [deck, setDeck] = React.useState<DeckWithQuestions>({
         name: t("sections.name.defaultName"),
-        id: uuidv4(),
-        options: {
-            random: true,
-            timeLimit: false,
-            timeLimitMS: 30 * 1000,
-        },
-        questionStatus: {
-            new: 0,
-            studying: 0,
-            done: 0, 
-        },
+        id: "", // Will be set in the backend
+
+        // For options
+        options_random: false,
+        options_time_limit: false,
+        options_time_limit_MS: 30000,
+
+        // For question statuses
+        questions_new: 1,
+        questions_done: 0,
+        questions_studying: 0,
+
+        owner_id: "", // Will be set in the backend
+
         questions: [
             {
+                deck_id: "", // Will be set in the backend
                 type: "basic",
                 front: t("sections.questions.question.exampleQuestion"),
                 back: t("sections.questions.question.exampleAnswer"),
@@ -54,26 +59,12 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
         ],
     });
 
-    // Question editing modal
-    const [currentEditingIndex, setCurrentEditingIndex] = React.useState(0); // Base 0
-    const frontTextAreaInput = React.useRef<HTMLTextAreaElement>(null);
-    const backTextAreaInput = React.useRef<HTMLTextAreaElement>(null);
-    React.useEffect(() => {
-        if (currentEditingIndex < deck.questions.length) {
-            frontTextAreaInput.current!.value = deck.questions[currentEditingIndex].front;
-            backTextAreaInput.current!.value = deck.questions[currentEditingIndex].back;
-        } else {
-            frontTextAreaInput.current!.value = "";
-            backTextAreaInput.current!.value = "";
-        }
-    }, [currentEditingIndex, deck.questions]);
-
     // Save the deck to the database
     const submitDeck = async () => {
         const response: AxiosResponse<DecksSaveResponse> = await axios({
             method: "POST",
             url: "/api/decks/save",
-            data: deck as unknown as DecksSaveRequestBody,
+            data: deck as DecksSaveRequestBody,
             withCredentials: true,
         });
 
@@ -83,167 +74,15 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     return (
         <div className="absolute w-full min-h-screen text-white bg-dark1">
             {/* Questions Browser Modal */}
-            <motion.div
-                variants={{
-                    hidden: {
-                        opacity: 0,
-                        transitionEnd: {
-                            display: "none",
-                        },
-                    },
-                    shown: {
-                        opacity: 1,
-                        display: "flex",
-                    },
-                }}
-                transition={{
-                    duration: 0.2,
-                }}
-                initial="hidden"
-                animate={questionModalOpen ? "shown" : "hidden"}
-                className="items-center justify-center absolute bg-black/20 w-full min-h-full backdrop-blur-lg"
-            >
-                <div className="bg-dark1 shadow-md p-4 rounded-md lg:w-1/2 w-11/12">
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center justify-between">
-                            <p className="mr-2">
-                                {currentEditingIndex + 1}-{deck.questions.length}{" "}
-                                {currentEditingIndex + 1 > deck.questions.length
-                                    ? t("modals.questionBrowser.new")
-                                    : t("modals.questionBrowser.editing")}
-                            </p>
-                            <select name="" id="" className="bg-white/10 p-2 rounded-md">
-                                <option value="" className="bg-white/20 bg-blue-300">
-                                    {t("modals.questionBrowser.questionTypes.basic")}
-                                </option>
-                                <option value="" className="bg-white/20 bg-blue-300">
-                                    {t("modals.questionBrowser.questionTypes.multiple")}
-                                </option>
-                                <option value="" className="bg-white/20 bg-blue-300">
-                                    {t("modals.questionBrowser.questionTypes.missing")}
-                                </option>
-                            </select>
-                        </div>
-                        <button
-                            className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
-                            onClick={() => {
-                                setQuestionModalOpen(false);
-                            }}
-                        >
-                            {t("modals.questionBrowser.buttons.close")}
-                        </button>
-                    </div>
-
-                    <h1 className="text-xl">{t("modals.questionBrowser.front")}</h1>
-                    <textarea
-                        ref={frontTextAreaInput}
-                        className="w-full bg-white/10 rounded-md p-2 outline-none border-2 border-transparent focus:border-cyan-500 transition-all"
-                        cols={50}
-                        rows={4}
-                    ></textarea>
-
-                    <br />
-                    <br />
-
-                    <h1 className="text-2xl">{t("modals.questionBrowser.back")}</h1>
-                    <textarea
-                        ref={backTextAreaInput}
-                        className="w-full bg-white/10 rounded-md p-2 outline-none border-2 border-transparent focus:border-cyan-500 transition-all"
-                        cols={10}
-                        rows={4}
-                    ></textarea>
-
-                    <div className="mt-4 flex items-center justify-between">
-                        {currentEditingIndex < deck.questions.length && ( // Change to when the card is being edited
-                            <button
-                                onClick={() => {
-                                    let newQuestions = deck.questions;
-                                    newQuestions[currentEditingIndex] = {
-                                        type: "basic",
-                                        front: frontTextAreaInput.current!.value,
-                                        back: backTextAreaInput.current!.value,
-                                        id: newQuestions[currentEditingIndex].id,
-                                    };
-
-                                    setDeck({
-                                        ...deck,
-                                        questions: newQuestions,
-                                    });
-
-                                    setQuestionModalOpen(false);
-                                    setCurrentEditingIndex(0);
-                                }}
-                                className="mr-2 px-10 bg-primary shadow-md rounded-md p-2 transition-all"
-                            >
-                                {t("modals.questionBrowser.buttons.saveChanges")}
-                            </button>
-                        )}
-
-                        <div className="flex items-center justify-end">
-                            {currentEditingIndex < deck.questions.length && ( // If the selected item does exist
-                                <button
-                                    onClick={() => {
-                                        let newQuestions = deck.questions.splice(currentEditingIndex - 1, 1);
-                                        setDeck({
-                                            ...deck,
-                                            questions: newQuestions,
-                                        });
-
-                                        setQuestionModalOpen(false);
-                                        setCurrentEditingIndex(0);
-                                    }}
-                                    className="mr-2 px-10 bg-red1 shadow-md rounded-md p-2 transition-all"
-                                >
-                                    {t("modals.questionBrowser.buttons.delete")}
-                                </button>
-                            )}
-                            {/* Only show when there are questions to check */}
-                            {deck.questions.length && (
-                                <button
-                                    onClick={() => {
-                                        if (currentEditingIndex - 1 < 0) return;
-                                        setCurrentEditingIndex(currentEditingIndex - 1);
-                                    }}
-                                    className={`mr-2 px-10 ${
-                                        currentEditingIndex == 0 ? "brightness-75" : "brightness-100"
-                                    } bg-gray-500 shadow-md rounded-md p-2 transition-all`}
-                                >
-                                    {t("modals.questionBrowser.buttons.previous")}
-                                </button>
-                            )}
-                            <button
-                                onClick={() => {
-                                    if (currentEditingIndex > deck.questions.length - 1) {
-                                        if (!frontTextAreaInput.current!.value || !backTextAreaInput.current!.value) {
-                                            alert("Please fill out all fields");
-                                        } else {
-                                            setDeck({
-                                                ...deck,
-                                                questions: [
-                                                    ...deck.questions,
-                                                    {
-                                                        id: (deck.questions.length + 1).toString(),
-                                                        type: "basic",
-                                                        front: frontTextAreaInput.current!.value,
-                                                        back: backTextAreaInput.current!.value,
-                                                    },
-                                                ],
-                                            });
-                                        }
-                                    } else {
-                                        setCurrentEditingIndex(currentEditingIndex + 1);
-                                    }
-                                }}
-                                className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
-                            >
-                                {currentEditingIndex + 1 > deck.questions.length
-                                    ? t("modals.questionBrowser.buttons.save")
-                                    : t("modals.questionBrowser.buttons.next")}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </motion.div>
+            {deck && (
+                <QuestionBrowser
+                    deck={deck}
+                    open={questionModalOpen}
+                    setOpen={setQuestionModalOpen}
+                    setDeck={setDeck}
+                    t={t}
+                />
+            )}
 
             {/* Discard Modal */}
             <motion.div
@@ -291,7 +130,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
             </motion.div>
 
             <Navbar t={t} session={session} />
-            
+
             <Head>
                 <title>{t("pageTitle")}</title>
             </Head>
@@ -305,16 +144,16 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                         defaultValue={deck.name}
                         onBlur={(event) => {
                             let val = event.target.value;
-                            if (!val || val.length < 3 || val.length > 30) {
+                            if (!val || val.length < 1 || val.length > 30) {
                                 setDeck({
                                     ...deck,
-                                    name: t("sections.name.defaultName"),
+                                    name: t("sections.name.defaultName") as string,
                                 });
                                 event.target.value = t("sections.name.defaultName");
                             } else {
                                 setDeck({
                                     ...deck,
-                                    name: val,
+                                    name: val as string,
                                 });
                             }
                         }}
@@ -329,7 +168,6 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                         <h1 className="text-center text-2xl pb-2">{t("sections.questions.header")}</h1>
                         <button
                             onClick={() => {
-                                setCurrentEditingIndex(0);
                                 setQuestionModalOpen(true);
                             }}
                             className="w-full bg-primary shadow-md rounded-md p-2 transition-all"
@@ -353,14 +191,11 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                         <h1 className="text-center text-2xl pb-2">{t("sections.options.header")}</h1>
                         <input
                             type="checkbox"
-                            defaultChecked={deck.options.random}
+                            defaultChecked={deck.options_random}
                             onChange={(event) =>
                                 setDeck({
                                     ...deck,
-                                    options: {
-                                        ...deck.options,
-                                        random: event.target.checked,
-                                    },
+                                    options_random: event.target.checked,
                                 })
                             }
                             id="random-order"
@@ -371,14 +206,11 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                         <br />
                         <input
                             type="checkbox"
-                            defaultChecked={deck.options.timeLimit}
+                            defaultChecked={deck.options_time_limit}
                             onChange={(event) =>
                                 setDeck({
                                     ...deck,
-                                    options: {
-                                        ...deck.options,
-                                        timeLimit: event.target.checked,
-                                    },
+                                    options_time_limit: event.target.checked,
                                 })
                             }
                             id="timer"
@@ -387,29 +219,23 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             {t("sections.options.timer")}
                         </label>
                         <br />
-                        {deck.options.timeLimit && (
+                        {deck.options_time_limit && deck.options_time_limit_MS && (
                             <div className="mt-2">
                                 <p>{t("sections.options.timePer")}</p>
                                 <input
-                                    defaultValue={deck.options.timeLimitMS / 1000}
+                                    defaultValue={deck.options_time_limit_MS / 1000}
                                     onBlur={(event) => {
                                         if (Number.isNaN(parseInt(event.target.value))) {
                                             setDeck({
                                                 ...deck,
-                                                options: {
-                                                    ...deck.options,
-                                                    timeLimitMS: 30000,
-                                                },
+                                                options_time_limit_MS: 30000,
                                             });
                                             alert("Please enter a valid number");
                                             event.target.value = "30";
                                         } else {
                                             setDeck({
                                                 ...deck,
-                                                options: {
-                                                    ...deck.options,
-                                                    timeLimitMS: parseInt(event.target.value) * 1000,
-                                                },
+                                                options_time_limit_MS: parseInt(event.target.value) * 1000,
                                             });
                                         }
                                     }}
@@ -446,7 +272,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
     props: {
-        ...(await serverSideTranslations(locale ?? "en", ["app/create", "components/navbar"])),
+        ...(await serverSideTranslations(locale ?? "en", ["app/create", "components/navbar", "components/questionBrowser"])),
     },
 });
 
