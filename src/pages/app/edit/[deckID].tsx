@@ -27,8 +27,24 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     });
 
     const [deck, setDeck] = React.useState<DeckWithQuestions>();
-
     const [questionModalOpen, setQuestionModalOpen] = React.useState(false);
+
+    const deleteDeck = async () => {
+        if (!deck) return;
+
+        const response: AxiosResponse<ResponseData> = await axios({
+            method: "POST",
+            url: "/api/decks/delete",
+            withCredentials: true,
+            data: {
+                deckID: deck.id,
+            },
+        });
+
+        if (response.data.message == "success") {
+            router.push(`/${router.locale}/app`);
+        }
+    };
 
     React.useEffect(() => {
         (async () => {
@@ -69,7 +85,7 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
             </Head>
 
             <main className="flex flex-col items-center justify-center mt-24 w-full h-full">
-                <div className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12">
+                <div className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12 flex items-center justify-around">
                     <button
                         className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
                         onClick={() => {
@@ -77,6 +93,17 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                         }}
                     >
                         Open Question Modal
+                    </button>
+
+                    <button className="px-10 bg-primary shadow-md rounded-md p-2 transition-all">Deck Options</button>
+
+                    <button
+                        className="px-10 bg-red1 shadow-md rounded-md p-2 transition-all"
+                        onClick={() => {
+                            deleteDeck();
+                        }}
+                    >
+                        Delete deck
                     </button>
                 </div>
             </main>
@@ -94,7 +121,11 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps<Props> = async (context) => {
     return {
         props: {
-            ...(await serverSideTranslations(context.locale ?? "en", ["app/index", "components/navbar", "components/questionBrowser"])),
+            ...(await serverSideTranslations(context.locale ?? "en", [
+                "app/index",
+                "components/navbar",
+                "components/questionBrowser",
+            ])),
         },
     };
 };
