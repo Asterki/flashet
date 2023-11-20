@@ -53,32 +53,33 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
         const { data: body } = parsedBody;
         const deckID = uuidv4();
 
-        await prismaClient.deck.create({
-            data: {
-                id: deckID,
-                owner_id: session.id,
-                name: body.name,
+        await prismaClient.$transaction([
+            prismaClient.deck.create({
+                data: {
+                    id: deckID,
+                    owner_id: session.id,
+                    name: body.name,
 
-                options_random: body.options_random,
-                options_time_limit: body.options_time_limit,
-                options_time_limit_MS: body.options_time_limit_MS,
+                    options_random: body.options_random,
+                    options_time_limit: body.options_time_limit,
+                    options_time_limit_MS: body.options_time_limit_MS,
 
-                questions_new: body.questions.length,
-                questions_done: 0,
-                questions_studying: 0,
-            },
-            include: {
-                owner: false,
-            },
-        });
-
-        await prismaClient.deck_question.createMany({
-            data: body.questions.map((question) => ({
-                ...question,
-                deck_id: deckID,
-                id: uuidv4(),
-            })),
-        });
+                    questions_new: body.questions.length,
+                    questions_done: 0,
+                    questions_studying: 0,
+                },
+                include: {
+                    owner: false,
+                },
+            }),
+            prismaClient.deck_question.createMany({
+                data: body.questions.map((question) => ({
+                    ...question,
+                    deck_id: deckID,
+                    id: uuidv4(),
+                })),
+            }),
+        ]);
 
         res.status(200).json({ message: "success" });
     } else {

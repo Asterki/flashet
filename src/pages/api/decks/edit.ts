@@ -19,66 +19,68 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
     if (req.method === "POST") {
         const parsedBody = z
             .object({
-                name: z.string(),
-                id: z.string(),
-                owner: z.string(),
-                options: z.object({
-                    random: z.boolean(),
-                    timeLimit: z.boolean(),
-                    timeLimitMS: z.number(),
-                }),
+                name: z.string().min(1).max(30),
+                id: z.string().optional(), // For updating decks
+
+                // For options
+                options_random: z.boolean(),
+                options_time_limit: z.boolean(),
+                options_time_limit_MS: z.number().min(0).optional().default(30000),
+
+                // For question statuses
+                questions_new: z.number().min(0).optional(),
+                questions_done: z.number().min(0).optional().default(0),
+                questions_studying: z.number().min(0).optional().default(0),
+
+                owner_id: z.string().optional(),
+
                 questions: z.array(
                     z.object({
+                        deck_id: z.string().optional(),
                         type: z.enum(["basic", "choice", "fill"]),
-                        front: z.string(),
-                        back: z.string(),
-                        id: z.string(),
+                        front: z.string().min(1).max(300),
+                        back: z.string().min(1).max(300),
+                        id: z.string().optional(),
                     })
                 ),
             })
             .required()
             .safeParse(req.body);
-        if (!parsedBody.success && "error" in parsedBody)
+        if (!parsedBody.success && "error" in parsedBody) {
             return res.status(400).send({ message: "invalid-parameters" });
+        }
 
         const { data: body } = parsedBody;
 
-        const deckID = uuidv4();
-        await prismaClient.deck.update({
-            where: {
-                id: body.id,
-            },
-            data: {
-                id: deckID,
-                name: body.name,
-                owner_id: session.id,
-
-                questions_new: body.questions.length,
-                questions_done: 0,
-                questions_studying: 0,
-
-                // Options
-                options_random: body.options.random,
-                options_time_limit: body.options.timeLimit,
-                options_time_limit_MS: body.options.timeLimitMS,
-
-                // Questions
-                questions: {
-                    createMany: {
-                        data: body.questions.map((question) => ({
-                            id: uuidv4(),
-                            type: question.type,
-                            front: question.front,
-                            back: question.back,
-                        })),
-                        skipDuplicates: true,
-                    },
+        // Save changes
+        await prismaClient.$transaction([
+            prismaClient.deck.update({
+                where: {
+                    id: body.id,
                 },
-            },
-            include: {
-                owner: false,
-            },
-        });
+                data: {
+                    name: body.name,
+                    options_random: body.options_random,
+                    options_time_limit: body.options_time_limit,
+                    options_time_limit_MS: body.options_time_limit_MS,
+                    questions_new: body.questions_new,
+                    questions_done: body.questions_done,
+                    questions_studying: body.questions_studying,
+                },
+            }),
+            prismaClient.deck_question.deleteMany({
+                where: {
+                    deck_id: body.id,
+                },
+            }),
+            prismaClient.deck_question.createMany({
+                data: body.questions.map((question) => ({
+                    ...question,
+                    deck_id: body.id,
+                    id: uuidv4(),
+                })),
+            }),
+        ]);
 
         res.status(200).json({ message: "success" });
     } else {

@@ -46,6 +46,19 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
         }
     };
 
+    const saveQuestions = async () => {
+        if (!deck) return;
+
+        const response: AxiosResponse<ResponseData> = await axios({
+            method: "POST",
+            url: "/api/decks/edit",
+            withCredentials: true,
+            data: deck,
+        });
+
+        if (response.data.message == "success") alert("The questions have been saved!");
+    };
+
     React.useEffect(() => {
         (async () => {
             if (loggedInStatus == "loading" || !router.query.deckID) return;
@@ -96,6 +109,15 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                     </button>
 
                     <button className="px-10 bg-primary shadow-md rounded-md p-2 transition-all">Deck Options</button>
+
+                    <button
+                        className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
+                        onClick={() => {
+                            saveQuestions();
+                        }}
+                    >
+                        Save Options
+                    </button>
 
                     <button
                         className="px-10 bg-red1 shadow-md rounded-md p-2 transition-all"
