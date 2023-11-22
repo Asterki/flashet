@@ -3,7 +3,7 @@
     "title": "Créer un paquet",
     "sections": {
         "name": {
-            "header": "Donnez-lui un nom (3-30 caractères)",
+            "header": "Donnez-lui un nom (1-30 caractères)",
             "defaultName": "Nom d'exemple",
             "placeholder": "Écrire ici"
         },

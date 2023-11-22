@@ -20,7 +20,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
         const parsedBody = z
             .object({
                 name: z.string().min(1).max(30),
-                id: z.string().optional(), // For updating decks
+                id: z.string().uuid().min(36).max(36),
 
                 // For options
                 options_random: z.boolean(),
@@ -39,7 +39,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
                         deck_id: z.string().optional(),
                         type: z.enum(["basic", "choice", "fill"]),
                         front: z.string().min(1).max(300),
-                        back: z.string().min(1).max(300),
+                        back: z.string().min(1).max(600),
                         id: z.string().optional(),
                     })
                 ),

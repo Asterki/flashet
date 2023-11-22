@@ -18,7 +18,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
     if (req.method === "POST") {
         const parsedBody = z
             .object({
-                deckID: z.string(),
+                deckID: z.string().uuid().min(36).max(36),
             })
             .required()
             .safeParse(req.body);

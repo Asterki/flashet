@@ -20,13 +20,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
     if (req.method === "POST") {
         const parsedBody = z
             .object({
-                deckID: z.string(),
+                deckID: z.string().uuid().min(36).max(36),
             })
             .required()
             .safeParse(req.body);
         if (!parsedBody.success && "error" in parsedBody)
             return res.status(400).send({ message: "invalid-parameters", deck: null });
 
+        // Get the deck defined in the request body
         const userDeck = (await prismaClient.deck.findFirst({
             where: {
                 owner_id: session.id,
@@ -37,6 +38,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
             },
         })) as DeckWithQuestions | null;
 
+        // If the deck doesn't exist, return an error
         if (!userDeck) return res.status(200).json({ message: "no-deck", deck: null });
         return res.status(200).json({ message: "success", deck: userDeck });
     } else {

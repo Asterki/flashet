@@ -3,7 +3,7 @@
     "title": "Ein Deck erstellen",
     "sections": {
         "name": {
-            "header": "Gib ihm einen Namen (3-30 Zeichen)",
+            "header": "Gib ihm einen Namen (1-30 Zeichen)",
             "defaultName": "Beispielname",
             "placeholder": "Hier schreiben"
         },

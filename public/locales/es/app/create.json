@@ -3,7 +3,7 @@
     "title": "Crear un mazo",
     "sections": {
         "name": {
-            "header": "Dale un nombre (3-30 caracteres)",
+            "header": "Dale un nombre (1-30 caracteres)",
             "defaultName": "Nombre de ejemplo",
             "placeholder": "Escribir aquí"
         },
