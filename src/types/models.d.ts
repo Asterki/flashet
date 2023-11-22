@@ -23,10 +23,17 @@ interface DeckWithQuestions extends DeckType {
     questions: QuestionType[];
 }
 
+interface SearchResult {
+    id: string;
+    name: string;
+    owner: { name: string };
+    _count: { questions: number };
+}
+
 interface Account {
     user_id: string;
     last_login: Date;
     account_created: Date;
 }
 
-export type { DeckType, QuestionType, DeckWithQuestions, Account };
+export type { DeckType, QuestionType, DeckWithQuestions, Account, SearchResult };

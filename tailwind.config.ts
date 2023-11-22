@@ -19,6 +19,7 @@ const config: Config = {
                 red1: "#F4837D",
                 red2: "#EB4960",
                 dark1: "#27363B",
+                dark2: "#1B2326",
             },
         },
     },
