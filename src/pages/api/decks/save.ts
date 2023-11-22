@@ -69,6 +69,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
                         questions_new: body.questions.length,
                         questions_done: 0,
                         questions_studying: 0,
+
+                        public: false,
                     },
                     include: {
                         owner: false,

@@ -24,6 +24,8 @@ model deck {
   options_time_limit    Boolean
   options_time_limit_MS Int?
 
+  public Boolean @default(false)
+
   @@unique([id])
 }
 

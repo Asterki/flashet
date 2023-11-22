@@ -8,6 +8,7 @@ interface DeckType {
     options_random: boolean;
     options_time_limit: boolean;
     options_time_limit_MS: number | null;
+    public?: boolean;
 }
 
 interface QuestionType {

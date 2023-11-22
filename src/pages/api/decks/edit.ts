@@ -45,6 +45,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
                             id: z.string().optional(),
                         })
                     ),
+
+                    public: z.boolean().optional().default(false),
                 })
                 .required()
                 .safeParse(req.body);
@@ -68,6 +70,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
                         questions_new: body.questions.length,
                         questions_done: body.questions_done,
                         questions_studying: body.questions_studying,
+                        public: body.public,
                     },
                 }),
                 prismaClient.deck_question.deleteMany({
