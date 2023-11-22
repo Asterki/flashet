@@ -63,7 +63,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
                     options_random: body.options_random,
                     options_time_limit: body.options_time_limit,
                     options_time_limit_MS: body.options_time_limit_MS,
-                    questions_new: body.questions_new,
+                    questions_new: body.questions.length,
                     questions_done: body.questions_done,
                     questions_studying: body.questions_studying,
                 },
