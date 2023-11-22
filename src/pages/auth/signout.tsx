@@ -13,7 +13,7 @@ interface Props {}
 const SignOut = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const router = useRouter();
     const { t } = useTranslation(["auth/signout", "components/navbar"]);
-    const { data: session, status } = useSession({
+    const { data: session, status: loggedInStatus } = useSession({
         required: true,
         onUnauthenticated() {
             router.push(`/${router.locale}/auth/signin`);
@@ -28,31 +28,41 @@ const SignOut = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                 <title>{t("pageTitle")}</title>
             </Head>
 
-            <main className="min-h-screen flex flex-col justify-center items-center p-12">
-                <section className="md:w-4/12 w-full">
-                    <div className="my-4 text-gray-100 text-center">
-                        <h1 className="text-3xl">{t("title")}</h1>
-                        <p>{t("desc")}</p>
-                    </div>
+            {loggedInStatus == "loading" && (
+                <main className="absolute w-full min-h-screen text-white bg-dark1">
+                    <p className="text-2xl text-center text-primary font-bold transition-all duration-500 transform hover:scale-105">
+                        Loading...
+                    </p>
+                </main>
+            )}
 
-                    <button
-                        className="bg-white/20 hover:bg-red1 w-full shadow-md rounded-md p-4 transition-all"
-                        onClick={() => signOut({ redirect: true, callbackUrl: "/" })}
-                    >
-                        {t("buttons.signout")}
-                    </button>
+            {loggedInStatus == "authenticated" && (
+                <main className="min-h-screen flex flex-col justify-center items-center p-12">
+                    <section className="md:w-4/12 w-full">
+                        <div className="my-4 text-gray-100 text-center">
+                            <h1 className="text-3xl">{t("title")}</h1>
+                            <p>{t("desc")}</p>
+                        </div>
 
-                    <br />
-                    <br />
+                        <button
+                            className="bg-white/20 hover:bg-red1 w-full shadow-md rounded-md p-4 transition-all"
+                            onClick={() => signOut({ redirect: true, callbackUrl: "/" })}
+                        >
+                            {t("buttons.signout")}
+                        </button>
 
-                    <button
-                        className="bg-white/20 hover:bg-primary w-full shadow-md rounded-md p-4 transition-all"
-                        onClick={() => router.push(`/${router.locale}/app`)}
-                    >
-                        {t("buttons.cancel")}
-                    </button>
-                </section>
-            </main>
+                        <br />
+                        <br />
+
+                        <button
+                            className="bg-white/20 hover:bg-primary w-full shadow-md rounded-md p-4 transition-all"
+                            onClick={() => router.push(`/${router.locale}/app`)}
+                        >
+                            {t("buttons.cancel")}
+                        </button>
+                    </section>
+                </main>
+            )}
         </div>
     );
 };

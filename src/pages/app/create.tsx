@@ -21,7 +21,7 @@ interface Props {}
 const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const router = useRouter();
     const { t } = useTranslation(["app/create", "components/navbar", "components/questionBrowser"]);
-    const { data: session, status } = useSession({
+    const { data: session, status: loggedInStatus } = useSession({
         required: true,
         onUnauthenticated() {
             router.push(`/${router.locale}/auth/signin`);
@@ -135,144 +135,158 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                 <title>{t("pageTitle")}</title>
             </Head>
 
-            <main className="flex flex-col items-center justify-center mt-24">
-                <h1 className="text-center text-3xl font-bold my-6">{t("title")}</h1>
+            {loggedInStatus == "loading" && (
+                <main className="absolute w-full min-h-screen text-white bg-dark1">
+                    <p className="text-2xl text-center text-primary font-bold transition-all duration-500 transform hover:scale-105">
+                        Loading...
+                    </p>
+                </main>
+            )}
 
-                <section className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12">
-                    <h1 className="text-center text-2xl pb-2">{t("sections.name.header")}</h1>
-                    <input
-                        defaultValue={deck.name}
-                        onBlur={(event) => {
-                            let val = event.target.value;
-                            if (!val || val.length < 1 || val.length > 30) {
-                                setDeck({
-                                    ...deck,
-                                    name: t("sections.name.defaultName") as string,
-                                });
-                                event.target.value = t("sections.name.defaultName");
-                            } else {
-                                setDeck({
-                                    ...deck,
-                                    name: val as string,
-                                });
-                            }
-                        }}
-                        type="text"
-                        className="w-full bg-white/10 rounded-md p-2 outline-none border-2 border-transparent focus:border-cyan-500 transition-all"
-                        placeholder={t("sections.name.placeholder")}
-                    />
-                </section>
+            {loggedInStatus == "authenticated" && (
+                <main className="flex flex-col items-center justify-center mt-24">
+                    <h1 className="text-center text-3xl font-bold my-6">{t("title")}</h1>
 
-                <section className="flex items-baseline justify-center md:w-7/12 w-11/12">
-                    <div className="p-4 mr-2 rounded-md shadow-md bg-white/10 w-1/2">
-                        <h1 className="text-center text-2xl pb-2">{t("sections.questions.header")}</h1>
+                    <section className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12">
+                        <h1 className="text-center text-2xl pb-2">{t("sections.name.header")}</h1>
+                        <input
+                            defaultValue={deck.name}
+                            onBlur={(event) => {
+                                let val = event.target.value;
+                                if (!val || val.length < 1 || val.length > 30) {
+                                    setDeck({
+                                        ...deck,
+                                        name: t("sections.name.defaultName") as string,
+                                    });
+                                    event.target.value = t("sections.name.defaultName");
+                                } else {
+                                    setDeck({
+                                        ...deck,
+                                        name: val as string,
+                                    });
+                                }
+                            }}
+                            type="text"
+                            className="w-full bg-white/10 rounded-md p-2 outline-none border-2 border-transparent focus:border-cyan-500 transition-all"
+                            placeholder={t("sections.name.placeholder")}
+                        />
+                    </section>
+
+                    <section className="flex items-baseline justify-center md:w-7/12 w-11/12">
+                        <div className="p-4 mr-2 rounded-md shadow-md bg-white/10 w-1/2">
+                            <h1 className="text-center text-2xl pb-2">{t("sections.questions.header")}</h1>
+                            <button
+                                onClick={() => {
+                                    setQuestionModalOpen(true);
+                                }}
+                                className="w-full bg-primary shadow-md rounded-md p-2 transition-all"
+                                placeholder="Write Here"
+                            >
+                                {t("sections.questions.button")}
+                            </button>
+
+                            <ul className="list-decimal my-2 list-inside">
+                                {deck.questions.map((question) => {
+                                    return (
+                                        <li key={question.id}>
+                                            {t(`sections.questions.questionTypes.${question.type}`)} - {question.front}
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+
+                        <div className="p-4 ml-2 rounded-md shadow-md bg-white/10 w-1/2">
+                            <h1 className="text-center text-2xl pb-2">{t("sections.options.header")}</h1>
+                            <input
+                                type="checkbox"
+                                defaultChecked={deck.options_random}
+                                onChange={(event) =>
+                                    setDeck({
+                                        ...deck,
+                                        options_random: event.target.checked,
+                                    })
+                                }
+                                id="random-order"
+                            />{" "}
+                            <label htmlFor="random-order" className="select-none">
+                                {t("sections.options.random")}
+                            </label>{" "}
+                            <br />
+                            <input
+                                type="checkbox"
+                                defaultChecked={deck.options_time_limit}
+                                onChange={(event) =>
+                                    setDeck({
+                                        ...deck,
+                                        options_time_limit: event.target.checked,
+                                    })
+                                }
+                                id="timer"
+                            />{" "}
+                            <label htmlFor="timer" className="select-none">
+                                {t("sections.options.timer")}
+                            </label>
+                            <br />
+                            {deck.options_time_limit && deck.options_time_limit_MS && (
+                                <div className="mt-2">
+                                    <p>{t("sections.options.timePer")}</p>
+                                    <input
+                                        defaultValue={deck.options_time_limit_MS / 1000}
+                                        onBlur={(event) => {
+                                            if (Number.isNaN(parseInt(event.target.value))) {
+                                                setDeck({
+                                                    ...deck,
+                                                    options_time_limit_MS: 30000,
+                                                });
+                                                alert("Please enter a valid number");
+                                                event.target.value = "30";
+                                            } else {
+                                                setDeck({
+                                                    ...deck,
+                                                    options_time_limit_MS: parseInt(event.target.value) * 1000,
+                                                });
+                                            }
+                                        }}
+                                        type="number"
+                                        className="w-full bg-white/10 rounded-md p-[2px] outline-none border-2 border-transparent focus:border-cyan-500 transition-all"
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </section>
+
+                    <section className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12 flex items-center justify-center flex-col">
                         <button
                             onClick={() => {
-                                setQuestionModalOpen(true);
+                                submitDeck();
                             }}
-                            className="w-full bg-primary shadow-md rounded-md p-2 transition-all"
-                            placeholder="Write Here"
+                            className="bg-primary my-2 shadow-md rounded-md p-2 transition-all w-1/2"
                         >
-                            {t("sections.questions.button")}
+                            {t("buttons.save")}
                         </button>
-
-                        <ul className="list-decimal my-2 list-inside">
-                            {deck.questions.map((question) => {
-                                return (
-                                    <li key={question.id}>
-                                        {t(`sections.questions.questionTypes.${question.type}`)} - {question.front}
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </div>
-
-                    <div className="p-4 ml-2 rounded-md shadow-md bg-white/10 w-1/2">
-                        <h1 className="text-center text-2xl pb-2">{t("sections.options.header")}</h1>
-                        <input
-                            type="checkbox"
-                            defaultChecked={deck.options_random}
-                            onChange={(event) =>
-                                setDeck({
-                                    ...deck,
-                                    options_random: event.target.checked,
-                                })
-                            }
-                            id="random-order"
-                        />{" "}
-                        <label htmlFor="random-order" className="select-none">
-                            {t("sections.options.random")}
-                        </label>{" "}
-                        <br />
-                        <input
-                            type="checkbox"
-                            defaultChecked={deck.options_time_limit}
-                            onChange={(event) =>
-                                setDeck({
-                                    ...deck,
-                                    options_time_limit: event.target.checked,
-                                })
-                            }
-                            id="timer"
-                        />{" "}
-                        <label htmlFor="timer" className="select-none">
-                            {t("sections.options.timer")}
-                        </label>
-                        <br />
-                        {deck.options_time_limit && deck.options_time_limit_MS && (
-                            <div className="mt-2">
-                                <p>{t("sections.options.timePer")}</p>
-                                <input
-                                    defaultValue={deck.options_time_limit_MS / 1000}
-                                    onBlur={(event) => {
-                                        if (Number.isNaN(parseInt(event.target.value))) {
-                                            setDeck({
-                                                ...deck,
-                                                options_time_limit_MS: 30000,
-                                            });
-                                            alert("Please enter a valid number");
-                                            event.target.value = "30";
-                                        } else {
-                                            setDeck({
-                                                ...deck,
-                                                options_time_limit_MS: parseInt(event.target.value) * 1000,
-                                            });
-                                        }
-                                    }}
-                                    type="number"
-                                    className="w-full bg-white/10 rounded-md p-[2px] outline-none border-2 border-transparent focus:border-cyan-500 transition-all"
-                                />
-                            </div>
-                        )}
-                    </div>
-                </section>
-
-                <section className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12 flex items-center justify-center flex-col">
-                    <button
-                        onClick={() => {
-                            submitDeck();
-                        }}
-                        className="bg-primary my-2 shadow-md rounded-md p-2 transition-all w-1/2"
-                    >
-                        {t("buttons.save")}
-                    </button>
-                    <button
-                        onClick={() => {
-                            setDiscardModalOpen(true);
-                        }}
-                        className="bg-red1 my-2 shadow-md rounded-md p-2 transition-all w-1/2"
-                    >
-                        {t("buttons.discard")}
-                    </button>
-                </section>
-            </main>
+                        <button
+                            onClick={() => {
+                                setDiscardModalOpen(true);
+                            }}
+                            className="bg-red1 my-2 shadow-md rounded-md p-2 transition-all w-1/2"
+                        >
+                            {t("buttons.discard")}
+                        </button>
+                    </section>
+                </main>
+            )}
         </div>
     );
 };
 
 export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
     props: {
-        ...(await serverSideTranslations(locale ?? "en", ["app/create", "components/navbar", "components/questionBrowser"])),
+        ...(await serverSideTranslations(locale ?? "en", [
+            "app/create",
+            "components/navbar",
+            "components/questionBrowser",
+        ])),
     },
 });
 

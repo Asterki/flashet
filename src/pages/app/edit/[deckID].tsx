@@ -97,38 +97,50 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                 <title>{t("pageTitle")}</title>
             </Head>
 
-            <main className="flex flex-col items-center justify-center mt-24 w-full h-full">
-                <div className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12 flex items-center justify-around">
-                    <button
-                        className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
-                        onClick={() => {
-                            setQuestionModalOpen(true);
-                        }}
-                    >
-                        Open Question Modal
-                    </button>
+            {loggedInStatus == "loading" && (
+                <main className="absolute w-full min-h-screen text-white bg-dark1">
+                    <p className="text-2xl text-center text-primary font-bold transition-all duration-500 transform hover:scale-105">
+                        Loading...
+                    </p>
+                </main>
+            )}
 
-                    <button className="px-10 bg-primary shadow-md rounded-md p-2 transition-all">Deck Options</button>
+            {loggedInStatus == "authenticated" && (
+                <main className="flex flex-col items-center justify-center mt-24 w-full h-full">
+                    <div className="p-4 m-4 rounded-md shadow-md bg-white/10 md:w-7/12 w-11/12 flex items-center justify-around">
+                        <button
+                            className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
+                            onClick={() => {
+                                setQuestionModalOpen(true);
+                            }}
+                        >
+                            Open Question Modal
+                        </button>
 
-                    <button
-                        className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
-                        onClick={() => {
-                            saveQuestions();
-                        }}
-                    >
-                        Save Options
-                    </button>
+                        <button className="px-10 bg-primary shadow-md rounded-md p-2 transition-all">
+                            Deck Options
+                        </button>
 
-                    <button
-                        className="px-10 bg-red1 shadow-md rounded-md p-2 transition-all"
-                        onClick={() => {
-                            deleteDeck();
-                        }}
-                    >
-                        Delete deck
-                    </button>
-                </div>
-            </main>
+                        <button
+                            className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
+                            onClick={() => {
+                                saveQuestions();
+                            }}
+                        >
+                            Save Options
+                        </button>
+
+                        <button
+                            className="px-10 bg-red1 shadow-md rounded-md p-2 transition-all"
+                            onClick={() => {
+                                deleteDeck();
+                            }}
+                        >
+                            Delete deck
+                        </button>
+                    </div>
+                </main>
+            )}
         </div>
     );
 };

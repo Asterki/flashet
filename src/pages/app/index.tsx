@@ -18,7 +18,7 @@ interface Props {}
 const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const router = useRouter();
     const { t } = useTranslation(["app/main", "components/navbar"]);
-    const { data: session, status } = useSession({
+    const { data: session, status: loggedInStatus } = useSession({
         required: true,
         onUnauthenticated() {
             router.push(`/${router.locale}/auth/signin`);
@@ -47,53 +47,63 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                 <title>{t("pageTitle")}</title>
             </Head>
 
-            <main className="flex items-center justify-center mt-24">
-                <section className="p-4 m-10 rounded-md shadow-md bg-white/10 md:w-7/12 w-full">
-                    <p className="text-3xl text-center font-bold">{t("title")}</p>
+            {loggedInStatus == "loading" && (
+                <main className="absolute w-full min-h-screen text-white bg-dark1">
+                    <p className="text-2xl text-center text-primary font-bold transition-all duration-500 transform hover:scale-105">
+                        Loading...
+                    </p>
+                </main>
+            )}
 
-                    <div className="flex items-center justify-center text-center my-4">
-                        {decks.length !== 0 && (
-                            <table>
-                                <tr>
-                                    <th className="md:px-10 px-4">{t("headers.deck")}</th>
-                                    <th className="md:px-10 px-4">{t("headers.new")}</th>
-                                    <th className="md:px-10 px-4">{t("headers.studying")}</th>
-                                    <th className="md:px-10 px-4">{t("headers.done")}</th>
-                                </tr>
+            {loggedInStatus == "authenticated" && (
+                <main className="flex items-center justify-center mt-24">
+                    <section className="p-4 m-10 rounded-md shadow-md bg-white/10 md:w-7/12 w-full">
+                        <p className="text-3xl text-center font-bold">{t("title")}</p>
 
-                                {decks.map((deck) => {
-                                    return (
-                                        <tr
-                                            key={deck.id}
-                                            onClick={() => {
-                                                router.push(`/study/${deck.id}`);
-                                            }}
-                                            className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
-                                        >
-                                            <td className="p-2">{deck.name}</td>
-                                            <td className="p-2 text-secondary">{deck.questions_new}</td>
-                                            <td className="p-2 text-red1">{deck.questions_studying}</td>
-                                            <td className="p-2 text-gray-300">{deck.questions_done}</td>
-                                        </tr>
-                                    );
-                                })}
-                            </table>
-                        )}
-                        {decks.length == 0 && <p>{t("noDecks")}</p>}
-                    </div>
+                        <div className="flex items-center justify-center text-center my-4">
+                            {decks.length !== 0 && (
+                                <table>
+                                    <tr>
+                                        <th className="md:px-10 px-4">{t("headers.deck")}</th>
+                                        <th className="md:px-10 px-4">{t("headers.new")}</th>
+                                        <th className="md:px-10 px-4">{t("headers.studying")}</th>
+                                        <th className="md:px-10 px-4">{t("headers.done")}</th>
+                                    </tr>
 
-                    <div className="text-center mt-4">
-                        <button
-                            onClick={() => {
-                                router.push(`/${router.locale}/app/create`);
-                            }}
-                            className="p-2 rounded-md bg-primary shadow-md"
-                        >
-                            {t("buttons.createDeck")}
-                        </button>
-                    </div>
-                </section>
-            </main>
+                                    {decks.map((deck) => {
+                                        return (
+                                            <tr
+                                                key={deck.id}
+                                                onClick={() => {
+                                                    router.push(`/study/${deck.id}`);
+                                                }}
+                                                className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
+                                            >
+                                                <td className="p-2">{deck.name}</td>
+                                                <td className="p-2 text-secondary">{deck.questions_new}</td>
+                                                <td className="p-2 text-red1">{deck.questions_studying}</td>
+                                                <td className="p-2 text-gray-300">{deck.questions_done}</td>
+                                            </tr>
+                                        );
+                                    })}
+                                </table>
+                            )}
+                            {decks.length == 0 && <p>{t("noDecks")}</p>}
+                        </div>
+
+                        <div className="text-center mt-4">
+                            <button
+                                onClick={() => {
+                                    router.push(`/${router.locale}/app/create`);
+                                }}
+                                className="p-2 rounded-md bg-primary shadow-md"
+                            >
+                                {t("buttons.createDeck")}
+                            </button>
+                        </div>
+                    </section>
+                </main>
+            )}
         </div>
     );
 };

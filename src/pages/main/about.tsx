@@ -41,20 +41,20 @@ const About = () => {
                     </p>
 
                     <div className="mt-10">
-                        {session && (
+                        {!session && (
                             <button
                                 onClick={() => router.push(`/${router.locale}/auth/signin`)}
                                 className="bg-white/10 hover:bg-white/20 transition-all w-full md:w-5/12 p-4 rounded-lg shadow-md"
                             >
-                                {t("buttons.dashboard")}
+                                {t("buttons.login")}
                             </button>
                         )}
-                        {!session && (
+                        {session && (
                             <button
                                 onClick={() => router.push(`/${router.locale}/app`)}
                                 className="bg-white/10 hover:bg-white/20 transition-all w-5/12 p-4 rounded-lg shadow-md"
                             >
-                                {t("buttons.login")}
+                                {t("buttons.dashboard")}
                             </button>
                         )}
                     </div>

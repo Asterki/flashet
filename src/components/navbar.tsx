@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Session } from "next-auth";
 import { NextPage } from "next";
 
-import { useTranslation, TFunction } from "next-i18next";
+import { TFunction } from "next-i18next";
 
 interface ComponentProps {
     session: Session | null;
@@ -15,7 +15,7 @@ const NavbarComponent: NextPage<ComponentProps> = ({ session, t }) => {
         <header className="absolute flex items-center justify-between w-full p-4 md:p-8">
             <Link
                 href="/"
-                className="text-[40px] font-bold hover:text-primary hover:drop-shadow-[2px_1px_1px_rgba(0,0,0,1)] transition-all"
+                className="text-[40px] font-bold"
             >
                 Flashet
             </Link>
@@ -23,7 +23,7 @@ const NavbarComponent: NextPage<ComponentProps> = ({ session, t }) => {
                 <Link href="/about" className="mx-2 transition-all hover:text-red1">
                     {t("components/navbar:about")}
                 </Link>
-                <Link href="https://github.com/Asterki/flashet" className="mx-2 transition-all hover:text-red1">
+                <Link href="https://github.com/Asterki/flashet" target="_blank" rel="noopener noreferrer" className="mx-2 transition-all hover:text-red1">
                     {t("components/navbar:openSource")}
                 </Link>
                 {session && (
