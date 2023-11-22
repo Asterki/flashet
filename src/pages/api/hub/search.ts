@@ -31,6 +31,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
 
             // Get the deck defined in the request body
             const decks = (await prismaClient.deck.findMany({
+                take: 10,
                 where: {
                     // Case insensitive search
                     name: {

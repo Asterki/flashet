@@ -10,6 +10,8 @@ import Navbar from "@/components/navbar";
 import Head from "next/head";
 
 import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { ResponseData } from "../api/hub/search";
+import { SearchResult } from "@/types/models";
 
 interface Props {}
 
@@ -23,16 +25,23 @@ const HubIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
         },
     });
 
+    const searchInput = React.useRef<HTMLInputElement>(null);
+
+    const [deckList, setDeckList] = React.useState<SearchResult[]>([]);
+
     const search = async (query: string) => {
-        const res: AxiosResponse = await axios({
+        if (query == "" || query.length > 100) return alert("Invalid query");
+
+        const response: AxiosResponse<ResponseData> = await axios({
             method: "POST",
             url: "/api/hub/search",
             data: {
                 query: query,
             },
         });
+        2;
 
-        console.log(res.data);
+        if (response.data.decks) setDeckList(response.data.decks);
     };
 
     return (
@@ -53,12 +62,13 @@ const HubIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
             {loggedInStatus == "authenticated" && (
                 <main className="flex flex-col items-center justify-center mt-32">
-                    <h1 className="text-4xl font-bold text-center text-primary transition-all duration-500 transform hover:scale-105">
+                    <h1 className="text-4xl font-bold text-center text-white transition-all duration-500 transform hover:scale-105">
                         Discover Decks Created By Users, Shared In This Community
                     </h1>
 
                     <div className="flex items-center justify-center w-1/2 h-10 mt-5 text-white transform bg-dark2 rounded-md">
                         <input
+                            ref={searchInput}
                             type="text"
                             className="w-5/6 h-full text-white bg-transparent outline-none p-2 transition-all rounded-l-md border-2 border-dark2 focus:border-primary"
                             autoComplete="off"
@@ -67,11 +77,38 @@ const HubIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                         <button
                             type="button"
                             className="flex items-center justify-center w-1/6 h-full text-white transition-all duration-500 transform bg-primary rounded-r-md outline-none border-2 border-primary"
-                            onClick={() => search("Example Name")}
+                            onClick={() => search(searchInput.current?.value ?? "")}
                         >
                             Search
                         </button>
                     </div>
+
+                    <p
+                        className={`text-lg font-bold text-center text-primary transition-all duration-500 transform ${
+                            deckList.length > 0 ? "mt-5" : "hidden"
+                        }`}
+                    >
+                        {deckList.length} Results
+                    </p>
+
+                    {deckList.map((deck) => {
+                        return (
+                            <div
+                                key={deck.id}
+                                className="flex flex-col items-center justify-center w-1/2 mt-5 transition-all duration-500 transform bg-dark2 rounded-md"
+                            >
+                                <h1 className="text-2xl font-bold text-center text-primary transition-all duration-500 transform hover:scale-105">
+                                    {deck.name}
+                                </h1>
+                                <p className="text-lg font-bold text-center text-primary transition-all duration-500 transform hover:scale-105">
+                                    {deck.owner.name}
+                                </p>
+                                <p className="text-lg font-bold text-center text-primary transition-all duration-500 transform hover:scale-105">
+                                    {deck._count.questions} Questions
+                                </p>
+                            </div>
+                        );
+                    })}
                 </main>
             )}
         </div>
