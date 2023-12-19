@@ -4,6 +4,14 @@ export default function Document() {
     return (
         <Html lang="en">
             <Head>
+                {/* Add Font Awesome here */}
+                <link
+                    rel="stylesheet"
+                    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+                    integrity="sha512-..."
+                    crossOrigin="anonymous"
+                />
+
                 <meta name="application-name" content="Flashet" />
                 <meta name="apple-mobile-web-app-capable" content="yes" />
                 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -44,7 +52,7 @@ export default function Document() {
             </Head>
             <body>
                 <Main />
-                <NextScript />
+                <NextScript  />
             </body>
         </Html>
     );
