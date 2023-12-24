@@ -2,10 +2,12 @@ import * as React from "react";
 
 import { motion } from "framer-motion";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClose, faArrowRight, faArrowLeft, faTrash, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+
 import { NextPage } from "next";
 import { TFunction } from "next-i18next";
 import { DeckWithQuestions } from "@/types/models";
-
 interface Props {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,7 +35,7 @@ const QuestionBrowserComponent: NextPage<Props> = (props) => {
 
     React.useEffect(() => {
         setCurrentEditingIndex(0);
-    }, [props.open])
+    }, [props.open]);
 
     return (
         <motion.div
@@ -77,14 +79,13 @@ const QuestionBrowserComponent: NextPage<Props> = (props) => {
                             </option>
                         </select>
                     </div>
-                    <button
-                        className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
+                    <FontAwesomeIcon
+                        icon={faClose}
                         onClick={() => {
                             props.setOpen(false);
                         }}
-                    >
-                        {props.t("components/questionBrowser:buttons.close")}
-                    </button>
+                        className="text-2xl p-2 transition-all cursor-pointer"
+                    />
                 </div>
 
                 <h1 className="text-xl">{props.t("components/questionBrowser:front")}</h1>
@@ -108,7 +109,7 @@ const QuestionBrowserComponent: NextPage<Props> = (props) => {
 
                 <div className="mt-4 flex items-center justify-between">
                     {currentEditingIndex < props.deck.questions.length && ( // Change to when the card is being edited
-                        <button
+                        <FontAwesomeIcon
                             onClick={() => {
                                 let newQuestions = props.deck.questions;
                                 newQuestions[currentEditingIndex] = {
@@ -127,15 +128,15 @@ const QuestionBrowserComponent: NextPage<Props> = (props) => {
                                 props.setOpen(false);
                                 setCurrentEditingIndex(0);
                             }}
-                            className="mr-2 px-10 bg-primary shadow-md rounded-md p-2 transition-all"
-                        >
-                            {props.t("components/questionBrowser:buttons.saveChanges")}
-                        </button>
+                            className="text-2xl p-2 transition-all cursor-pointer"
+                            icon={faFloppyDisk}
+                        />
                     )}
 
                     <div className="flex items-center justify-end">
                         {currentEditingIndex < props.deck.questions.length && ( // If the selected item does exist
-                            <button
+                            <FontAwesomeIcon
+                                icon={faTrash}
                                 onClick={() => {
                                     let newQuestions = props.deck.questions.splice(currentEditingIndex - 1, 1);
                                     props.setDeck({
@@ -146,28 +147,24 @@ const QuestionBrowserComponent: NextPage<Props> = (props) => {
                                     props.setOpen(false);
                                     setCurrentEditingIndex(0);
                                 }}
-                                className="mr-2 px-10 bg-red1 shadow-md rounded-md p-2 transition-all"
-                            >
-                                {props.t("components/questionBrowser:buttons.delete")}
-                            </button>
+                                className="text-2xl p-2 transition-all cursor-pointer"
+                            />
                         )}
                         {/* Only show when there are questions to check */}
                         {props.deck.questions.length && (
-                            <button
+                            <FontAwesomeIcon
                                 onClick={() => {
                                     if (currentEditingIndex - 1 < 0) return;
                                     setCurrentEditingIndex(currentEditingIndex - 1);
                                 }}
-                                className={`mr-2 px-10 ${
-                                    currentEditingIndex == 0 ? "brightness-75" : "brightness-100"
-                                } bg-gray-500 shadow-md rounded-md p-2 transition-all`}
-                            >
-                                {props.t("components/questionBrowser:buttons.previous")}
-                            </button>
+                                className="text-2xl p-2 transition-all cursor-pointer"
+                                icon={faArrowLeft}
+                            />
                         )}
-                        <button
-                            onClick={() => {
-                                if (currentEditingIndex > props.deck.questions.length - 1) {
+
+                        {currentEditingIndex + 1 > props.deck.questions.length && (
+                            <FontAwesomeIcon
+                                onClick={() => {
                                     if (!frontTextAreaInput.current!.value || !backTextAreaInput.current!.value) {
                                         alert("Please fill out all fields");
                                     } else {
@@ -185,16 +182,21 @@ const QuestionBrowserComponent: NextPage<Props> = (props) => {
                                             ],
                                         });
                                     }
-                                } else {
+                                }}
+                                className="text-2xl p-2 transition-all cursor-pointer"
+                                icon={faFloppyDisk}
+                            />
+                        )}
+
+                        {!(currentEditingIndex + 1 > props.deck.questions.length) && (
+                            <FontAwesomeIcon
+                                onClick={() => {
                                     setCurrentEditingIndex(currentEditingIndex + 1);
-                                }
-                            }}
-                            className="px-10 bg-primary shadow-md rounded-md p-2 transition-all"
-                        >
-                            {currentEditingIndex + 1 > props.deck.questions.length
-                                ? props.t("components/questionBrowser:buttons.save")
-                                : props.t("components/questionBrowser:buttons.next")}
-                        </button>
+                                }}
+                                className="text-2xl p-2 transition-all cursor-pointer"
+                                icon={faArrowRight}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

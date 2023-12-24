@@ -9,6 +9,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Navbar from "@/components/navbar";
 import Head from "next/head";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { ResponseData } from "../api/decks/fetch-all";
 import { DeckType } from "@/types/models";
@@ -62,7 +65,7 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
                         <div className="flex items-center justify-center text-center my-4">
                             {decks.length !== 0 && (
-                                <table>
+                                <table className="w-full">
                                     <tr>
                                         <th className="md:px-10 px-4">{t("headers.deck")}</th>
                                         <th className="md:px-10 px-4">{t("headers.new")}</th>
@@ -77,7 +80,7 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                                 onClick={() => {
                                                     router.push(`/study/${deck.id}`);
                                                 }}
-                                                className="hover:bg-white/5 transition-all rounded-md cursor-pointer"
+                                                className="hover:bg-white/5 transition-all rounded-lg cursor-pointer"
                                             >
                                                 <td className="p-2">{deck.name}</td>
                                                 <td className="p-2 text-secondary">{deck.questions_new}</td>
@@ -96,8 +99,9 @@ const AppMain = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 onClick={() => {
                                     router.push(`/${router.locale}/app/create`);
                                 }}
-                                className="p-2 rounded-md bg-primary shadow-md"
+                                className="p-2 outline-none rounded-md bg-primary shadow-md text-white font-semibold hover:brightness-110 transition-all"
                             >
+                                <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
                                 {t("buttons.createDeck")}
                             </button>
                         </div>

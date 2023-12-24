@@ -20,10 +20,10 @@ const NavbarComponent: NextPage<ComponentProps> = ({ session, t }) => {
                 Flashet
             </Link>
             <div className="flex items-center md:ml-0 ml-4">
-                <Link href="/about" className="mx-2 transition-all hover:text-red1 md:text-left text-right">
+                <Link href="/about" className="mx-2 transition-all hover:text-red1 md:text-left text-right hidden sm:block">
                     {t("components/navbar:about")}
                 </Link>
-                <Link href="https://github.com/Asterki/flashet" target="_blank" rel="noopener noreferrer" className="mx-2 transition-all hover:text-red1 md:text-left text-right">
+                <Link href="https://github.com/Asterki/flashet" target="_blank" rel="noopener noreferrer" className="mx-2 transition-all hover:text-red1 md:text-left text-right hidden sm:block">
                     {t("components/navbar:openSource")}
                 </Link>
                 {session && (

@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import Head from "next/head";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightToBracket, faBook, faCode } from "@fortawesome/free-solid-svg-icons";
+import { faRightToBracket, faBook, faCode, faGear } from "@fortawesome/free-solid-svg-icons";
 
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
 type Props = {};
@@ -42,6 +42,7 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                     onClick={() => router.push(`/${router.locale}/app`)}
                                     className="bg-white/10 hover:bg-white/20 transition-all w-full md:w-7/12 p-4 rounded-lg shadow-md"
                                 >
+                                    <FontAwesomeIcon icon={faGear} className="px-2" />
                                     {t("title.buttons.dashboard")}
                                 </button>
                             )}
@@ -79,10 +80,14 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             height={400}
                             src="https://picsum.photos/600/900"
                             alt="Logo"
+                            className="drop-shadow-md rounded-md"
                         />
                     </div>
                     <div className="lg:w-5/12 w-full text-center lg:text-left">
-                        <p className="text-[50px] font-black mb-12">About Us</p>
+                        <p className="text-[50px] font-black mb-12">
+                            <FontAwesomeIcon icon={faBook} className="pr-4" />
+                            About Us
+                        </p>
                         <p className="text-gray-100/90 text-xl">
                             Flashet is not just a flashcard app; it&apos;s a comprehensive learning ecosystem designed to make learning
                             enjoyable and effective. We believe that everyone has the potential to unlock their brilliance, and Flashet is
@@ -94,8 +99,7 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 onClick={() => router.push(`/${router.locale}/app`)}
                                 className="bg-white/10 hover:bg-white/20 transition-all w-full md:w-7/12 p-4 rounded-lg shadow-md"
                             >
-                                <FontAwesomeIcon icon={faBook} className="px-2" />
-                                About
+                                Read more
                             </button>
                         </div>
                     </div>
@@ -103,11 +107,14 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
                 <section className="min-h-[95vh] flex flex-col-reverse lg:flex-row items-center justify-center px-4 md:px-0 lg:w-9/12 w-full">
                     <div className="lg:w-5/12 w-full text-center lg:text-left">
-                        <p className="text-[50px] font-black mb-12">Open Source</p>
+                        <p className="text-[50px] font-black mb-12">
+                            <FontAwesomeIcon icon={faCode} className="pr-4" />
+                            Open Source
+                        </p>
                         <p className="text-gray-100/90 text-xl">
                             At Flashet, we are passionate about the transformative power of education and the spirit of collaboration.
-                            That&apos;s why we have embraced an open-source philosophy to empower our community of learners and developers. Join
-                            us on this exciting journey as we unlock the potential of collaborative learning.
+                            That&apos;s why we have embraced an open-source philosophy to empower our community of learners and developers.
+                            Join us on this exciting journey as we unlock the potential of collaborative learning.
                         </p>
 
                         <div className="mt-10">
@@ -115,12 +122,11 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 onClick={() => router.push(`https://github.com/Asterki/flashet`)}
                                 className="bg-white/10 hover:bg-white/20 transition-all w-full md:w-7/12 p-4 rounded-lg shadow-md"
                             >
-                                <FontAwesomeIcon icon={faCode} className="px-2" />
                                 Check out our GitHub
                             </button>
                         </div>
                     </div>
-                    <div className="lg:w-5/12 lg:flex hidden justify-end items-end">
+                    <div className="lg:w-5/12 w-1/2 flex justify-end items-end">
                         <motion.img
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
@@ -129,6 +135,7 @@ const MainIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             height={400}
                             src="https://picsum.photos/600/900"
                             alt="Logo"
+                            className="drop-shadow-md rounded-md"
                         />
                     </div>
                 </section>

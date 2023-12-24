@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter, faGithub, faInstagram } from "@fortawesome/free-brands-svg-icons";
 
-import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
+import type { NextPage } from "next";
 
 type Props = {};
 const FooterComponent: NextPage<Props> = (props) => {
@@ -9,8 +9,8 @@ const FooterComponent: NextPage<Props> = (props) => {
         <footer className="bg-dark2 md:px-32 px-12 py-16 w-full flex justify-between">
             <div className="w-1/2">
                 <b>Links</b>
-                <div className="flex flex-col md:flex-row justify-between">
-                    <div>
+                <div className="flex flex-col md:flex-row">
+                    <div className="px-4">
                         <ul className="mt-4 list-disc">
                             <li className="mb-2">
                                 <a href="" className="hover:underline">
@@ -29,7 +29,7 @@ const FooterComponent: NextPage<Props> = (props) => {
                             </li>
                         </ul>
                     </div>
-                    <div>
+                    <div className="px-4">
                         <ul className="md:mt-4 list-disc">
                             <li className="mb-2">
                                 <a href="" className="hover:underline">

@@ -12,6 +12,9 @@ import Navbar from "@/components/navbar";
 import QuestionBrowser from "@/components/questionBrowser";
 import Head from "next/head";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faFloppyDisk, faBan, faPencil } from "@fortawesome/free-solid-svg-icons";
+
 import { DecksSaveResponse, DecksSaveRequestBody } from "@/types/api/decks";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { DeckWithQuestions } from "@/types/models";
@@ -74,15 +77,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     return (
         <div className="absolute w-full min-h-screen text-white bg-dark1">
             {/* Questions Browser Modal */}
-            {deck && (
-                <QuestionBrowser
-                    deck={deck}
-                    open={questionModalOpen}
-                    setOpen={setQuestionModalOpen}
-                    setDeck={setDeck}
-                    t={t}
-                />
-            )}
+            {deck && <QuestionBrowser deck={deck} open={questionModalOpen} setOpen={setQuestionModalOpen} setDeck={setDeck} t={t} />}
 
             {/* Discard Modal */}
             <motion.div
@@ -114,7 +109,8 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 setDiscardModalOpen(false);
                             }}
                             className="bg-primary my-2 shadow-md rounded-md p-2 transition-all w-1/2"
-                        >
+                        >   
+                            <FontAwesomeIcon icon={faPencil} className="mr-2" />
                             {t("modals.discard.continue")}
                         </button>
                         <button
@@ -122,7 +118,8 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 router.push(`/${router.locale}/app`);
                             }}
                             className="bg-red1 my-2 shadow-md rounded-md p-2 transition-all w-1/2"
-                        >
+                        >   
+                            <FontAwesomeIcon icon={faBan} className="mr-2" />
                             {t("modals.discard.discard")}
                         </button>
                     </div>
@@ -182,6 +179,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                 className="w-full bg-primary shadow-md rounded-md p-2 transition-all"
                                 placeholder="Write Here"
                             >
+                                <FontAwesomeIcon icon={faPlus} className="mr-2" />
                                 {t("sections.questions.button")}
                             </button>
 
@@ -263,6 +261,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             }}
                             className="bg-primary my-2 shadow-md rounded-md p-2 transition-all w-1/2"
                         >
+                            <FontAwesomeIcon icon={faFloppyDisk} className="mr-2" />
                             {t("buttons.save")}
                         </button>
                         <button
@@ -271,6 +270,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                             }}
                             className="bg-red1 my-2 shadow-md rounded-md p-2 transition-all w-1/2"
                         >
+                            <FontAwesomeIcon icon={faBan} className="mr-2" />
                             {t("buttons.discard")}
                         </button>
                     </section>
@@ -282,11 +282,7 @@ const AppCreate = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
     props: {
-        ...(await serverSideTranslations(locale ?? "en", [
-            "app/create",
-            "components/navbar",
-            "components/questionBrowser",
-        ])),
+        ...(await serverSideTranslations(locale ?? "en", ["app/create", "components/navbar", "components/questionBrowser"])),
     },
 });
 
