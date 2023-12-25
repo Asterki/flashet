@@ -6,8 +6,12 @@ import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import Navbar from "@/components/navbar";
+import StudyNavbar from "@/components/studyNavbar";
 import Head from "next/head";
+import { motion } from "framer-motion";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
 
 import { DeckWithQuestions, QuestionType } from "@/types/models";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
@@ -27,6 +31,8 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     const [deck, setDeck] = React.useState<DeckWithQuestions>();
     const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState<number>(0);
+
+    const [showingAnswer, setShowingAnswer] = React.useState<boolean>(false);
 
     React.useEffect(() => {
         (async () => {
@@ -50,7 +56,7 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     return (
         <div className="absolute w-full min-h-screen text-white bg-dark1">
-            <Navbar t={t} session={session} />
+            {deck && <StudyNavbar deckName={deck.name} deckID={deck.id} />}
 
             <Head>
                 <title>{t("pageTitle")}</title>
@@ -58,63 +64,125 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
             {loggedInStatus == "loading" && (
                 <main className="absolute w-full min-h-screen text-white bg-dark1">
-                    <p className="text-2xl text-center text-primary font-bold transition-all duration-500 transform hover:scale-105">
+                    <p className="mt-[-2rem] text-2xl text-center text-white font-semibold transition-all duration-500 transform hover:scale-105">
                         Loading...
                     </p>
                 </main>
             )}
 
             {loggedInStatus == "authenticated" && (
-                <main className="flex flex-col items-center justify-center mt-24">
+                <main className="flex flex-col items-center justify-center mt-8">
                     {deck && (
                         <div>
-                            <p className="text-2xl text-center text-primary font-bold transition-all duration-500 transform hover:scale-105">
-                                Currently Studying: {deck.name}
-                            </p>
-
-                            <div className="flex flex-col items-center justify-center mt-8">
+                            <div className="flex flex-col items-center justify-center mt-4">
                                 <div className="flex flex-col items-center justify-center">
-                                    <p className="text-2xl text-center text-primary font-bold">
-                                        {deck.questions[currentQuestionIndex].front}
-                                    </p>
-                                    <p className="text-xl text-center text-primary font-bold">
+                                    <p className="text-xl text-center">{deck.questions[currentQuestionIndex].front}</p>
+                                    <motion.p
+                                        variants={{
+                                            shown: {
+                                                height: "auto",
+                                                transition: {
+                                                    duration: 0,
+                                                },
+                                            },
+                                            hidden: {
+                                                height: 0,
+                                            },
+                                        }}
+                                        initial="hidden"
+                                        animate={showingAnswer ? "shown" : "hidden"}
+                                        className="text-xl text-center overflow-y-hidden"
+                                    >
                                         {deck.questions[currentQuestionIndex].back}
-                                    </p>
+                                    </motion.p>
                                 </div>
 
-                                <div className="flex flex-row items-center justify-center mt-8">
-                                    <button
-                                        onClick={() => {
-                                            if (currentQuestionIndex == 0) return;
-                                            setCurrentQuestionIndex(currentQuestionIndex - 1);
+                                <div className="flex flex-row items-center justify-center mt-4">
+                                    <motion.button
+                                        variants={{
+                                            shown: {
+                                                display: "block",
+                                            },
+                                            hidden: {
+                                                display: "none",
+                                            },
                                         }}
-                                        className="p-4 bg-primary rounded-full shadow-xl text-white transition-all hover:scale-105"
-                                    >
-                                        Previous
-                                    </button>
-                                    <button
+                                        initial="hidden"
+                                        animate={!showingAnswer ? "shown" : "hidden"}
+                                        className="p-2 rounded-md bg-white/10 hover:bg-white/20 transition-all w-24 mx-2"
                                         onClick={() => {
-                                            // Remove 1 from the current index, it can't be lower than 0 and no bigger than the deck's questions length
-                                            if (currentQuestionIndex == deck.questions.length - 1) return;
-                                            setCurrentQuestionIndex(currentQuestionIndex + 1);
+                                            setShowingAnswer(true);
                                         }}
-                                        className="p-4 bg-primary rounded-full shadow-xl text-white transition-all hover:scale-105"
                                     >
-                                        Next
-                                    </button>
+                                        Show answer
+                                    </motion.button>
+
+                                    <motion.button
+                                        variants={{
+                                            shown: {
+                                                display: "block",
+                                            },
+                                            hidden: {
+                                                display: "none",
+                                            },
+                                        }}
+                                        initial="hidden"
+                                        animate={showingAnswer ? "shown" : "hidden"}
+                                        className="p-2 rounded-md bg-white/10 hover:bg-white/20 transition-all w-24 mx-2"
+                                        onClick={() => {
+                                            setShowingAnswer(false);
+                                        }}
+                                    >
+                                        Hard
+                                    </motion.button>
+                                    <motion.button
+                                        variants={{
+                                            shown: {
+                                                display: "block",
+                                            },
+                                            hidden: {
+                                                display: "none",
+                                            },
+                                        }}
+                                        initial="hidden"
+                                        animate={showingAnswer ? "shown" : "hidden"}
+                                        className="p-2 rounded-md bg-white/10 hover:bg-white/20 transition-all w-24 mx-2"
+                                        onClick={() => {
+                                            setShowingAnswer(false);
+                                        }}
+                                    >
+                                        Medium
+                                    </motion.button>
+                                    <motion.button
+                                        variants={{
+                                            shown: {
+                                                display: "block",
+                                            },
+                                            hidden: {
+                                                display: "none",
+                                            },
+                                        }}
+                                        initial="hidden"
+                                        animate={showingAnswer ? "shown" : "hidden"}
+                                        className="p-2 rounded-md bg-white/10 hover:bg-white/20 transition-all w-24 mx-2"
+                                        onClick={() => {
+                                            setShowingAnswer(false);
+                                        }}
+                                    >
+                                        Easy
+                                    </motion.button>
                                 </div>
                             </div>
                         </div>
                     )}
 
-                    <button
+                    <FontAwesomeIcon
                         onClick={() => {
                             router.push(`/${router.locale}/app/edit/${router.query.deckID}`);
                         }}
-                        className="fixed bottom-4 left-4 p-4 bg-primary rounded-full shadow-xl text-white transition-all hover:scale-105"
-                    >
-                        Edit Deck
-                    </button>
+                        className="text-2xl fixed bottom-4 left-4 p-4 cursor-pointer rounded-full hover:bg-white/20 transition-all"
+                        icon={faPencil}
+                    />
                 </main>
             )}
         </div>

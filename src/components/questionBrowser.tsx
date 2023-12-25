@@ -84,7 +84,7 @@ const QuestionBrowserComponent: NextPage<Props> = (props) => {
                         onClick={() => {
                             props.setOpen(false);
                         }}
-                        className="text-2xl p-2 transition-all cursor-pointer"
+                        className="text-2xl p-2 transition-all cursor-pointer rounded-full hover:bg-white/20"
                     />
                 </div>
 
@@ -128,7 +128,7 @@ const QuestionBrowserComponent: NextPage<Props> = (props) => {
                                 props.setOpen(false);
                                 setCurrentEditingIndex(0);
                             }}
-                            className="text-2xl p-2 transition-all cursor-pointer"
+                            className="text-2xl p-2 transition-all cursor-pointer rounded-full hover:bg-white/20"
                             icon={faFloppyDisk}
                         />
                     )}
@@ -147,7 +147,7 @@ const QuestionBrowserComponent: NextPage<Props> = (props) => {
                                     props.setOpen(false);
                                     setCurrentEditingIndex(0);
                                 }}
-                                className="text-2xl p-2 transition-all cursor-pointer"
+                                className="text-2xl p-2 transition-all cursor-pointer rounded-full hover:bg-white/20"
                             />
                         )}
                         {/* Only show when there are questions to check */}
@@ -157,7 +157,7 @@ const QuestionBrowserComponent: NextPage<Props> = (props) => {
                                     if (currentEditingIndex - 1 < 0) return;
                                     setCurrentEditingIndex(currentEditingIndex - 1);
                                 }}
-                                className="text-2xl p-2 transition-all cursor-pointer"
+                                className="text-2xl p-2 transition-all cursor-pointer rounded-full hover:bg-white/20"
                                 icon={faArrowLeft}
                             />
                         )}
@@ -183,7 +183,7 @@ const QuestionBrowserComponent: NextPage<Props> = (props) => {
                                         });
                                     }
                                 }}
-                                className="text-2xl p-2 transition-all cursor-pointer"
+                                className="text-2xl p-2 transition-all cursor-pointer rounded-full hover:bg-white/20"
                                 icon={faFloppyDisk}
                             />
                         )}
@@ -193,7 +193,7 @@ const QuestionBrowserComponent: NextPage<Props> = (props) => {
                                 onClick={() => {
                                     setCurrentEditingIndex(currentEditingIndex + 1);
                                 }}
-                                className="text-2xl p-2 transition-all cursor-pointer"
+                                className="text-2xl p-2 transition-all cursor-pointer rounded-full hover:bg-white/20"
                                 icon={faArrowRight}
                             />
                         )}
