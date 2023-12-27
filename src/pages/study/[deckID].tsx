@@ -11,11 +11,12 @@ import Head from "next/head";
 import { motion } from "framer-motion";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faIceCream, faLemon, faNoteSticky, faPencil, faPepperHot } from "@fortawesome/free-solid-svg-icons";
+import { faBan, faCircleStop, faIceCream, faLemon, faNoteSticky, faPencil, faPepperHot } from "@fortawesome/free-solid-svg-icons";
 
 import { DeckWithQuestions, QuestionType } from "@/types/models";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { ResponseData } from "../api/decks/fetch";
+import { faCloudsmith } from "@fortawesome/free-brands-svg-icons";
 
 interface Props {}
 
@@ -33,6 +34,7 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState<number>(0);
 
     const [showingAnswer, setShowingAnswer] = React.useState<boolean>(false);
+    const [finishModalShowing, setFinishModalShowing] = React.useState<boolean>(false);
 
     const [studyingQuestions, setStudyingQuestions] = React.useState<QuestionType[]>([]);
     const [studiedQuestions, setStudiedQuestions] = React.useState<QuestionType[]>([]);
@@ -60,35 +62,39 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [session]);
 
-    const continueButton = (type: "hard" | "medium" | "easy", questionID: string) => {
+    const continueButton = (type: "hard" | "medium" | "easy" | "again", questionID: string) => {
         if (!deck) return;
 
-        if (type == "hard") {
-            setShowingAnswer(false);
-        } else if (type == "medium") {
-            const random = Math.random();
-            if (random <= 0.3) {
-                const question = studyingQuestions.find((question) => question.id == questionID);
-                if (question) {
-                    setStudyingQuestions(studyingQuestions.filter((question) => question.id != questionID));
-                    setStudiedQuestions((prevQuestions) => [...prevQuestions, question]);
-                }
+        const switchQuestion = () => {
+            const question = studyingQuestions.find((question) => question.id == questionID);
+            if (question) {
+                setStudyingQuestions(studyingQuestions.filter((question) => question.id != questionID));
+                setStudiedQuestions((prevQuestions) => [...prevQuestions, question]);
             }
-        } else if (type == "easy") {
-            const random = Math.random();
-            if (random <= 0.9) {
-                const question = studyingQuestions.find((question) => question.id == questionID);
-                if (question) {
-                    setStudyingQuestions(studyingQuestions.filter((question) => question.id != questionID));
-                    setStudiedQuestions((prevQuestions) => [...prevQuestions, question]);
-                }
-            }
+        };
+
+        switch (type) {
+            case "hard":
+                if (Math.random() <= 0.1) return switchQuestion();
+                break;
+            case "medium":
+                if (Math.random() <= 0.3) return switchQuestion();
+                break;
+            case "easy":
+                if (Math.random() <= 0.9) return switchQuestion();
+                break;
         }
-        setShowingAnswer(false);
 
         // Set the index to a random index inside the studying questions array
-        setCurrentQuestionIndex(Math.floor(Math.random() * (studyingQuestions.length - 0 + 1) + 0));
+        setShowingAnswer(false);
+        setCurrentQuestionIndex(Math.floor(Math.random() * studyingQuestions.length));
     };
+
+    React.useEffect(() => {
+        if (studiedQuestions.length == deck?.questions.length) {
+            setFinishModalShowing(true);
+        }
+    }, [studiedQuestions]);
 
     return (
         <div className="absolute w-full min-h-screen text-white bg-dark1">
@@ -97,6 +103,56 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
             <Head>
                 <title>{t("pageTitle")}</title>
             </Head>
+
+            <motion.div
+                variants={{
+                    hidden: {
+                        opacity: 0,
+                        transitionEnd: {
+                            display: "none",
+                        },
+                    },
+                    shown: {
+                        opacity: 1,
+                        display: "flex",
+                    },
+                }}
+                transition={{
+                    duration: 0.2,
+                }}
+                initial="hidden"
+                animate={finishModalShowing ? "shown" : "hidden"}
+                className="items-center justify-center absolute bg-black/20 w-full min-h-full backdrop-blur-lg top-0 left-0 z-10"
+            >
+                <div className="bg-dark1 shadow-md p-4 rounded-md w-1/2 text-center">
+                    <h1 className="text-2xl">You&apos;re done</h1>
+
+                    <p className="mt-2">
+                        You&apos;ve studied all the cards in this deck. You can either go back to the deck page or start over.
+                    </p>
+
+                    <div className="flex">
+                        <button
+                            className="p-2 rounded-md bg-white/10 hover:bg-white/20 transition-all w-1/2 mx-2"
+                            onClick={() => {
+                                router.push(`/${router.locale}/app`);
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faBan} className="mr-2" />
+                            Go back
+                        </button>
+                        <button
+                            className="p-2 rounded-md bg-white/10 hover:bg-white/20 transition-all w-1/2 mx-2"
+                            onClick={() => {
+                                router.push(router.asPath);
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faCloudsmith} className="mr-2" />
+                            Start over
+                        </button>
+                    </div>
+                </div>
+            </motion.div>
 
             {loggedInStatus == "loading" && (
                 <main className="absolute w-full min-h-screen text-white bg-dark1">
@@ -157,6 +213,26 @@ const StudyIndex = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
                                     >
                                         <FontAwesomeIcon icon={faNoteSticky} className="mr-2" />
                                         Show answer
+                                    </motion.button>
+
+                                    <motion.button
+                                        variants={{
+                                            shown: {
+                                                display: "block",
+                                            },
+                                            hidden: {
+                                                display: "none",
+                                            },
+                                        }}
+                                        initial="hidden"
+                                        animate={showingAnswer ? "shown" : "hidden"}
+                                        className="p-2 rounded-md bg-white/10 hover:bg-white/20 transition-all w-32 mx-2"
+                                        onClick={() => {
+                                            continueButton("again", deck.questions[currentQuestionIndex].id);
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faCircleStop} className="mr-2" />
+                                        Again
                                     </motion.button>
 
                                     <motion.button
